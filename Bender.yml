@@ -1,0 +1,32 @@
+package:
+  name: hwpe-conv_mdc-wrapper
+
+sources:
+  - include_dirs:
+      - rtl/hwpe-engine
+    files:
+      - rtl/engine_dev/Block_proc.v
+      - rtl/engine_dev/conv_mdc_entry7.v
+      - rtl/engine_dev/conv_mdc.v
+      - rtl/engine_dev/fifo_w32_d2_A.v
+      - rtl/engine_dev/fifo_w32_d3_A.v
+      - rtl/engine_dev/Loop_Border_proc_lbW.v
+      - rtl/engine_dev/Loop_Border_proc.v
+      - rtl/engine_dev/Loop_HConvH_proc6.v
+      - rtl/engine_dev/Loop_VConvH_proc_bkb_ram.dat
+      - rtl/engine_dev/Loop_VConvH_proc_bkb.v
+      - rtl/engine_dev/Loop_VConvH_proc_cud_ram.dat
+      - rtl/engine_dev/Loop_VConvH_proc_cud.v
+      - rtl/engine_dev/Loop_VConvH_proc.v
+      - rtl/engine_dev/regslice_core.v
+      - rtl/engine_dev/start_for_Block_pmb6.v
+      - rtl/engine_dev/start_for_Loop_Boncg.v
+      - rtl/engine_dev/start_for_Loop_VCocq.v
+      - rtl/conv_mdc_package.sv
+      - rtl/conv_mdc_fsm.sv
+      - rtl/conv_mdc_ctrl.sv
+      - rtl/conv_mdc_streamer.sv
+      - rtl/conv_mdc_kernel_adapter.sv
+      - rtl/conv_mdc_engine.sv
+      - rtl/conv_mdc_top.sv
+      - wrap/conv_mdc_top_wrapper.sv
