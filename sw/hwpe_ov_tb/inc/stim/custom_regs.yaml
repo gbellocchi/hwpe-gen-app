@@ -1,0 +1,10 @@
+########################################################
+## Gianluca Bellocchi <gianluca.bellocchi@unimore.it> ##
+########################################################
+
+custom_regs_value:
+  coeff0_V: 1
+  coeff1_V: 2
+  coeff2_V: 2
+  coeff3_V: 1
+

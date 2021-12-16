@@ -1,0 +1,19 @@
+package:
+  name: hwpe-fir_mdc-wrapper
+
+sources:
+  - include_dirs:
+      - rtl/hwpe-engine
+    files:
+      - rtl/acc_kernel/exec_1.v
+      - rtl/acc_kernel/fir_mul_32s_32s_3bkb.v
+      - rtl/acc_kernel/fir.v
+      - rtl/acc_kernel/regslice_core.v
+      - rtl/fir_mdc_package.sv
+      - rtl/fir_mdc_fsm.sv
+      - rtl/fir_mdc_ctrl.sv
+      - rtl/fir_mdc_streamer.sv
+      - rtl/fir_mdc_kernel_adapter.sv
+      - rtl/fir_mdc_engine.sv
+      - rtl/fir_mdc_top.sv
+      - wrap/fir_mdc_top_wrapper.sv
