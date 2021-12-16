@@ -1,0 +1,22 @@
+hwpe_wrapper:
+  incdirs : [
+    rtl
+  ]
+  files: [
+
+    rtl/acc_kernel/mmult_opt_mdc_local_in1_0.v,
+    rtl/acc_kernel/mmult_opt_mdc_local_out.v,
+    rtl/acc_kernel/mmult_opt_mdc.v,
+    rtl/mmult_opt_mdc_package.sv,
+    rtl/mmult_opt_mdc_fsm.sv,
+    rtl/mmult_opt_mdc_ctrl.sv,
+    rtl/mmult_opt_mdc_streamer.sv,
+    rtl/mmult_opt_mdc_kernel_adapter.sv,
+    rtl/mmult_opt_mdc_engine.sv,
+    rtl/mmult_opt_mdc_top.sv,
+    wrap/mmult_opt_mdc_top_wrapper.sv,
+  ]
+  vlog_opts : [
+    "-L hwpe_ctrl_lib",
+    "-L hwpe_stream_lib"
+  ]
