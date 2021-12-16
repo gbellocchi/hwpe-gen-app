@@ -1,0 +1,16 @@
+package:
+  name: hwpe-mul_mdc-wrapper
+
+sources:
+  - include_dirs:
+      - rtl/hwpe-engine
+    files:
+      - rtl/acc_kernel/mac_mdc.sv
+      - rtl/mul_mdc_package.sv
+      - rtl/mul_mdc_fsm.sv
+      - rtl/mul_mdc_ctrl.sv
+      - rtl/mul_mdc_streamer.sv
+      - rtl/mul_mdc_kernel_adapter.sv
+      - rtl/mul_mdc_engine.sv
+      - rtl/mul_mdc_top.sv
+      - wrap/mul_mdc_top_wrapper.sv
