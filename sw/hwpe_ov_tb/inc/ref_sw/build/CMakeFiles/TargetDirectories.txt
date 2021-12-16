@@ -1,0 +1,4 @@
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/build/CMakeFiles/rebuild_cache.dir
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/build/CMakeFiles/edit_cache.dir
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/build/CMakeFiles/ref_app.dir
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/build/CMakeFiles/LibsModule.dir

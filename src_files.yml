@@ -1,0 +1,20 @@
+hwpe_wrapper:
+  incdirs : [
+    rtl
+  ]
+  files: [
+
+    rtl/acc_kernel/mac_mdc.sv,
+    rtl/mac_mdc_package.sv,
+    rtl/mac_mdc_fsm.sv,
+    rtl/mac_mdc_ctrl.sv,
+    rtl/mac_mdc_streamer.sv,
+    rtl/mac_mdc_kernel_adapter.sv,
+    rtl/mac_mdc_engine.sv,
+    rtl/mac_mdc_top.sv,
+    wrap/mac_mdc_top_wrapper.sv,
+  ]
+  vlog_opts : [
+    "-L hwpe_ctrl_lib",
+    "-L hwpe_stream_lib"
+  ]

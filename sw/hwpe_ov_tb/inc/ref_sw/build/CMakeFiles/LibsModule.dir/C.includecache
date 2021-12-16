@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/src/gen_Hfile.c
+ref_app.h
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/src/ref_app.h
+
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/src/gen_stim.c
+ref_app.h
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/src/ref_app.h
+
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/src/ref_app.c
+ref_app.h
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/src/ref_app.h
+
+/home/gbellocchi/workspace_pulp/collab_mdc/genov/genov/src/accelerators/mac_mdc/sw/ref_sw/src/ref_app.h
+stdlib.h
+-
+stdio.h
+-
+stdint.h
+-
+unistd.h
+-
+string.h
+-
+math.h
+-
+time.h
+-
+errno.h
+-
+
