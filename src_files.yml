@@ -1,0 +1,34 @@
+hwpe_wrapper:
+  incdirs : [
+    rtl
+  ]
+  files: [
+
+    rtl/acc_kernel/Block_proc.v,
+    rtl/acc_kernel/conv_mdc_entry7.v,
+    rtl/acc_kernel/conv_mdc.v,
+    rtl/acc_kernel/fifo_w32_d2_A.v,
+    rtl/acc_kernel/fifo_w32_d3_A.v,
+    rtl/acc_kernel/Loop_Border_proc_lbW.v,
+    rtl/acc_kernel/Loop_Border_proc.v,
+    rtl/acc_kernel/Loop_HConvH_proc6.v,
+    rtl/acc_kernel/Loop_VConvH_proc_bkb.v,
+    rtl/acc_kernel/Loop_VConvH_proc_cud.v,
+    rtl/acc_kernel/Loop_VConvH_proc.v,
+    rtl/acc_kernel/regslice_core.v,
+    rtl/acc_kernel/start_for_Block_pmb6.v,
+    rtl/acc_kernel/start_for_Loop_Boncg.v,
+    rtl/acc_kernel/start_for_Loop_VCocq.v,
+    rtl/conv_mdc_package.sv,
+    rtl/conv_mdc_fsm.sv,
+    rtl/conv_mdc_ctrl.sv,
+    rtl/conv_mdc_streamer.sv,
+    rtl/conv_mdc_kernel_adapter.sv,
+    rtl/conv_mdc_engine.sv,
+    rtl/conv_mdc_top.sv,
+    wrap/conv_mdc_top_wrapper.sv,
+  ]
+  vlog_opts : [
+    "-L hwpe_ctrl_lib",
+    "-L hwpe_stream_lib"
+  ]
