@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2018-2019 ETH Zurich and University of Bologna
  *
@@ -49,8 +50,8 @@
  * ================================================================================
  *  # reg |  offset  |  bits   |   bitmask    ||  content
  * -------+----------+---------+--------------++-----------------------------------
- *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  A_ADDR
- *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  B_ADDR
+ *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  INSTREAM0_ADDR
+ *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  OUTSTREAM0_ADDR
 
  *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  NB_ITER
  *     3  |  0x004c  |  31: 0  |  0xffffffff  ||  LEN_ITER
@@ -59,9 +60,10 @@
  *     5  |  0x0054  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
  *     6  |  0x0058  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
 
- *     6  |  0x005c  |  31: 0  |  0xffffffff  ||  HWPE_WIDTH
+ *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  WIDTH
 
- *     7  |  0x0060  |  31: 0  |  0xffffffff  ||  HWPE_HEIGHT
+ *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  HEIGHT
+ *
  * ================================================================================
  *
  */
@@ -93,92 +95,91 @@ static inline uint32_t hwpe_read32(uint32_t add)
 /* uloop hal */
 
 static inline void hwpe_nb_iter_set(unsigned int value) {
-  HWPE_WRITE(value, CONV_MDC_REG_NB_ITER);
+  HWPE_WRITE(value, REG_NB_ITER);
 }
 
 static inline void hwpe_linestride_set(unsigned int value) {
-  HWPE_WRITE(value, CONV_MDC_REG_LINESTRIDE);
+  HWPE_WRITE(value, REG_LINESTRIDE);
 }
 
 static inline void hwpe_tilestride_set(unsigned int value) {
-  HWPE_WRITE(value, CONV_MDC_REG_TILESTRIDE);
+  HWPE_WRITE(value, REG_TILESTRIDE);
 }
 
-static inline void hwpe_len_iter_set_dst_V(unsigned int value) {
-  HWPE_WRITE(value, CONV_MDC_REG_CNT_LIMIT_DST_V);
+static inline void hwpe_len_iter_set_outStream0(unsigned int value) {
+  HWPE_WRITE(value, REG_CNT_LIMIT_OUTSTREAM0);
 }
 
 /* custom hal */
 static inline void hwpe_width_set(int32_t value) {
-  HWPE_WRITE(value, CONV_MDC_REG_WIDTH );
+  HWPE_WRITE(value, REG_WIDTH );
 }
 static inline void hwpe_height_set(int32_t value) {
-  HWPE_WRITE(value, CONV_MDC_REG_HEIGHT );
+  HWPE_WRITE(value, REG_HEIGHT );
 }
 
-/* address generator hal - inputs */
-static inline void hwpe_addr_gen_src_V(
-  unsigned int src_V_trans_size,
-  unsigned int src_V_line_stride,
-  unsigned int src_V_line_length,
-  unsigned int src_V_feat_stride,
-  unsigned int src_V_feat_length,
-  unsigned int src_V_feat_roll,
-  unsigned int src_V_loop_outer,
-  unsigned int src_V_realign_type,
-  unsigned int src_V_step)
+/* address generator hal - inStream0 */
+static inline void hwpe_addr_gen_inStream0(
+  unsigned int inStream0_trans_size,
+  unsigned int inStream0_line_stride,
+  unsigned int inStream0_line_length,
+  unsigned int inStream0_feat_stride,
+  unsigned int inStream0_feat_length,
+  unsigned int inStream0_feat_roll,
+  unsigned int inStream0_loop_outer,
+  unsigned int inStream0_realign_type,
+  unsigned int inStream0_step)
 {
-  HWPE_WRITE(src_V_trans_size,    CONV_MDC_REG_SRC_V_TRANS_SIZE  );
-  HWPE_WRITE(src_V_line_stride,   CONV_MDC_REG_SRC_V_LINE_STRIDE );
-  HWPE_WRITE(src_V_line_length,   CONV_MDC_REG_SRC_V_LINE_LENGTH );
-  HWPE_WRITE(src_V_feat_stride,   CONV_MDC_REG_SRC_V_FEAT_STRIDE );
-  HWPE_WRITE(src_V_feat_length,   CONV_MDC_REG_SRC_V_FEAT_LENGTH );
-  HWPE_WRITE(src_V_feat_roll,     CONV_MDC_REG_SRC_V_FEAT_ROLL   );
-  HWPE_WRITE(src_V_loop_outer,    CONV_MDC_REG_SRC_V_LOOP_OUTER  );
-  HWPE_WRITE(src_V_realign_type,  CONV_MDC_REG_SRC_V_REALIGN_TYPE);
-  HWPE_WRITE(src_V_step,          CONV_MDC_REG_SRC_V_STEP        );
+  HWPE_WRITE(inStream0_trans_size,    REG_INSTREAM0_TRANS_SIZE  );
+  HWPE_WRITE(inStream0_line_stride,   REG_INSTREAM0_LINE_STRIDE );
+  HWPE_WRITE(inStream0_line_length,   REG_INSTREAM0_LINE_LENGTH );
+  HWPE_WRITE(inStream0_feat_stride,   REG_INSTREAM0_FEAT_STRIDE );
+  HWPE_WRITE(inStream0_feat_length,   REG_INSTREAM0_FEAT_LENGTH );
+  HWPE_WRITE(inStream0_feat_roll,     REG_INSTREAM0_FEAT_ROLL   );
+  HWPE_WRITE(inStream0_loop_outer,    REG_INSTREAM0_LOOP_OUTER  );
+  HWPE_WRITE(inStream0_realign_type,  REG_INSTREAM0_REALIGN_TYPE);
+  HWPE_WRITE(inStream0_step,          REG_INSTREAM0_STEP        );
 }
-
-/* address generator hal - outputs */
-static inline void hwpe_addr_gen_dst_V(
-  unsigned int  dst_V_trans_size,
-  unsigned int  dst_V_line_stride,
-  unsigned int  dst_V_line_length,
-  unsigned int  dst_V_feat_stride,
-  unsigned int  dst_V_feat_length,
-  unsigned int  dst_V_feat_roll,
-  unsigned int  dst_V_loop_outer,
-  unsigned int  dst_V_realign_type,
-  unsigned int  dst_V_step)
+/* address generator hal - outStream0 */
+static inline void hwpe_addr_gen_outStream0(
+  unsigned int outStream0_trans_size,
+  unsigned int outStream0_line_stride,
+  unsigned int outStream0_line_length,
+  unsigned int outStream0_feat_stride,
+  unsigned int outStream0_feat_length,
+  unsigned int outStream0_feat_roll,
+  unsigned int outStream0_loop_outer,
+  unsigned int outStream0_realign_type,
+  unsigned int outStream0_step)
 {
-  HWPE_WRITE(dst_V_trans_size,    CONV_MDC_REG_DST_V_TRANS_SIZE  );
-  HWPE_WRITE(dst_V_line_stride,   CONV_MDC_REG_DST_V_LINE_STRIDE );
-  HWPE_WRITE(dst_V_line_length,   CONV_MDC_REG_DST_V_LINE_LENGTH );
-  HWPE_WRITE(dst_V_feat_stride,   CONV_MDC_REG_DST_V_FEAT_STRIDE );
-  HWPE_WRITE(dst_V_feat_length,   CONV_MDC_REG_DST_V_FEAT_LENGTH );
-  HWPE_WRITE(dst_V_feat_roll,     CONV_MDC_REG_DST_V_FEAT_ROLL   );
-  HWPE_WRITE(dst_V_loop_outer,    CONV_MDC_REG_DST_V_LOOP_OUTER  );
-  HWPE_WRITE(dst_V_realign_type,  CONV_MDC_REG_DST_V_REALIGN_TYPE);
-  HWPE_WRITE(dst_V_step,          CONV_MDC_REG_DST_V_STEP        );
+  HWPE_WRITE(outStream0_trans_size,    REG_OUTSTREAM0_TRANS_SIZE  );
+  HWPE_WRITE(outStream0_line_stride,   REG_OUTSTREAM0_LINE_STRIDE );
+  HWPE_WRITE(outStream0_line_length,   REG_OUTSTREAM0_LINE_LENGTH );
+  HWPE_WRITE(outStream0_feat_stride,   REG_OUTSTREAM0_FEAT_STRIDE );
+  HWPE_WRITE(outStream0_feat_length,   REG_OUTSTREAM0_FEAT_LENGTH );
+  HWPE_WRITE(outStream0_feat_roll,     REG_OUTSTREAM0_FEAT_ROLL   );
+  HWPE_WRITE(outStream0_loop_outer,    REG_OUTSTREAM0_LOOP_OUTER  );
+  HWPE_WRITE(outStream0_realign_type,  REG_OUTSTREAM0_REALIGN_TYPE);
+  HWPE_WRITE(outStream0_step,          REG_OUTSTREAM0_STEP        );
 }
 
 /* basic hal */
 
 static inline void hwpe_trigger_job() {
-  HWPE_WRITE(0, CONV_MDC_REG_TRIGGER);
+  HWPE_WRITE(0, REG_TRIGGER);
 }
 
 static inline int hwpe_acquire_job() {
-  return HWPE_READ(CONV_MDC_REG_ACQUIRE);
+  return HWPE_READ(REG_ACQUIRE);
 }
 
 static inline unsigned int hwpe_get_status() {
-  return HWPE_READ(CONV_MDC_REG_STATUS);
+  return HWPE_READ(REG_STATUS);
 }
 
 static inline void hwpe_soft_clear() {
   volatile int i;
-  HWPE_WRITE(0, CONV_MDC_REG_SOFT_CLEAR);
+  HWPE_WRITE(0, REG_SOFT_CLEAR);
 }
 
 static inline void hwpe_cg_enable() {
@@ -190,19 +191,19 @@ static inline void hwpe_cg_disable() {
 }
 
 static inline void hwpe_bytecode_set(unsigned int offs, unsigned int value) {
-  HWPE_WRITE(value, CONV_MDC_REG_BYTECODE+offs);
+  HWPE_WRITE(value, REG_BYTECODE+offs);
 }
 
 /* tcdm master port hal */
 
-// input src_V
-static inline void hwpe_src_V_addr_set(int32_t value) {
-  HWPE_WRITE(value, CONV_MDC_REG_SRC_V_ADDR);
+// input inStream0
+static inline void hwpe_inStream0_addr_set(int32_t value) {
+  HWPE_WRITE(value, REG_INSTREAM0_ADDR);
 }
 
-// output dst_V
-static inline void hwpe_dst_V_addr_set(int32_t value) {
-  HWPE_WRITE(value, CONV_MDC_REG_DST_V_ADDR);
+// output outStream0
+static inline void hwpe_outStream0_addr_set(int32_t value) {
+  HWPE_WRITE(value, REG_OUTSTREAM0_ADDR);
 }
 
 #endif /* __HAL_HWPE_H__ */

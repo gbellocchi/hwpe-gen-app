@@ -1,32 +1,35 @@
 package:
-  name: hwpe-conv_mdc-wrapper
-
+  name: hwpe-multidataflow-wrapper
 sources:
   - include_dirs:
       - rtl/hwpe-engine
     files:
       - rtl/acc_kernel/Block_proc.v
-      - rtl/acc_kernel/conv_mdc_entry7.v
+      - rtl/acc_kernel/Loop_Border_proc.v
+      - rtl/acc_kernel/Loop_Border_proc_lbW.v
+      - rtl/acc_kernel/Loop_HConvH_proc6.v
+      - rtl/acc_kernel/Loop_VConvH_proc.v
+      - rtl/acc_kernel/Loop_VConvH_proc_bkb.v
+      - rtl/acc_kernel/Loop_VConvH_proc_bkb_ram.dat
+      - rtl/acc_kernel/Loop_VConvH_proc_cud.v
+      - rtl/acc_kernel/Loop_VConvH_proc_cud_ram.dat
       - rtl/acc_kernel/conv_mdc.v
+      - rtl/acc_kernel/conv_mdc_entry7.v
+      - rtl/acc_kernel/fifo_small.v
       - rtl/acc_kernel/fifo_w32_d2_A.v
       - rtl/acc_kernel/fifo_w32_d3_A.v
-      - rtl/acc_kernel/Loop_Border_proc_lbW.v
-      - rtl/acc_kernel/Loop_Border_proc.v
-      - rtl/acc_kernel/Loop_HConvH_proc6.v
-      - rtl/acc_kernel/Loop_VConvH_proc_bkb_ram.dat
-      - rtl/acc_kernel/Loop_VConvH_proc_bkb.v
-      - rtl/acc_kernel/Loop_VConvH_proc_cud_ram.dat
-      - rtl/acc_kernel/Loop_VConvH_proc_cud.v
-      - rtl/acc_kernel/Loop_VConvH_proc.v
       - rtl/acc_kernel/regslice_core.v
       - rtl/acc_kernel/start_for_Block_pmb6.v
       - rtl/acc_kernel/start_for_Loop_Boncg.v
       - rtl/acc_kernel/start_for_Loop_VCocq.v
-      - rtl/conv_mdc_package.sv
-      - rtl/conv_mdc_fsm.sv
-      - rtl/conv_mdc_ctrl.sv
-      - rtl/conv_mdc_streamer.sv
-      - rtl/conv_mdc_kernel_adapter.sv
-      - rtl/conv_mdc_engine.sv
-      - rtl/conv_mdc_top.sv
-      - wrap/conv_mdc_top_wrapper.sv
+      - rtl/acc_kernel/multi_dataflow.v
+      - rtl/acc_kernel/interface_wrapper.sv
+      - rtl/multi_dataflow_package.sv
+      - rtl/multi_dataflow_fsm.sv
+      - rtl/multi_dataflow_ctrl.sv
+      - rtl/multi_dataflow_streamer.sv
+      - rtl/multi_dataflow_reconf_datapath_top.sv
+      - rtl/multi_dataflow_kernel_adapter.sv
+      - rtl/multi_dataflow_engine.sv
+      - rtl/multi_dataflow_top.sv
+      - wrap/multi_dataflow_top_wrapper.sv

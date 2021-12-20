@@ -1,5 +1,4 @@
 
-
 /*
  * Copyright (C) 2018-2019 ETH Zurich and University of Bologna
  *
@@ -51,8 +50,8 @@
  * ================================================================================
  *  # reg |  offset  |  bits   |   bitmask    ||  content
  * -------+----------+---------+--------------++-----------------------------------
- *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  A_ADDR
- *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  B_ADDR
+ *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  INSTREAM0_ADDR
+ *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  OUTSTREAM0_ADDR
 
  *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  NB_ITER
  *     3  |  0x004c  |  31: 0  |  0xffffffff  ||  LEN_ITER
@@ -61,9 +60,9 @@
  *     5  |  0x0054  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
  *     6  |  0x0058  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
 
- *     6  |  0x005c  |  31: 0  |  0xffffffff  ||  HWPE_WIDTH
+ *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  WIDTH
 
- *     7  |  0x0060  |  31: 0  |  0xffffffff  ||  HWPE_HEIGHT
+ *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  HEIGHT
  *
  * ================================================================================
  *
@@ -77,85 +76,82 @@
 
 /* Basic archi */
 
-#define CONV_MDC_REG_TRIGGER                                 0x0
+#define REG_TRIGGER          0x00
 
-#define CONV_MDC_REG_ACQUIRE                                 0x4
+#define REG_ACQUIRE          0x04
 
-#define CONV_MDC_REG_FINISHED                                0x8
+#define REG_FINISHED         0x08
 
-#define CONV_MDC_REG_STATUS                                  0xc
+#define REG_STATUS           0x0c
 
-#define CONV_MDC_REG_RUNNING_JOB                             0x10
+#define REG_RUNNING_JOB      0x10
 
-#define CONV_MDC_REG_SOFT_CLEAR                              0x14
+#define REG_SOFT_CLEAR       0x14
 
 /* Microcode processor registers archi */
 
-  /* Microcode processor */
+/* Microcode processor */
 
-#define CONV_MDC_REG_BYTECODE                                 0x20
+#define REG_BYTECODE         0x20
 
-#define CONV_MDC_REG_BYTECODE0_OFFS                           0x0
+#define REG_BYTECODE0_OFFS        0x00
 
-#define CONV_MDC_REG_BYTECODE1_OFFS                           0x4
+#define REG_BYTECODE1_OFFS        0x04
 
-#define CONV_MDC_REG_BYTECODE2_OFFS                           0x8
+#define REG_BYTECODE2_OFFS        0x08
 
-#define CONV_MDC_REG_BYTECODE3_OFFS                           0xc
+#define REG_BYTECODE3_OFFS        0x0c
 
-#define CONV_MDC_REG_BYTECODE4_OFFS                           0x10
+#define REG_BYTECODE4_OFFS        0x10
 
-#define CONV_MDC_REG_BYTECODE5_LOOPS0_OFFS                    0x14
+#define REG_BYTECODE5_LOOPS0_OFFS 0x14
 
-#define CONV_MDC_REG_LOOPS1_OFFS                              0x18
+#define REG_LOOPS1_OFFS           0x18
 
 /* TCDM registers archi */
 
 // Input master ports
-#define CONV_MDC_REG_SRC_V_ADDR                         0x40
+   #define REG_INSTREAM0_ADDR           0x40
 
 // Output master ports
-#define CONV_MDC_REG_DST_V_ADDR                        0x44
+   #define REG_OUTSTREAM0_ADDR           0x44
 
 /* Standard registers archi */
 
-#define CONV_MDC_REG_NB_ITER                         0x48
+#define REG_NB_ITER                         0x48
 
-#define CONV_MDC_REG_LINESTRIDE                0x4c
+#define REG_LINESTRIDE                0x4c
 
-#define CONV_MDC_REG_TILESTRIDE                0x50
+#define REG_TILESTRIDE                0x50
 
-#define CONV_MDC_REG_CNT_LIMIT_DST_V                 0x54
+#define REG_CNT_LIMIT_OUTSTREAM0           0x54
 
 /* Custom registers archi */
-
-// custom regs
-#define CONV_MDC_REG_WIDTH                0x58
-
-#define CONV_MDC_REG_HEIGHT                0x5c
+#define REG_WIDTH           0x58
+#define REG_HEIGHT           0x5c
 
 /* Address generator archi */
 
-// Input stream - src_V (programmable)
-#define CONV_MDC_REG_SRC_V_TRANS_SIZE                  0x60
-#define CONV_MDC_REG_SRC_V_LINE_STRIDE                 0x64
-#define CONV_MDC_REG_SRC_V_LINE_LENGTH                 0x68
-#define CONV_MDC_REG_SRC_V_FEAT_STRIDE                 0x6c
-#define CONV_MDC_REG_SRC_V_FEAT_LENGTH                 0x70
-#define CONV_MDC_REG_SRC_V_FEAT_ROLL                   0x74
-#define CONV_MDC_REG_SRC_V_LOOP_OUTER                  0x78
-#define CONV_MDC_REG_SRC_V_REALIGN_TYPE                0x7c
-#define CONV_MDC_REG_SRC_V_STEP                        0x80
+// Input stream - inStream0 (programmable)
+#define REG_INSTREAM0_TRANS_SIZE                  0x60
+#define REG_INSTREAM0_LINE_STRIDE                 0x64
+#define REG_INSTREAM0_LINE_LENGTH                 0x68
+#define REG_INSTREAM0_FEAT_STRIDE                 0x6c
+#define REG_INSTREAM0_FEAT_LENGTH                 0x70
+#define REG_INSTREAM0_FEAT_ROLL                   0x74
+#define REG_INSTREAM0_LOOP_OUTER                  0x78
+#define REG_INSTREAM0_REALIGN_TYPE                0x7c
+#define REG_INSTREAM0_STEP                        0x80
 
-// Input stream - dst_V (programmable)
-#define CONV_MDC_REG_DST_V_TRANS_SIZE                 0x84
-#define CONV_MDC_REG_DST_V_LINE_STRIDE                0x88
-#define CONV_MDC_REG_DST_V_LINE_LENGTH                0x8c
-#define CONV_MDC_REG_DST_V_FEAT_STRIDE                0x90
-#define CONV_MDC_REG_DST_V_FEAT_LENGTH                0x94
-#define CONV_MDC_REG_DST_V_FEAT_ROLL                  0x98
-#define CONV_MDC_REG_DST_V_LOOP_OUTER                 0x9c
-#define CONV_MDC_REG_DST_V_REALIGN_TYPE               0xa0
-#define CONV_MDC_REG_DST_V_STEP                       0xa4
+// Input stream - outStream0 (programmable)
+#define REG_OUTSTREAM0_TRANS_SIZE                  0x84
+#define REG_OUTSTREAM0_LINE_STRIDE                 0x88
+#define REG_OUTSTREAM0_LINE_LENGTH                 0x8c
+#define REG_OUTSTREAM0_FEAT_STRIDE                 0x90
+#define REG_OUTSTREAM0_FEAT_LENGTH                 0x94
+#define REG_OUTSTREAM0_FEAT_ROLL                   0x98
+#define REG_OUTSTREAM0_LOOP_OUTER                  0x9c
+#define REG_OUTSTREAM0_REALIGN_TYPE                0xa0
+#define REG_OUTSTREAM0_STEP                        0xa4
 
 #endif
