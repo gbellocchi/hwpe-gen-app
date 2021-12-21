@@ -1,4 +1,4 @@
-hwpe_wrapper:
+genovApp:
   incdirs : [
     rtl
   ]
