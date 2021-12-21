@@ -1,4 +1,4 @@
-genovApp:
+genovApps:
   incdirs : [
     rtl
   ]
