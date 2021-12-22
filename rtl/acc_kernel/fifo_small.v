@@ -30,11 +30,15 @@ integer i;
          if (enw==1 && enr==1)    
            if (address == ad_Max)   
              tmp[address]<=datain;       
+           else if(address == ad_Min) begin
+             for (i=0; i<=ad_Max-1; i=i+1)
+               tmp[i+1] <= tmp[i];
+           end
            else
            begin
              for (i=0; i<=ad_Max-1; i=i+1)
                tmp[i+1] <= tmp[i];
-			       tmp[address]<=datain;	
+			       tmp[address+1]<=datain;	
            end 
          if (enw==1 && enr==0)     
            tmp[address]<=datain;
@@ -59,6 +63,10 @@ integer i;
            if (enw == 1 && enr==1 && address == ad_Max)
            begin
                address <= address;
+           end
+           if (enw == 1 && enr==1 && address == ad_Min)
+           begin
+               address <= address + 1;
            end
        end
      end
