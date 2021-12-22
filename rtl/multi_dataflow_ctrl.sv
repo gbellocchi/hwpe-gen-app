@@ -79,6 +79,26 @@ module multi_dataflow_ctrl
   logic unsigned [15:0] static_reg_inStream0_step;
   logic unsigned static_reg_inStream0_loop_outer;
   logic unsigned static_reg_inStream0_realign_type;
+  // Controls - inStream1
+  logic unsigned [31:0] static_reg_inStream1_trans_size;
+  logic unsigned [15:0] static_reg_inStream1_line_stride;
+  logic unsigned [15:0] static_reg_inStream1_line_length;
+  logic unsigned [15:0] static_reg_inStream1_feat_stride;
+  logic unsigned [15:0] static_reg_inStream1_feat_length;
+  logic unsigned [15:0] static_reg_inStream1_feat_roll;
+  logic unsigned [15:0] static_reg_inStream1_step;
+  logic unsigned static_reg_inStream1_loop_outer;
+  logic unsigned static_reg_inStream1_realign_type;
+  // Controls - inStream2
+  logic unsigned [31:0] static_reg_inStream2_trans_size;
+  logic unsigned [15:0] static_reg_inStream2_line_stride;
+  logic unsigned [15:0] static_reg_inStream2_line_length;
+  logic unsigned [15:0] static_reg_inStream2_feat_stride;
+  logic unsigned [15:0] static_reg_inStream2_feat_length;
+  logic unsigned [15:0] static_reg_inStream2_feat_roll;
+  logic unsigned [15:0] static_reg_inStream2_step;
+  logic unsigned static_reg_inStream2_loop_outer;
+  logic unsigned static_reg_inStream2_realign_type;
 
   // Controls - outStream0
   logic unsigned [31:0] static_reg_outStream0_trans_size;
@@ -95,10 +115,9 @@ module multi_dataflow_ctrl
   logic unsigned [31:0] static_reg_cnt_limit_outStream0;
 
   /* Custom registers */
-  logic unsigned [(32-1):0] static_reg_coeff_0_V;
-  logic unsigned [(32-1):0] static_reg_coeff_1_V;
-  logic unsigned [(32-1):0] static_reg_coeff_2_V;
-  logic unsigned [(32-1):0] static_reg_coeff_3_V;
+  logic unsigned [(32-1):0] static_reg_reg_simple_mul;
+  logic unsigned [(32-1):0] static_reg_reg_shift;
+  logic unsigned [(32-1):0] static_reg_reg_len;
 
   /* FSM input signals */
   ctrl_fsm_t fsm_ctrl;
@@ -144,6 +163,26 @@ module multi_dataflow_ctrl
   assign static_reg_inStream0_step                = reg_file.hwpe_params[REG_INSTREAM0_STEP];
   assign static_reg_inStream0_loop_outer          = reg_file.hwpe_params[REG_INSTREAM0_LOOP_OUTER];
   assign static_reg_inStream0_realign_type        = reg_file.hwpe_params[REG_INSTREAM0_REALIGN_TYPE];
+  // Mapping - inStream1
+  assign static_reg_inStream1_trans_size          = reg_file.hwpe_params[REG_INSTREAM1_TRANS_SIZE];
+  assign static_reg_inStream1_line_stride         = reg_file.hwpe_params[REG_INSTREAM1_LINE_STRIDE];
+  assign static_reg_inStream1_line_length         = reg_file.hwpe_params[REG_INSTREAM1_LINE_LENGTH];
+  assign static_reg_inStream1_feat_stride         = reg_file.hwpe_params[REG_INSTREAM1_FEAT_STRIDE];
+  assign static_reg_inStream1_feat_length         = reg_file.hwpe_params[REG_INSTREAM1_FEAT_LENGTH];
+  assign static_reg_inStream1_feat_roll           = reg_file.hwpe_params[REG_INSTREAM1_FEAT_ROLL];
+  assign static_reg_inStream1_step                = reg_file.hwpe_params[REG_INSTREAM1_STEP];
+  assign static_reg_inStream1_loop_outer          = reg_file.hwpe_params[REG_INSTREAM1_LOOP_OUTER];
+  assign static_reg_inStream1_realign_type        = reg_file.hwpe_params[REG_INSTREAM1_REALIGN_TYPE];
+  // Mapping - inStream2
+  assign static_reg_inStream2_trans_size          = reg_file.hwpe_params[REG_INSTREAM2_TRANS_SIZE];
+  assign static_reg_inStream2_line_stride         = reg_file.hwpe_params[REG_INSTREAM2_LINE_STRIDE];
+  assign static_reg_inStream2_line_length         = reg_file.hwpe_params[REG_INSTREAM2_LINE_LENGTH];
+  assign static_reg_inStream2_feat_stride         = reg_file.hwpe_params[REG_INSTREAM2_FEAT_STRIDE];
+  assign static_reg_inStream2_feat_length         = reg_file.hwpe_params[REG_INSTREAM2_FEAT_LENGTH];
+  assign static_reg_inStream2_feat_roll           = reg_file.hwpe_params[REG_INSTREAM2_FEAT_ROLL];
+  assign static_reg_inStream2_step                = reg_file.hwpe_params[REG_INSTREAM2_STEP];
+  assign static_reg_inStream2_loop_outer          = reg_file.hwpe_params[REG_INSTREAM2_LOOP_OUTER];
+  assign static_reg_inStream2_realign_type        = reg_file.hwpe_params[REG_INSTREAM2_REALIGN_TYPE];
 
   // Mapping - outStream0
   assign static_reg_outStream0_trans_size         = reg_file.hwpe_params[REG_OUTSTREAM0_TRANS_SIZE];
@@ -157,10 +196,9 @@ module multi_dataflow_ctrl
   assign static_reg_outStream0_realign_type       = reg_file.hwpe_params[REG_OUTSTREAM0_REALIGN_TYPE];
 
   // Custom registers
-  assign static_reg_coeff_0_V = reg_file.hwpe_params[REG_COEFF_0_V];
-  assign static_reg_coeff_1_V = reg_file.hwpe_params[REG_COEFF_1_V];
-  assign static_reg_coeff_2_V = reg_file.hwpe_params[REG_COEFF_2_V];
-  assign static_reg_coeff_3_V = reg_file.hwpe_params[REG_COEFF_3_V];
+  assign static_reg_reg_simple_mul = reg_file.hwpe_params[REG_REG_SIMPLE_MUL];
+  assign static_reg_reg_shift = reg_file.hwpe_params[REG_REG_SHIFT];
+  assign static_reg_reg_len = reg_file.hwpe_params[REG_REG_LEN];
 
   /* Microcode processor */
   generate
@@ -237,6 +275,26 @@ module multi_dataflow_ctrl
     fsm_ctrl.inStream0_step           = static_reg_inStream0_step;
     fsm_ctrl.inStream0_loop_outer     = static_reg_inStream0_loop_outer;
     fsm_ctrl.inStream0_realign_type   = static_reg_inStream0_realign_type;
+    // Mapping - inStream1
+    fsm_ctrl.inStream1_trans_size     = static_reg_inStream1_trans_size;
+    fsm_ctrl.inStream1_line_stride    = static_reg_inStream1_line_stride;
+    fsm_ctrl.inStream1_line_length    = static_reg_inStream1_line_length;
+    fsm_ctrl.inStream1_feat_stride    = static_reg_inStream1_feat_stride;
+    fsm_ctrl.inStream1_feat_length    = static_reg_inStream1_feat_length;
+    fsm_ctrl.inStream1_feat_roll      = static_reg_inStream1_feat_roll;
+    fsm_ctrl.inStream1_step           = static_reg_inStream1_step;
+    fsm_ctrl.inStream1_loop_outer     = static_reg_inStream1_loop_outer;
+    fsm_ctrl.inStream1_realign_type   = static_reg_inStream1_realign_type;
+    // Mapping - inStream2
+    fsm_ctrl.inStream2_trans_size     = static_reg_inStream2_trans_size;
+    fsm_ctrl.inStream2_line_stride    = static_reg_inStream2_line_stride;
+    fsm_ctrl.inStream2_line_length    = static_reg_inStream2_line_length;
+    fsm_ctrl.inStream2_feat_stride    = static_reg_inStream2_feat_stride;
+    fsm_ctrl.inStream2_feat_length    = static_reg_inStream2_feat_length;
+    fsm_ctrl.inStream2_feat_roll      = static_reg_inStream2_feat_roll;
+    fsm_ctrl.inStream2_step           = static_reg_inStream2_step;
+    fsm_ctrl.inStream2_loop_outer     = static_reg_inStream2_loop_outer;
+    fsm_ctrl.inStream2_realign_type   = static_reg_inStream2_realign_type;
 
     // Mapping - outStream0
     fsm_ctrl.outStream0_trans_size     = static_reg_outStream0_trans_size;
@@ -253,9 +311,8 @@ module multi_dataflow_ctrl
     fsm_ctrl.cnt_limit_outStream0             = static_reg_cnt_limit_outStream0;
 
     // Custom registers
-    fsm_ctrl.coeff_0_V	= static_reg_coeff_0_V;
-    fsm_ctrl.coeff_1_V	= static_reg_coeff_1_V;
-    fsm_ctrl.coeff_2_V	= static_reg_coeff_2_V;
-    fsm_ctrl.coeff_3_V	= static_reg_coeff_3_V;
+    fsm_ctrl.reg_simple_mul	= static_reg_reg_simple_mul;
+    fsm_ctrl.reg_shift	= static_reg_reg_shift;
+    fsm_ctrl.reg_len	= static_reg_reg_len;
   end
 endmodule

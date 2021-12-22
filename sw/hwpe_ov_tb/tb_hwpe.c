@@ -24,6 +24,8 @@
 
 // Synthetic stimuli
 #include "inc/stim/inStream0.h""
+#include "inc/stim/inStream1.h""
+#include "inc/stim/inStream2.h""
 
 // Golden results
 #include "inc/stim/outStream0.h"
@@ -59,10 +61,9 @@ int main() {
 const unsigned engine_runs_outStream0 = ;
 
   // 3. Custom registers
-  const unsigned coeff_0_V_val = ;
-  const unsigned coeff_1_V_val = ;
-  const unsigned coeff_2_V_val = ;
-  const unsigned coeff_3_V_val = ;
+  const unsigned reg_simple_mul_val = ;
+  const unsigned reg_shift_val = ;
+  const unsigned reg_len_val = ;
 
   /* General parameters. */
 
@@ -78,6 +79,14 @@ const unsigned inStream0_width              = width;
 const unsigned inStream0_height             = height;
 const unsigned inStream0_stripe_height      = stripe_height;
 
+const unsigned inStream1_width              = width;
+const unsigned inStream1_height             = height;
+const unsigned inStream1_stripe_height      = stripe_height;
+
+const unsigned inStream2_width              = width;
+const unsigned inStream2_height             = height;
+const unsigned inStream2_stripe_height      = stripe_height;
+
 const unsigned outStream0_width              = width;
 const unsigned outStream0_height             = height;
 const unsigned outStream0_stripe_height      = stripe_height;
@@ -85,6 +94,12 @@ const unsigned outStream0_stripe_height      = stripe_height;
   /* Dataset parameters. */
 const unsigned inStream0_stim_dim               = inStream0_width * inStream0_height;
 const unsigned inStream0_stripe_in_len          = inStream0_width * inStream0_stripe_height;
+
+const unsigned inStream1_stim_dim               = inStream1_width * inStream1_height;
+const unsigned inStream1_stripe_in_len          = inStream1_width * inStream1_stripe_height;
+
+const unsigned inStream2_stim_dim               = inStream2_width * inStream2_height;
+const unsigned inStream2_stripe_in_len          = inStream2_width * inStream2_stripe_height;
 
 const unsigned outStream0_stim_dim               = outStream0_width * outStream0_height;
 const unsigned outStream0_stripe_out_len          = outStream0_width * outStream0_stripe_height;
@@ -99,6 +114,26 @@ const unsigned inStream0_feat_roll              = 0;
 const unsigned inStream0_loop_outer             = 0;
 const unsigned inStream0_realign_type           = 0;
 const unsigned inStream0_step                   = 4;
+
+const unsigned inStream1_trans_size             = inStream1_width * inStream1_stripe_height;
+const unsigned inStream1_line_stride            = 0;
+const unsigned inStream1_line_length            = inStream1_width * inStream1_stripe_height;
+const unsigned inStream1_feat_stride            = 0;
+const unsigned inStream1_feat_length            = 1;
+const unsigned inStream1_feat_roll              = 0;
+const unsigned inStream1_loop_outer             = 0;
+const unsigned inStream1_realign_type           = 0;
+const unsigned inStream1_step                   = 4;
+
+const unsigned inStream2_trans_size             = inStream2_width * inStream2_stripe_height;
+const unsigned inStream2_line_stride            = 0;
+const unsigned inStream2_line_length            = inStream2_width * inStream2_stripe_height;
+const unsigned inStream2_feat_stride            = 0;
+const unsigned inStream2_feat_length            = 1;
+const unsigned inStream2_feat_roll              = 0;
+const unsigned inStream2_loop_outer             = 0;
+const unsigned inStream2_realign_type           = 0;
+const unsigned inStream2_step                   = 4;
 
   /* Address generator (output) - Parameters */
 const unsigned outStream0_trans_size             = outStream0_stripe_height * outStream0_stripe_height + 1;
@@ -118,6 +153,8 @@ const unsigned outStream0_step                   = 4;
   // Stimuli
 
   int32_t * inStream0_l1 = hero_l1malloc(sizeof(int32_t)*inStream0_stripe_in_len);
+  int32_t * inStream1_l1 = hero_l1malloc(sizeof(int32_t)*inStream1_stripe_in_len);
+  int32_t * inStream2_l1 = hero_l1malloc(sizeof(int32_t)*inStream2_stripe_in_len);
 
   // Results
   
@@ -134,6 +171,16 @@ const unsigned outStream0_step                   = 4;
   for (i = 0; i < inStream0_stripe_height; i++){
     for (j = 0; j < inStream0_width; j++){
       inStream0_l1[i*inStream0_width+j] = inStream0[i*inStream0_width+j];
+    }
+  }
+  for (i = 0; i < inStream1_stripe_height; i++){
+    for (j = 0; j < inStream1_width; j++){
+      inStream1_l1[i*inStream1_width+j] = inStream1[i*inStream1_width+j];
+    }
+  }
+  for (i = 0; i < inStream2_stripe_height; i++){
+    for (j = 0; j < inStream2_width; j++){
+      inStream2_l1[i*inStream2_width+j] = inStream2[i*inStream2_width+j];
     }
   }
 
@@ -168,6 +215,30 @@ const unsigned outStream0_step                   = 4;
     inStream0_realign_type,
     inStream0_step
   );
+  // Input inStream1
+  hwpe_addr_gen_inStream1(
+    inStream1_trans_size,
+    inStream1_line_stride,
+    inStream1_line_length,
+    inStream1_feat_stride,
+    inStream1_feat_length,
+    inStream1_feat_roll,
+    inStream1_loop_outer,
+    inStream1_realign_type,
+    inStream1_step
+  );
+  // Input inStream2
+  hwpe_addr_gen_inStream2(
+    inStream2_trans_size,
+    inStream2_line_stride,
+    inStream2_line_length,
+    inStream2_feat_stride,
+    inStream2_feat_length,
+    inStream2_feat_roll,
+    inStream2_loop_outer,
+    inStream2_realign_type,
+    inStream2_step
+  );
 
   // Output outStream0
   hwpe_addr_gen_outStream0(
@@ -186,16 +257,19 @@ const unsigned outStream0_step                   = 4;
 
   // input inStream0
   hwpe_inStream0_addr_set( inStream0_l1 );
+  // input inStream1
+  hwpe_inStream1_addr_set( inStream1_l1 );
+  // input inStream2
+  hwpe_inStream2_addr_set( inStream2_l1 );
 
   // output outStream0
   hwpe_outStream0_addr_set( outStream0_l1 );
 
 
   /* Set user custom registers */
-  hwpe_coeff_0_V_set( coeff_0_V_val );
-  hwpe_coeff_1_V_set( coeff_1_V_val );
-  hwpe_coeff_2_V_set( coeff_2_V_val );
-  hwpe_coeff_3_V_set( coeff_3_V_val );
+  hwpe_reg_simple_mul_set( reg_simple_mul_val );
+  hwpe_reg_shift_set( reg_shift_val );
+  hwpe_reg_len_set( reg_len_val );
 
   /* HWPE execution */
 

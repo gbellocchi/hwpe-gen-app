@@ -77,6 +77,28 @@ module multi_dataflow_fsm (
     ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.inStream0_loop_outer;
     ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.realign_type = ctrl_i.inStream0_realign_type;
     ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.step         = ctrl_i.inStream0_step;
+    // Input stream - inStream1 (programmable)
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.trans_size   = ctrl_i.inStream1_trans_size;
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.line_stride  = ctrl_i.inStream1_line_stride;
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.line_length  = ctrl_i.inStream1_line_length;
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.feat_stride  = ctrl_i.inStream1_feat_stride;
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.feat_length  = ctrl_i.inStream1_feat_length;
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.base_addr    = reg_file_i.hwpe_params[REG_INSTREAM1_ADDR] + (flags_ucode_i.offs[UCODE_INSTREAM1_OFFS]);
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.feat_roll    = ctrl_i.inStream1_feat_roll;
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.inStream1_loop_outer;
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.realign_type = ctrl_i.inStream1_realign_type;
+    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.step         = ctrl_i.inStream1_step;
+    // Input stream - inStream2 (programmable)
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.trans_size   = ctrl_i.inStream2_trans_size;
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.line_stride  = ctrl_i.inStream2_line_stride;
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.line_length  = ctrl_i.inStream2_line_length;
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.feat_stride  = ctrl_i.inStream2_feat_stride;
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.feat_length  = ctrl_i.inStream2_feat_length;
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.base_addr    = reg_file_i.hwpe_params[REG_INSTREAM2_ADDR] + (flags_ucode_i.offs[UCODE_INSTREAM2_OFFS]);
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.feat_roll    = ctrl_i.inStream2_feat_roll;
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.inStream2_loop_outer;
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.realign_type = ctrl_i.inStream2_realign_type;
+    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.step         = ctrl_i.inStream2_step;
 
     // Output stream - outStream0 (programmable)
     ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.trans_size   = ctrl_i.outStream0_trans_size;
@@ -92,6 +114,8 @@ module multi_dataflow_fsm (
 
     // Streamer
     ctrl_streamer_o.inStream0_source_ctrl.req_start    = '0;
+    ctrl_streamer_o.inStream1_source_ctrl.req_start    = '0;
+    ctrl_streamer_o.inStream2_source_ctrl.req_start    = '0;
 
     ctrl_streamer_o.outStream0_sink_ctrl.req_start    = '0;
 
@@ -106,10 +130,9 @@ module multi_dataflow_fsm (
     ctrl_slave_o.evt  = '0;
 
     // Custom Registers
-    ctrl_engine_o.coeff_0_V    = ctrl_i.coeff_0_V;
-    ctrl_engine_o.coeff_1_V    = ctrl_i.coeff_1_V;
-    ctrl_engine_o.coeff_2_V    = ctrl_i.coeff_2_V;
-    ctrl_engine_o.coeff_3_V    = ctrl_i.coeff_3_V;
+    ctrl_engine_o.reg_simple_mul    = ctrl_i.reg_simple_mul;
+    ctrl_engine_o.reg_shift    = ctrl_i.reg_shift;
+    ctrl_engine_o.reg_len    = ctrl_i.reg_len;
 
     // Real finite-state machine
     next_state   = curr_state;
@@ -134,6 +157,8 @@ module multi_dataflow_fsm (
         if(
 
           flags_streamer_i.inStream0_source_flags.ready_start &
+          flags_streamer_i.inStream1_source_flags.ready_start &
+          flags_streamer_i.inStream2_source_flags.ready_start &
 
 	      flags_streamer_i.outStream0_sink_flags.ready_start
         ) begin
@@ -146,6 +171,8 @@ module multi_dataflow_fsm (
           // Request data streaming from/to TCDM
 
           ctrl_streamer_o.inStream0_source_ctrl.req_start = '1;
+          ctrl_streamer_o.inStream1_source_ctrl.req_start = '1;
+          ctrl_streamer_o.inStream2_source_ctrl.req_start = '1;
 
           ctrl_streamer_o.outStream0_sink_ctrl.req_start = '1;
          end
@@ -180,6 +207,8 @@ module multi_dataflow_fsm (
         else if(
 
           flags_streamer_i.inStream0_source_flags.ready_start &
+          flags_streamer_i.inStream1_source_flags.ready_start &
+          flags_streamer_i.inStream2_source_flags.ready_start &
 
           flags_streamer_i.outStream0_sink_flags.ready_start
 
@@ -193,6 +222,8 @@ module multi_dataflow_fsm (
           // Request data streaming from/to TCDM
 
           ctrl_streamer_o.inStream0_source_ctrl.req_start = '1;
+          ctrl_streamer_o.inStream1_source_ctrl.req_start = '1;
+          ctrl_streamer_o.inStream2_source_ctrl.req_start = '1;
 
     	  ctrl_streamer_o.outStream0_sink_ctrl.req_start = '1;
 
@@ -210,6 +241,8 @@ module multi_dataflow_fsm (
         if(
 
           flags_streamer_i.inStream0_source_flags.ready_start &
+          flags_streamer_i.inStream1_source_flags.ready_start &
+          flags_streamer_i.inStream2_source_flags.ready_start &
 
           flags_streamer_i.outStream0_sink_flags.ready_start
 
@@ -222,6 +255,8 @@ module multi_dataflow_fsm (
           // Request data streaming from/to TCDM
 
           ctrl_streamer_o.inStream0_source_ctrl.req_start = '1;
+          ctrl_streamer_o.inStream1_source_ctrl.req_start = '1;
+          ctrl_streamer_o.inStream2_source_ctrl.req_start = '1;
 
           ctrl_streamer_o.outStream0_sink_ctrl.req_start = '1;
 
@@ -235,6 +270,8 @@ module multi_dataflow_fsm (
         if(
 
           flags_streamer_i.inStream0_source_flags.ready_start &
+          flags_streamer_i.inStream1_source_flags.ready_start &
+          flags_streamer_i.inStream2_source_flags.ready_start &
 
           flags_streamer_i.outStream0_sink_flags.ready_start
 

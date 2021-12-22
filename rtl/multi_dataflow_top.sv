@@ -25,7 +25,7 @@ import hwpe_ctrl_package::*;
 module multi_dataflow_top
 #(
   parameter int unsigned N_CORES = 2,
-  parameter int unsigned MP  = 2,
+  parameter int unsigned MP  = 4,
   parameter int unsigned ID  = 10
 )
 (
@@ -55,6 +55,10 @@ module multi_dataflow_top
   // Streamer interfaces
   hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) inStream0 ( .clk (clk_i) );
 
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) inStream1 ( .clk (clk_i) );
+
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) inStream2 ( .clk (clk_i) );
+
   hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) outStream0 ( .clk (clk_i) );
 
   // HWPE engine wrapper
@@ -64,6 +68,8 @@ module multi_dataflow_top
     .test_mode_i      ( test_mode_i    ),
 
     .inStream0_i              ( inStream0.sink       ),
+    .inStream1_i              ( inStream1.sink       ),
+    .inStream2_i              ( inStream2.sink       ),
 
     .outStream0_o              ( outStream0.source       ),
 
@@ -82,6 +88,8 @@ module multi_dataflow_top
     .clear_i          ( clear          ),
 
     .inStream0              ( inStream0.source       ),
+    .inStream1              ( inStream1.source       ),
+    .inStream2              ( inStream2.source       ),
 
     .outStream0              ( outStream0.sink       ),
 
@@ -95,7 +103,7 @@ module multi_dataflow_top
     .N_CORES   ( N_CORES  ),
     .N_CONTEXT ( 1  ),
 
-    .N_IO_REGS ( 28 ),
+    .N_IO_REGS ( 47 ),
 
     .ID ( ID )
   ) i_ctrl (

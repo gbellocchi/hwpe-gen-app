@@ -29,6 +29,8 @@ module multi_dataflow_engine (
 
   // Sink ports
   hwpe_stream_intf_stream.sink    inStream0_i,
+  hwpe_stream_intf_stream.sink    inStream1_i,
+  hwpe_stream_intf_stream.sink    inStream2_i,
 
   // Source ports
   hwpe_stream_intf_stream.source  outStream0_o,
@@ -124,13 +126,14 @@ module multi_dataflow_engine (
 
     // Data streams
     .inStream0_i              ( inStream0_i	),
+    .inStream1_i              ( inStream1_i	),
+    .inStream2_i              ( inStream2_i	),
     .outStream0_o              ( outStream0_o	),
 
     // Kernel parameters
-    .coeff_0_V        ( ctrl_i.coeff_0_V      ),
-    .coeff_1_V        ( ctrl_i.coeff_1_V      ),
-    .coeff_2_V        ( ctrl_i.coeff_2_V      ),
-    .coeff_3_V        ( ctrl_i.coeff_3_V      ),
+    .reg_simple_mul        ( ctrl_i.reg_simple_mul      ),
+    .reg_shift        ( ctrl_i.reg_shift      ),
+    .reg_len        ( ctrl_i.reg_len      ),
     
     // Control signals
     .ctrl_i      ( ctrl_k_ad            ),

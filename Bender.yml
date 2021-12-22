@@ -4,11 +4,8 @@ sources:
   - include_dirs:
       - rtl/hwpe-engine
     files:
-      - rtl/acc_kernel/exec_1.v
       - rtl/acc_kernel/fifo_small.v
-      - rtl/acc_kernel/fir.v
-      - rtl/acc_kernel/fir_mul_32s_32s_3bkb.v
-      - rtl/acc_kernel/regslice_core.v
+      - rtl/acc_kernel/mac_mdc.sv
       - rtl/acc_kernel/multi_dataflow.v
       - rtl/acc_kernel/interface_wrapper.sv
       - rtl/multi_dataflow_package.sv
