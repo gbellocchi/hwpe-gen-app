@@ -50,8 +50,8 @@ module multi_dataflow_kernel_adapter (
 
   /* multi_dataflow flag signals. */
 
-  //logic kernel_ready_inStream0;
-  logic kernel_done_inStream0;  //FIXEME: to be removed
+  //logic kernel_ready_inStream0;  //FIXEME: to be removed
+  logic kernel_done_inStream0;
 
   logic kernel_done_outStream0;
 
