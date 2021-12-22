@@ -47,31 +47,35 @@ package multi_dataflow_package;
 
   // Custom register files
 
-  parameter int unsigned REG_WIDTH             = 6;
+  parameter int unsigned REG_COEFF_0_V             = 6;
 
-  parameter int unsigned REG_HEIGHT             = 7;
+  parameter int unsigned REG_COEFF_1_V             = 7;
+
+  parameter int unsigned REG_COEFF_2_V             = 8;
+
+  parameter int unsigned REG_COEFF_3_V             = 9;
 
   // Input stream - inStream0 (programmable)
-  parameter int unsigned REG_INSTREAM0_TRANS_SIZE       = 8;
-  parameter int unsigned REG_INSTREAM0_LINE_STRIDE      = 9;
-  parameter int unsigned REG_INSTREAM0_LINE_LENGTH      = 10;
-  parameter int unsigned REG_INSTREAM0_FEAT_STRIDE      = 11;
-  parameter int unsigned REG_INSTREAM0_FEAT_LENGTH      = 12;
-  parameter int unsigned REG_INSTREAM0_FEAT_ROLL        = 13;
-  parameter int unsigned REG_INSTREAM0_LOOP_OUTER       = 14;
-  parameter int unsigned REG_INSTREAM0_REALIGN_TYPE     = 15;
-  parameter int unsigned REG_INSTREAM0_STEP             = 16;
+  parameter int unsigned REG_INSTREAM0_TRANS_SIZE       = 10;
+  parameter int unsigned REG_INSTREAM0_LINE_STRIDE      = 11;
+  parameter int unsigned REG_INSTREAM0_LINE_LENGTH      = 12;
+  parameter int unsigned REG_INSTREAM0_FEAT_STRIDE      = 13;
+  parameter int unsigned REG_INSTREAM0_FEAT_LENGTH      = 14;
+  parameter int unsigned REG_INSTREAM0_FEAT_ROLL        = 15;
+  parameter int unsigned REG_INSTREAM0_LOOP_OUTER       = 16;
+  parameter int unsigned REG_INSTREAM0_REALIGN_TYPE     = 17;
+  parameter int unsigned REG_INSTREAM0_STEP             = 18;
 
   // Output stream - outStream0 (programmable)
-  parameter int unsigned REG_OUTSTREAM0_TRANS_SIZE       = 17;
-  parameter int unsigned REG_OUTSTREAM0_LINE_STRIDE      = 18;
-  parameter int unsigned REG_OUTSTREAM0_LINE_LENGTH      = 19;
-  parameter int unsigned REG_OUTSTREAM0_FEAT_STRIDE      = 20;
-  parameter int unsigned REG_OUTSTREAM0_FEAT_LENGTH      = 21;
-  parameter int unsigned REG_OUTSTREAM0_FEAT_ROLL        = 22;
-  parameter int unsigned REG_OUTSTREAM0_LOOP_OUTER       = 23;
-  parameter int unsigned REG_OUTSTREAM0_REALIGN_TYPE     = 24;
-  parameter int unsigned REG_OUTSTREAM0_STEP             = 25;
+  parameter int unsigned REG_OUTSTREAM0_TRANS_SIZE       = 19;
+  parameter int unsigned REG_OUTSTREAM0_LINE_STRIDE      = 20;
+  parameter int unsigned REG_OUTSTREAM0_LINE_LENGTH      = 21;
+  parameter int unsigned REG_OUTSTREAM0_FEAT_STRIDE      = 22;
+  parameter int unsigned REG_OUTSTREAM0_FEAT_LENGTH      = 23;
+  parameter int unsigned REG_OUTSTREAM0_FEAT_ROLL        = 24;
+  parameter int unsigned REG_OUTSTREAM0_LOOP_OUTER       = 25;
+  parameter int unsigned REG_OUTSTREAM0_REALIGN_TYPE     = 26;
+  parameter int unsigned REG_OUTSTREAM0_STEP             = 27;
 
   /* Microcode processor */
 
@@ -100,8 +104,10 @@ package multi_dataflow_package;
     logic unsigned [$clog2(CNT_LEN):0] cnt_limit_outStream0;
 
     // Custom register
-  logic unsigned [(32-1):0] width;
-  logic unsigned [(32-1):0] height;
+  logic unsigned [(32-1):0] coeff_0_V;
+  logic unsigned [(32-1):0] coeff_1_V;
+  logic unsigned [(32-1):0] coeff_2_V;
+  logic unsigned [(32-1):0] coeff_3_V;
   } ctrl_engine_t;
 
   typedef struct packed {
@@ -165,8 +171,10 @@ package multi_dataflow_package;
     logic unsigned [$clog2(CNT_LEN):0] cnt_limit_outStream0;
 
     // Custom register
-    logic unsigned [(32-1):0] width;
-    logic unsigned [(32-1):0] height;
+    logic unsigned [(32-1):0] coeff_0_V;
+    logic unsigned [(32-1):0] coeff_1_V;
+    logic unsigned [(32-1):0] coeff_2_V;
+    logic unsigned [(32-1):0] coeff_3_V;
 
   } ctrl_fsm_t;
 

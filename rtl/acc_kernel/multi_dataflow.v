@@ -2,7 +2,7 @@
 //
 // Multi-Dataflow Composer tool - Platform Composer
 // Multi-Dataflow Network module 
-// Date: 2021/12/22 09:18:53
+// Date: 2021/12/22 11:50:17
 //
 // ----------------------------------------------------------------------------
 
@@ -18,8 +18,10 @@ module multi_dataflow (
 	input outStream0_full,
 	
 	// Dynamic Parameter(s)
-	input [31:0] width,
-	input [31:0] height,
+	input [31:0] coeff_0_V,
+	input [31:0] coeff_1_V,
+	input [31:0] coeff_2_V,
+	input [31:0] coeff_3_V,
 	
 	// Monitoring
 	
@@ -38,16 +40,16 @@ module multi_dataflow (
 
 // Actors Wire(s)
 	
-// actor conv_mdc_0
-wire [31 : 0] fifo_small_conv_mdc_0_src_V_data;
-wire fifo_small_conv_mdc_0_src_V_wr;
-wire fifo_small_conv_mdc_0_src_V_full;
-wire [31 : 0] conv_mdc_0_src_V_data;
-wire conv_mdc_0_src_V_rd;
-wire conv_mdc_0_src_V_valid;
-wire [31 : 0] conv_mdc_0_dst_V_data;
-wire conv_mdc_0_dst_V_wr;
-wire conv_mdc_0_dst_V_full;
+// actor fir_0
+wire [31 : 0] fifo_small_fir_0_x_V_data;
+wire fifo_small_fir_0_x_V_wr;
+wire fifo_small_fir_0_x_V_full;
+wire [31 : 0] fir_0_x_V_data;
+wire fir_0_x_V_rd;
+wire fir_0_x_V_valid;
+wire [31 : 0] fir_0_y_V_data;
+wire fir_0_y_V_wr;
+wire fir_0_y_V_full;
 // ----------------------------------------------------------------------------
 
 // body
@@ -55,40 +57,42 @@ wire conv_mdc_0_dst_V_full;
 
 
 
-// fifo_small_conv_mdc_0_src_V
+// fifo_small_fir_0_x_V
 fifo_small #(
 	.depth(64),
 	.size(32)
-) fifo_small_conv_mdc_0_src_V(
-	.datain(fifo_small_conv_mdc_0_src_V_data),
-	.dataout(conv_mdc_0_src_V_data),
-	.enr(conv_mdc_0_src_V_rd),
-	.enw(fifo_small_conv_mdc_0_src_V_wr),
-	.valid(conv_mdc_0_src_V_valid),
-	.full(fifo_small_conv_mdc_0_src_V_full),
+) fifo_small_fir_0_x_V(
+	.datain(fifo_small_fir_0_x_V_data),
+	.dataout(fir_0_x_V_data),
+	.enr(fir_0_x_V_rd),
+	.enw(fifo_small_fir_0_x_V_wr),
+	.valid(fir_0_x_V_valid),
+	.full(fifo_small_fir_0_x_V_full),
 	
 	// System Signal(s)
 	.clk(clock),
 	.rst(reset)
 );
 
-// actor conv_mdc_0
-conv_mdc actor_conv_mdc_0 (
+// actor fir_0
+fir actor_fir_0 (
 	// Input Signal(s)
-	.src_V_TDATA(conv_mdc_0_src_V_data),
-	.src_V_TREADY(conv_mdc_0_src_V_rd),
-	.src_V_TVALID(conv_mdc_0_src_V_valid)
+	.x_V_TDATA(fir_0_x_V_data),
+	.x_V_TREADY(fir_0_x_V_rd),
+	.x_V_TVALID(fir_0_x_V_valid)
 	,
 	
 	// Output Signal(s)
-	.dst_V_TDATA(conv_mdc_0_dst_V_data),
-	.dst_V_TVALID(conv_mdc_0_dst_V_wr),
-	.dst_V_TREADY(conv_mdc_0_dst_V_full)
+	.y_V_TDATA(fir_0_y_V_data),
+	.y_V_TVALID(fir_0_y_V_wr),
+	.y_V_TREADY(fir_0_y_V_full)
 	,
 	
 	// Dynamic Parameter(s)
-	.width(width),
-	.height(height)
+	.coeff_0_V(coeff_0_V),
+	.coeff_1_V(coeff_1_V),
+	.coeff_2_V(coeff_2_V),
+	.coeff_3_V(coeff_3_V)
 	,
 	
 	// System Signal(s)
@@ -98,12 +102,12 @@ conv_mdc actor_conv_mdc_0 (
 
 
 // Module(s) Assignments
-assign fifo_small_conv_mdc_0_src_V_data = inStream0_data;
-assign fifo_small_conv_mdc_0_src_V_wr = inStream0_wr;
-assign inStream0_full = fifo_small_conv_mdc_0_src_V_full;
+assign fifo_small_fir_0_x_V_data = inStream0_data;
+assign fifo_small_fir_0_x_V_wr = inStream0_wr;
+assign inStream0_full = fifo_small_fir_0_x_V_full;
 
-assign outStream0_data = conv_mdc_0_dst_V_data;
-assign outStream0_wr = conv_mdc_0_dst_V_wr;
-assign conv_mdc_0_dst_V_full = outStream0_full;
+assign outStream0_data = fir_0_y_V_data;
+assign outStream0_wr = fir_0_y_V_wr;
+assign fir_0_y_V_full = outStream0_full;
 
 endmodule

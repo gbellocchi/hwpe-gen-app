@@ -106,8 +106,10 @@ module multi_dataflow_fsm (
     ctrl_slave_o.evt  = '0;
 
     // Custom Registers
-    ctrl_engine_o.width    = ctrl_i.width;
-    ctrl_engine_o.height    = ctrl_i.height;
+    ctrl_engine_o.coeff_0_V    = ctrl_i.coeff_0_V;
+    ctrl_engine_o.coeff_1_V    = ctrl_i.coeff_1_V;
+    ctrl_engine_o.coeff_2_V    = ctrl_i.coeff_2_V;
+    ctrl_engine_o.coeff_3_V    = ctrl_i.coeff_3_V;
 
     // Real finite-state machine
     next_state   = curr_state;

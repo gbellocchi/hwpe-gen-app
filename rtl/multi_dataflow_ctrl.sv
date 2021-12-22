@@ -95,8 +95,10 @@ module multi_dataflow_ctrl
   logic unsigned [31:0] static_reg_cnt_limit_outStream0;
 
   /* Custom registers */
-  logic unsigned [(32-1):0] static_reg_width;
-  logic unsigned [(32-1):0] static_reg_height;
+  logic unsigned [(32-1):0] static_reg_coeff_0_V;
+  logic unsigned [(32-1):0] static_reg_coeff_1_V;
+  logic unsigned [(32-1):0] static_reg_coeff_2_V;
+  logic unsigned [(32-1):0] static_reg_coeff_3_V;
 
   /* FSM input signals */
   ctrl_fsm_t fsm_ctrl;
@@ -155,8 +157,10 @@ module multi_dataflow_ctrl
   assign static_reg_outStream0_realign_type       = reg_file.hwpe_params[REG_OUTSTREAM0_REALIGN_TYPE];
 
   // Custom registers
-  assign static_reg_width = reg_file.hwpe_params[REG_WIDTH];
-  assign static_reg_height = reg_file.hwpe_params[REG_HEIGHT];
+  assign static_reg_coeff_0_V = reg_file.hwpe_params[REG_COEFF_0_V];
+  assign static_reg_coeff_1_V = reg_file.hwpe_params[REG_COEFF_1_V];
+  assign static_reg_coeff_2_V = reg_file.hwpe_params[REG_COEFF_2_V];
+  assign static_reg_coeff_3_V = reg_file.hwpe_params[REG_COEFF_3_V];
 
   /* Microcode processor */
   generate
@@ -249,7 +253,9 @@ module multi_dataflow_ctrl
     fsm_ctrl.cnt_limit_outStream0             = static_reg_cnt_limit_outStream0;
 
     // Custom registers
-    fsm_ctrl.width	= static_reg_width;
-    fsm_ctrl.height	= static_reg_height;
+    fsm_ctrl.coeff_0_V	= static_reg_coeff_0_V;
+    fsm_ctrl.coeff_1_V	= static_reg_coeff_1_V;
+    fsm_ctrl.coeff_2_V	= static_reg_coeff_2_V;
+    fsm_ctrl.coeff_3_V	= static_reg_coeff_3_V;
   end
 endmodule

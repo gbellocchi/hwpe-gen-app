@@ -127,8 +127,10 @@ module multi_dataflow_engine (
     .outStream0_o              ( outStream0_o	),
 
     // Kernel parameters
-    .width        ( ctrl_i.width      ),
-    .height        ( ctrl_i.height      ),
+    .coeff_0_V        ( ctrl_i.coeff_0_V      ),
+    .coeff_1_V        ( ctrl_i.coeff_1_V      ),
+    .coeff_2_V        ( ctrl_i.coeff_2_V      ),
+    .coeff_3_V        ( ctrl_i.coeff_3_V      ),
     
     // Control signals
     .ctrl_i      ( ctrl_k_ad            ),

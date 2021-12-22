@@ -60,9 +60,13 @@
  *     5  |  0x0054  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
  *     6  |  0x0058  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
 
- *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  WIDTH
+ *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  COEFF_0_V
 
- *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  HEIGHT
+ *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  COEFF_1_V
+
+ *     9  |  0x0064  |  31: 0  |  0xffffffff  ||  COEFF_2_V
+
+ *     10  |  0x0068  |  31: 0  |  0xffffffff  ||  COEFF_3_V
  *
  * ================================================================================
  *
@@ -111,11 +115,17 @@ static inline void hwpe_len_iter_set_outStream0(unsigned int value) {
 }
 
 /* custom hal */
-static inline void hwpe_width_set(int32_t value) {
-  HWPE_WRITE(value, REG_WIDTH );
+static inline void hwpe_coeff_0_V_set(uint32_t value) {
+  HWPE_WRITE(value, REG_COEFF_0_V );
 }
-static inline void hwpe_height_set(int32_t value) {
-  HWPE_WRITE(value, REG_HEIGHT );
+static inline void hwpe_coeff_1_V_set(uint32_t value) {
+  HWPE_WRITE(value, REG_COEFF_1_V );
+}
+static inline void hwpe_coeff_2_V_set(uint32_t value) {
+  HWPE_WRITE(value, REG_COEFF_2_V );
+}
+static inline void hwpe_coeff_3_V_set(uint32_t value) {
+  HWPE_WRITE(value, REG_COEFF_3_V );
 }
 
 /* address generator hal - inStream0 */

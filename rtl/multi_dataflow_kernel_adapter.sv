@@ -26,8 +26,10 @@ module multi_dataflow_kernel_adapter (
   hwpe_stream_intf_stream.source    outStream0_o,
 
   // Kernel parameters
-  input logic [31:0] width,
-  input logic [31:0] height,
+  input logic [31:0] coeff_0_V,
+  input logic [31:0] coeff_1_V,
+  input logic [31:0] coeff_2_V,
+  input logic [31:0] coeff_3_V,
   
   // Control signals
   input  ctrl_kernel_adapter_t           ctrl_i,
@@ -174,8 +176,10 @@ module multi_dataflow_kernel_adapter (
     // Output data (from-hwpe)
     .outStream0	( outStream0_o	),
     // Algorithm parameters
-    .width	( width ),
-    .height	( height ),
+    .coeff_0_V	( coeff_0_V ),
+    .coeff_1_V	( coeff_1_V ),
+    .coeff_2_V	( coeff_2_V ),
+    .coeff_3_V	( coeff_3_V ),
           // Global signals.
       .clk_i             ( clk_i            ),
       .rst_ni           ( rst_ni           )

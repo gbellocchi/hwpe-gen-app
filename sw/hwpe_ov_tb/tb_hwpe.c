@@ -59,8 +59,10 @@ int main() {
 const unsigned engine_runs_outStream0 = ;
 
   // 3. Custom registers
-  const unsigned width_val = ;
-  const unsigned height_val = ;
+  const unsigned coeff_0_V_val = ;
+  const unsigned coeff_1_V_val = ;
+  const unsigned coeff_2_V_val = ;
+  const unsigned coeff_3_V_val = ;
 
   /* General parameters. */
 
@@ -190,8 +192,10 @@ const unsigned outStream0_step                   = 4;
 
 
   /* Set user custom registers */
-  hwpe_width_set( width_val );
-  hwpe_height_set( height_val );
+  hwpe_coeff_0_V_set( coeff_0_V_val );
+  hwpe_coeff_1_V_set( coeff_1_V_val );
+  hwpe_coeff_2_V_set( coeff_2_V_val );
+  hwpe_coeff_3_V_set( coeff_3_V_val );
 
   /* HWPE execution */
 
