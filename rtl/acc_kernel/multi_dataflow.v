@@ -2,35 +2,27 @@
 //
 // Multi-Dataflow Composer tool - Platform Composer
 // Multi-Dataflow Network module 
-// Date: 2022/01/11 13:17:26
+// Date: 2022/01/11 14:07:22
 //
 // ----------------------------------------------------------------------------
 
 module multi_dataflow (
 	// Input(s)
-	input [31 : 0] inStream0_data,
-	input inStream0_wr,
-	output inStream0_full,
+	input [31 : 0] in1_data,
+	input in1_wr,
+	output in1_full,
 	
 	// Output(s)
-	input [31 : 0] inStream1_data,
-	input inStream1_wr,
-	output inStream1_full,
+	input [31 : 0] in2_data,
+	input in2_wr,
+	output in2_full,
 	
 	// Output(s)
-	input [31 : 0] inStream2_data,
-	input inStream2_wr,
-	output inStream2_full,
-	
-	// Output(s)
-	output [31 : 0] outStream0_data,
-	output outStream0_wr,
-	input outStream0_full,
+	output [31 : 0] out_r_data,
+	output out_r_wr,
+	input out_r_full,
 	
 	// Dynamic Parameter(s)
-	input [31:0] reg_simple_mul,
-	input [7:0] reg_shift,
-	input [15:0] reg_len,
 	
 	// Monitoring
 	
@@ -49,28 +41,22 @@ module multi_dataflow (
 
 // Actors Wire(s)
 	
-// actor mac_mdc_0
-wire [31 : 0] fifo_small_mac_mdc_0_a_data;
-wire fifo_small_mac_mdc_0_a_wr;
-wire fifo_small_mac_mdc_0_a_full;
-wire [31 : 0] mac_mdc_0_a_data;
-wire mac_mdc_0_a_rd;
-wire mac_mdc_0_a_valid;
-wire [31 : 0] fifo_small_mac_mdc_0_b_data;
-wire fifo_small_mac_mdc_0_b_wr;
-wire fifo_small_mac_mdc_0_b_full;
-wire [31 : 0] mac_mdc_0_b_data;
-wire mac_mdc_0_b_rd;
-wire mac_mdc_0_b_valid;
-wire [31 : 0] fifo_small_mac_mdc_0_c_data;
-wire fifo_small_mac_mdc_0_c_wr;
-wire fifo_small_mac_mdc_0_c_full;
-wire [31 : 0] mac_mdc_0_c_data;
-wire mac_mdc_0_c_rd;
-wire mac_mdc_0_c_valid;
-wire [31 : 0] mac_mdc_0_d_data;
-wire mac_mdc_0_d_wr;
-wire mac_mdc_0_d_full;
+// actor mmult_opt_mdc_0
+wire [31 : 0] fifo_small_mmult_opt_mdc_0_in1_data;
+wire fifo_small_mmult_opt_mdc_0_in1_wr;
+wire fifo_small_mmult_opt_mdc_0_in1_full;
+wire [31 : 0] mmult_opt_mdc_0_in1_data;
+wire mmult_opt_mdc_0_in1_rd;
+wire mmult_opt_mdc_0_in1_valid;
+wire [31 : 0] fifo_small_mmult_opt_mdc_0_in2_data;
+wire fifo_small_mmult_opt_mdc_0_in2_wr;
+wire fifo_small_mmult_opt_mdc_0_in2_full;
+wire [31 : 0] mmult_opt_mdc_0_in2_data;
+wire mmult_opt_mdc_0_in2_rd;
+wire mmult_opt_mdc_0_in2_valid;
+wire [31 : 0] mmult_opt_mdc_0_out_r_data;
+wire mmult_opt_mdc_0_out_r_wr;
+wire mmult_opt_mdc_0_out_r_full;
 // ----------------------------------------------------------------------------
 
 // body
@@ -78,80 +64,55 @@ wire mac_mdc_0_d_full;
 
 
 
-// fifo_small_mac_mdc_0_a
+// fifo_small_mmult_opt_mdc_0_in1
 fifo_small #(
 	.depth(64),
 	.size(32)
-) fifo_small_mac_mdc_0_a(
-	.datain(fifo_small_mac_mdc_0_a_data),
-	.dataout(mac_mdc_0_a_data),
-	.enr(mac_mdc_0_a_rd),
-	.enw(fifo_small_mac_mdc_0_a_wr),
-	.valid(mac_mdc_0_a_valid),
-	.full(fifo_small_mac_mdc_0_a_full),
+) fifo_small_mmult_opt_mdc_0_in1(
+	.datain(fifo_small_mmult_opt_mdc_0_in1_data),
+	.dataout(mmult_opt_mdc_0_in1_data),
+	.enr(mmult_opt_mdc_0_in1_rd),
+	.enw(fifo_small_mmult_opt_mdc_0_in1_wr),
+	.valid(mmult_opt_mdc_0_in1_valid),
+	.full(fifo_small_mmult_opt_mdc_0_in1_full),
 	
 	// System Signal(s)
 	.clk(clock),
 	.rst(reset)
 );
-// fifo_small_mac_mdc_0_b
+// fifo_small_mmult_opt_mdc_0_in2
 fifo_small #(
 	.depth(64),
 	.size(32)
-) fifo_small_mac_mdc_0_b(
-	.datain(fifo_small_mac_mdc_0_b_data),
-	.dataout(mac_mdc_0_b_data),
-	.enr(mac_mdc_0_b_rd),
-	.enw(fifo_small_mac_mdc_0_b_wr),
-	.valid(mac_mdc_0_b_valid),
-	.full(fifo_small_mac_mdc_0_b_full),
-	
-	// System Signal(s)
-	.clk(clock),
-	.rst(reset)
-);
-// fifo_small_mac_mdc_0_c
-fifo_small #(
-	.depth(64),
-	.size(32)
-) fifo_small_mac_mdc_0_c(
-	.datain(fifo_small_mac_mdc_0_c_data),
-	.dataout(mac_mdc_0_c_data),
-	.enr(mac_mdc_0_c_rd),
-	.enw(fifo_small_mac_mdc_0_c_wr),
-	.valid(mac_mdc_0_c_valid),
-	.full(fifo_small_mac_mdc_0_c_full),
+) fifo_small_mmult_opt_mdc_0_in2(
+	.datain(fifo_small_mmult_opt_mdc_0_in2_data),
+	.dataout(mmult_opt_mdc_0_in2_data),
+	.enr(mmult_opt_mdc_0_in2_rd),
+	.enw(fifo_small_mmult_opt_mdc_0_in2_wr),
+	.valid(mmult_opt_mdc_0_in2_valid),
+	.full(fifo_small_mmult_opt_mdc_0_in2_full),
 	
 	// System Signal(s)
 	.clk(clock),
 	.rst(reset)
 );
 
-// actor mac_mdc_0
-mac_mdc actor_mac_mdc_0 (
+// actor mmult_opt_mdc_0
+mmult_opt_mdc actor_mmult_opt_mdc_0 (
 	// Input Signal(s)
-	.a_TDATA(mac_mdc_0_a_data),
-	.a_TREADY(mac_mdc_0_a_rd),
-	.a_TVALID(mac_mdc_0_a_valid),
-	.b_TDATA(mac_mdc_0_b_data),
-	.b_TREADY(mac_mdc_0_b_rd),
-	.b_TVALID(mac_mdc_0_b_valid),
-	.c_TDATA(mac_mdc_0_c_data),
-	.c_TREADY(mac_mdc_0_c_rd),
-	.c_TVALID(mac_mdc_0_c_valid)
+	.in1_TDATA(mmult_opt_mdc_0_in1_data),
+	.in1_TREADY(mmult_opt_mdc_0_in1_rd),
+	.in1_TVALID(mmult_opt_mdc_0_in1_valid),
+	.in2_TDATA(mmult_opt_mdc_0_in2_data),
+	.in2_TREADY(mmult_opt_mdc_0_in2_rd),
+	.in2_TVALID(mmult_opt_mdc_0_in2_valid)
 	,
 	
 	// Output Signal(s)
-	.d_TDATA(mac_mdc_0_d_data),
-	.d_TVALID(mac_mdc_0_d_wr),
-	.d_TREADY(mac_mdc_0_d_full)
-	,
-	
-	// Dynamic Parameter(s)
-	.reg_simple_mul(reg_simple_mul),
-	.reg_shift(reg_shift),
-	.reg_len(reg_len)
-	,
+	.out_r_TDATA(mmult_opt_mdc_0_out_r_data),
+	.out_r_TVALID(mmult_opt_mdc_0_out_r_wr),
+	.out_r_TREADY(mmult_opt_mdc_0_out_r_full)
+		,
 	
 	// System Signal(s)
 	.ap_clk(clock),
@@ -160,20 +121,16 @@ mac_mdc actor_mac_mdc_0 (
 
 
 // Module(s) Assignments
-assign fifo_small_mac_mdc_0_a_data = inStream0_data;
-assign fifo_small_mac_mdc_0_a_wr = inStream0_wr;
-assign inStream0_full = fifo_small_mac_mdc_0_a_full;
+assign fifo_small_mmult_opt_mdc_0_in1_data = in1_data;
+assign fifo_small_mmult_opt_mdc_0_in1_wr = in1_wr;
+assign in1_full = fifo_small_mmult_opt_mdc_0_in1_full;
 
-assign fifo_small_mac_mdc_0_b_data = inStream1_data;
-assign fifo_small_mac_mdc_0_b_wr = inStream1_wr;
-assign inStream1_full = fifo_small_mac_mdc_0_b_full;
+assign fifo_small_mmult_opt_mdc_0_in2_data = in2_data;
+assign fifo_small_mmult_opt_mdc_0_in2_wr = in2_wr;
+assign in2_full = fifo_small_mmult_opt_mdc_0_in2_full;
 
-assign fifo_small_mac_mdc_0_c_data = inStream2_data;
-assign fifo_small_mac_mdc_0_c_wr = inStream2_wr;
-assign inStream2_full = fifo_small_mac_mdc_0_c_full;
-
-assign outStream0_data = mac_mdc_0_d_data;
-assign outStream0_wr = mac_mdc_0_d_wr;
-assign mac_mdc_0_d_full = outStream0_full;
+assign out_r_data = mmult_opt_mdc_0_out_r_data;
+assign out_r_wr = mmult_opt_mdc_0_out_r_wr;
+assign mmult_opt_mdc_0_out_r_full = out_r_full;
 
 endmodule

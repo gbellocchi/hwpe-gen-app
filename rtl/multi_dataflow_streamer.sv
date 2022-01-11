@@ -23,7 +23,7 @@ import hwpe_stream_package::*;
 
 module multi_dataflow_streamer
 #(
-  parameter int unsigned MP = 4, // number of master ports
+  parameter int unsigned MP = 3, // number of master ports
   parameter int unsigned FD = 2  // FIFO depth
 )
 (
@@ -42,11 +42,10 @@ module multi_dataflow_streamer
 
   // Streaming interfaces
 
-  hwpe_stream_intf_stream.source inStream0,
-  hwpe_stream_intf_stream.source inStream1,
-  hwpe_stream_intf_stream.source inStream2,
+  hwpe_stream_intf_stream.source in1,
+  hwpe_stream_intf_stream.source in2,
 
-  hwpe_stream_intf_stream.sink outStream0,
+  hwpe_stream_intf_stream.sink out_r,
 
   // control channel
   input  ctrl_streamer_t  ctrl_i,
@@ -55,77 +54,61 @@ module multi_dataflow_streamer
 
   // TCDM ready signals
 
-  logic tcdm_fifo_ready_inStream0;
-  logic tcdm_fifo_ready_inStream1;
-  logic tcdm_fifo_ready_inStream2;
+  logic tcdm_fifo_ready_in1;
+  logic tcdm_fifo_ready_in2;
 
   // TCDM interface
 
-  hwpe_stream_intf_tcdm tcdm_fifo_inStream0 [0:0] ( .clk (clk_i) );
+  hwpe_stream_intf_tcdm tcdm_fifo_in1 [0:0] ( .clk (clk_i) );
 
-  hwpe_stream_intf_tcdm tcdm_fifo_inStream1 [0:0] ( .clk (clk_i) );
+  hwpe_stream_intf_tcdm tcdm_fifo_in2 [0:0] ( .clk (clk_i) );
 
-  hwpe_stream_intf_tcdm tcdm_fifo_inStream2 [0:0] ( .clk (clk_i) );
-
-  hwpe_stream_intf_tcdm tcdm_fifo_outStream0 [0:0] ( .clk (clk_i) );
+  hwpe_stream_intf_tcdm tcdm_fifo_out_r [0:0] ( .clk (clk_i) );
 
   // Streaming interface
 
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) stream_fifo_inStream0 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) stream_fifo_in1 ( .clk (clk_i) );
 
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) stream_fifo_inStream1 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) stream_fifo_in2 ( .clk (clk_i) );
 
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) stream_fifo_inStream2 ( .clk (clk_i) );
-
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) stream_fifo_outStream0 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) stream_fifo_out_r ( .clk (clk_i) );
 
   // TCDM-side FIFOs - Inputs
 
   hwpe_stream_tcdm_fifo_load #(
     .FIFO_DEPTH ( 4 )
-  ) i_inStream0_tcdm_fifo_load (
+  ) i_in1_tcdm_fifo_load (
     .clk_i       ( clk_i             ),
     .rst_ni      ( rst_ni            ),
     .clear_i     ( clear_i           ),
     .flags_o     (                   ),
-    .ready_i     ( tcdm_fifo_ready_inStream0 ),
-    .tcdm_slave  ( tcdm_fifo_inStream0[0]    ),
+    .ready_i     ( tcdm_fifo_ready_in1 ),
+    .tcdm_slave  ( tcdm_fifo_in1[0]    ),
     .tcdm_master ( tcdm[0]     )
   );
   hwpe_stream_tcdm_fifo_load #(
     .FIFO_DEPTH ( 4 )
-  ) i_inStream1_tcdm_fifo_load (
+  ) i_in2_tcdm_fifo_load (
     .clk_i       ( clk_i             ),
     .rst_ni      ( rst_ni            ),
     .clear_i     ( clear_i           ),
     .flags_o     (                   ),
-    .ready_i     ( tcdm_fifo_ready_inStream1 ),
-    .tcdm_slave  ( tcdm_fifo_inStream1[0]    ),
+    .ready_i     ( tcdm_fifo_ready_in2 ),
+    .tcdm_slave  ( tcdm_fifo_in2[0]    ),
     .tcdm_master ( tcdm[1]     )
-  );
-  hwpe_stream_tcdm_fifo_load #(
-    .FIFO_DEPTH ( 4 )
-  ) i_inStream2_tcdm_fifo_load (
-    .clk_i       ( clk_i             ),
-    .rst_ni      ( rst_ni            ),
-    .clear_i     ( clear_i           ),
-    .flags_o     (                   ),
-    .ready_i     ( tcdm_fifo_ready_inStream2 ),
-    .tcdm_slave  ( tcdm_fifo_inStream2[0]    ),
-    .tcdm_master ( tcdm[2]     )
   );
 
   // TCDM-side FIFOs - Outputs
 
   hwpe_stream_tcdm_fifo_store #(
     .FIFO_DEPTH ( 4 )
-  ) i_outStream0_tcdm_fifo_store (
+  ) i_out_r_tcdm_fifo_store (
     .clk_i       ( clk_i          ),
     .rst_ni      ( rst_ni         ),
     .clear_i     ( clear_i        ),
     .flags_o     (                ),
-    .tcdm_slave  ( tcdm_fifo_outStream0[0] ),
-    .tcdm_master ( tcdm[3] )
+    .tcdm_slave  ( tcdm_fifo_out_r[0] ),
+    .tcdm_master ( tcdm[2] )
   );
 
   // Engine-side FIFO - Inputs
@@ -134,36 +117,24 @@ module multi_dataflow_streamer
     .DATA_WIDTH( 32 ),
     .FIFO_DEPTH( 2  ),
     .LATCH_FIFO( 0  )
-  ) i_inStream0_stream_fifo (
+  ) i_in1_stream_fifo (
     .clk_i   ( clk_i          ),
     .rst_ni  ( rst_ni         ),
     .clear_i ( clear_i        ),
-    .push_i  ( stream_fifo_inStream0.sink ),
-    .pop_o   ( inStream0            ),
+    .push_i  ( stream_fifo_in1.sink ),
+    .pop_o   ( in1            ),
     .flags_o (                )
   );
   hwpe_stream_fifo #(
     .DATA_WIDTH( 32 ),
     .FIFO_DEPTH( 2  ),
     .LATCH_FIFO( 0  )
-  ) i_inStream1_stream_fifo (
+  ) i_in2_stream_fifo (
     .clk_i   ( clk_i          ),
     .rst_ni  ( rst_ni         ),
     .clear_i ( clear_i        ),
-    .push_i  ( stream_fifo_inStream1.sink ),
-    .pop_o   ( inStream1            ),
-    .flags_o (                )
-  );
-  hwpe_stream_fifo #(
-    .DATA_WIDTH( 32 ),
-    .FIFO_DEPTH( 2  ),
-    .LATCH_FIFO( 0  )
-  ) i_inStream2_stream_fifo (
-    .clk_i   ( clk_i          ),
-    .rst_ni  ( rst_ni         ),
-    .clear_i ( clear_i        ),
-    .push_i  ( stream_fifo_inStream2.sink ),
-    .pop_o   ( inStream2            ),
+    .push_i  ( stream_fifo_in2.sink ),
+    .pop_o   ( in2            ),
     .flags_o (                )
   );
 
@@ -173,12 +144,12 @@ module multi_dataflow_streamer
     .DATA_WIDTH( 32 ),
     .FIFO_DEPTH( 2  ),
     .LATCH_FIFO( 0  )
-  ) i_outStream0_stream_fifo (
+  ) i_out_r_stream_fifo (
     .clk_i   ( clk_i             ),
     .rst_ni  ( rst_ni            ),
     .clear_i ( clear_i           ),
-    .push_i  ( outStream0               ),
-    .pop_o   ( stream_fifo_outStream0.source),
+    .push_i  ( out_r               ),
+    .pop_o   ( stream_fifo_out_r.source),
     .flags_o (                   )
   );
 
@@ -188,46 +159,31 @@ module multi_dataflow_streamer
     .DATA_WIDTH ( 32 ),
     .DECOUPLED  ( 1  ),
     .IS_ADDRESSGEN_PROGR  ( 1  )
-  ) i_inStream0_source (
+  ) i_in1_source (
     .clk_i              ( clk_i                  ),
     .rst_ni             ( rst_ni                 ),
     .test_mode_i        ( test_mode_i            ),
     .clear_i            ( clear_i                ),
-    .tcdm               ( tcdm_fifo_inStream0	),
-    .stream             ( stream_fifo_inStream0.source),
-    .ctrl_i             ( ctrl_i.inStream0_source_ctrl   ),
-    .flags_o            ( flags_o.inStream0_source_flags ),
-    .tcdm_fifo_ready_o  ( tcdm_fifo_ready_inStream0      )
+    .tcdm               ( tcdm_fifo_in1	),
+    .stream             ( stream_fifo_in1.source),
+    .ctrl_i             ( ctrl_i.in1_source_ctrl   ),
+    .flags_o            ( flags_o.in1_source_flags ),
+    .tcdm_fifo_ready_o  ( tcdm_fifo_ready_in1      )
   );
   hwpe_stream_source #(
     .DATA_WIDTH ( 32 ),
     .DECOUPLED  ( 1  ),
     .IS_ADDRESSGEN_PROGR  ( 1  )
-  ) i_inStream1_source (
+  ) i_in2_source (
     .clk_i              ( clk_i                  ),
     .rst_ni             ( rst_ni                 ),
     .test_mode_i        ( test_mode_i            ),
     .clear_i            ( clear_i                ),
-    .tcdm               ( tcdm_fifo_inStream1	),
-    .stream             ( stream_fifo_inStream1.source),
-    .ctrl_i             ( ctrl_i.inStream1_source_ctrl   ),
-    .flags_o            ( flags_o.inStream1_source_flags ),
-    .tcdm_fifo_ready_o  ( tcdm_fifo_ready_inStream1      )
-  );
-  hwpe_stream_source #(
-    .DATA_WIDTH ( 32 ),
-    .DECOUPLED  ( 1  ),
-    .IS_ADDRESSGEN_PROGR  ( 1  )
-  ) i_inStream2_source (
-    .clk_i              ( clk_i                  ),
-    .rst_ni             ( rst_ni                 ),
-    .test_mode_i        ( test_mode_i            ),
-    .clear_i            ( clear_i                ),
-    .tcdm               ( tcdm_fifo_inStream2	),
-    .stream             ( stream_fifo_inStream2.source),
-    .ctrl_i             ( ctrl_i.inStream2_source_ctrl   ),
-    .flags_o            ( flags_o.inStream2_source_flags ),
-    .tcdm_fifo_ready_o  ( tcdm_fifo_ready_inStream2      )
+    .tcdm               ( tcdm_fifo_in2	),
+    .stream             ( stream_fifo_in2.source),
+    .ctrl_i             ( ctrl_i.in2_source_ctrl   ),
+    .flags_o            ( flags_o.in2_source_flags ),
+    .tcdm_fifo_ready_o  ( tcdm_fifo_ready_in2      )
   );
 
   // Sink modules (TCDM <- HWPE)
@@ -236,15 +192,15 @@ module multi_dataflow_streamer
     .DATA_WIDTH ( 32 ),
     .IS_ADDRESSGEN_PROGR  ( 1  )
     // .NB_TCDM_PORTS (    )
-  ) i_outStream0_sink (
+  ) i_out_r_sink (
     .clk_i       ( clk_i                ),
     .rst_ni      ( rst_ni               ),
     .test_mode_i ( test_mode_i          ),
     .clear_i     ( clear_i              ),
-    .tcdm        ( tcdm_fifo_outStream0	),
-    .stream      ( stream_fifo_outStream0.sink),
-    .ctrl_i      ( ctrl_i.outStream0_sink_ctrl   ),
-    .flags_o     ( flags_o.outStream0_sink_flags )
+    .tcdm        ( tcdm_fifo_out_r	),
+    .stream      ( stream_fifo_out_r.sink),
+    .ctrl_i      ( ctrl_i.out_r_sink_ctrl   ),
+    .flags_o     ( flags_o.out_r_sink_flags )
   );
 
   endmodule // multi_dataflow_streamer

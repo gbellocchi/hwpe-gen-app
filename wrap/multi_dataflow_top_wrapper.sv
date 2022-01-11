@@ -25,7 +25,7 @@ import hwpe_ctrl_package::*;
 module multi_dataflow_top_wrap
 #(
   parameter int unsigned N_CORES = 2,
-  parameter int unsigned MP  = 4,
+  parameter int unsigned MP  = 3,
   parameter int unsigned ID  = 10
 )
 (

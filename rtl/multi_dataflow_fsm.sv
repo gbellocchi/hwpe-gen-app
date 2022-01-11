@@ -66,73 +66,58 @@ module multi_dataflow_fsm (
 
     // Address generator
 
-    // Input stream - inStream0 (programmable)
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.trans_size   = ctrl_i.inStream0_trans_size;
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.line_stride  = ctrl_i.inStream0_line_stride;
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.line_length  = ctrl_i.inStream0_line_length;
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.feat_stride  = ctrl_i.inStream0_feat_stride;
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.feat_length  = ctrl_i.inStream0_feat_length;
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.base_addr    = reg_file_i.hwpe_params[REG_INSTREAM0_ADDR] + (flags_ucode_i.offs[UCODE_INSTREAM0_OFFS]);
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.feat_roll    = ctrl_i.inStream0_feat_roll;
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.inStream0_loop_outer;
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.realign_type = ctrl_i.inStream0_realign_type;
-    ctrl_streamer_o.inStream0_source_ctrl.addressgen_ctrl.step         = ctrl_i.inStream0_step;
-    // Input stream - inStream1 (programmable)
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.trans_size   = ctrl_i.inStream1_trans_size;
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.line_stride  = ctrl_i.inStream1_line_stride;
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.line_length  = ctrl_i.inStream1_line_length;
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.feat_stride  = ctrl_i.inStream1_feat_stride;
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.feat_length  = ctrl_i.inStream1_feat_length;
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.base_addr    = reg_file_i.hwpe_params[REG_INSTREAM1_ADDR] + (flags_ucode_i.offs[UCODE_INSTREAM1_OFFS]);
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.feat_roll    = ctrl_i.inStream1_feat_roll;
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.inStream1_loop_outer;
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.realign_type = ctrl_i.inStream1_realign_type;
-    ctrl_streamer_o.inStream1_source_ctrl.addressgen_ctrl.step         = ctrl_i.inStream1_step;
-    // Input stream - inStream2 (programmable)
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.trans_size   = ctrl_i.inStream2_trans_size;
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.line_stride  = ctrl_i.inStream2_line_stride;
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.line_length  = ctrl_i.inStream2_line_length;
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.feat_stride  = ctrl_i.inStream2_feat_stride;
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.feat_length  = ctrl_i.inStream2_feat_length;
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.base_addr    = reg_file_i.hwpe_params[REG_INSTREAM2_ADDR] + (flags_ucode_i.offs[UCODE_INSTREAM2_OFFS]);
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.feat_roll    = ctrl_i.inStream2_feat_roll;
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.inStream2_loop_outer;
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.realign_type = ctrl_i.inStream2_realign_type;
-    ctrl_streamer_o.inStream2_source_ctrl.addressgen_ctrl.step         = ctrl_i.inStream2_step;
+    // Input stream - in1 (programmable)
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.trans_size   = ctrl_i.in1_trans_size;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.line_stride  = ctrl_i.in1_line_stride;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.line_length  = ctrl_i.in1_line_length;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.feat_stride  = ctrl_i.in1_feat_stride;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.feat_length  = ctrl_i.in1_feat_length;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.base_addr    = reg_file_i.hwpe_params[REG_IN1_ADDR] + (flags_ucode_i.offs[UCODE_IN1_OFFS]);
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.feat_roll    = ctrl_i.in1_feat_roll;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.in1_loop_outer;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.realign_type = ctrl_i.in1_realign_type;
+    ctrl_streamer_o.in1_source_ctrl.addressgen_ctrl.step         = ctrl_i.in1_step;
+    // Input stream - in2 (programmable)
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.trans_size   = ctrl_i.in2_trans_size;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.line_stride  = ctrl_i.in2_line_stride;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.line_length  = ctrl_i.in2_line_length;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.feat_stride  = ctrl_i.in2_feat_stride;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.feat_length  = ctrl_i.in2_feat_length;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.base_addr    = reg_file_i.hwpe_params[REG_IN2_ADDR] + (flags_ucode_i.offs[UCODE_IN2_OFFS]);
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.feat_roll    = ctrl_i.in2_feat_roll;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.in2_loop_outer;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.realign_type = ctrl_i.in2_realign_type;
+    ctrl_streamer_o.in2_source_ctrl.addressgen_ctrl.step         = ctrl_i.in2_step;
 
-    // Output stream - outStream0 (programmable)
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.trans_size   = ctrl_i.outStream0_trans_size;
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.line_stride  = ctrl_i.outStream0_line_stride;
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.line_length  = ctrl_i.outStream0_line_length;
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.feat_stride  = ctrl_i.outStream0_feat_stride;
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.feat_length  = ctrl_i.outStream0_feat_length;
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.base_addr    = reg_file_i.hwpe_params[REG_OUTSTREAM0_ADDR] + (flags_ucode_i.offs[UCODE_OUTSTREAM0_OFFS]);
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.feat_roll    = ctrl_i.outStream0_feat_roll;
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.outStream0_loop_outer;
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.realign_type = ctrl_i.outStream0_realign_type;
-    ctrl_streamer_o.outStream0_sink_ctrl.addressgen_ctrl.step         = ctrl_i.outStream0_step;
+    // Output stream - out_r (programmable)
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.trans_size   = ctrl_i.out_r_trans_size;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.line_stride  = ctrl_i.out_r_line_stride;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.line_length  = ctrl_i.out_r_line_length;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.feat_stride  = ctrl_i.out_r_feat_stride;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.feat_length  = ctrl_i.out_r_feat_length;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.base_addr    = reg_file_i.hwpe_params[REG_OUT_R_ADDR] + (flags_ucode_i.offs[UCODE_OUT_R_OFFS]);
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.feat_roll    = ctrl_i.out_r_feat_roll;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.loop_outer   = ctrl_i.out_r_loop_outer;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.realign_type = ctrl_i.out_r_realign_type;
+    ctrl_streamer_o.out_r_sink_ctrl.addressgen_ctrl.step         = ctrl_i.out_r_step;
 
     // Streamer
-    ctrl_streamer_o.inStream0_source_ctrl.req_start    = '0;
-    ctrl_streamer_o.inStream1_source_ctrl.req_start    = '0;
-    ctrl_streamer_o.inStream2_source_ctrl.req_start    = '0;
+    ctrl_streamer_o.in1_source_ctrl.req_start    = '0;
+    ctrl_streamer_o.in2_source_ctrl.req_start    = '0;
 
-    ctrl_streamer_o.outStream0_sink_ctrl.req_start    = '0;
+    ctrl_streamer_o.out_r_sink_ctrl.req_start    = '0;
 
     // Engine
     ctrl_engine_o.clear      = '1; // Clear counters
     ctrl_engine_o.enable     = '1; // Enable execution
     ctrl_engine_o.start      = '0; // Trigger execution
-    ctrl_engine_o.cnt_limit_outStream0  = ctrl_i.cnt_limit_outStream0;
+    ctrl_engine_o.cnt_limit_out_r  = ctrl_i.cnt_limit_out_r;
 
     // Slave
     ctrl_slave_o.done = '0;
     ctrl_slave_o.evt  = '0;
 
     // Custom Registers
-    ctrl_engine_o.reg_simple_mul    = ctrl_i.reg_simple_mul;
-    ctrl_engine_o.reg_shift    = ctrl_i.reg_shift;
-    ctrl_engine_o.reg_len    = ctrl_i.reg_len;
 
     // Real finite-state machine
     next_state   = curr_state;
@@ -156,11 +141,10 @@ module multi_dataflow_fsm (
         // Update the indeces, then load the first feature
         if(
 
-          flags_streamer_i.inStream0_source_flags.ready_start &
-          flags_streamer_i.inStream1_source_flags.ready_start &
-          flags_streamer_i.inStream2_source_flags.ready_start &
+          flags_streamer_i.in1_source_flags.ready_start &
+          flags_streamer_i.in2_source_flags.ready_start &
 
-	      flags_streamer_i.outStream0_sink_flags.ready_start
+	      flags_streamer_i.out_r_sink_flags.ready_start
         ) begin
 
           next_state  = FSM_COMPUTE;
@@ -170,11 +154,10 @@ module multi_dataflow_fsm (
 
           // Request data streaming from/to TCDM
 
-          ctrl_streamer_o.inStream0_source_ctrl.req_start = '1;
-          ctrl_streamer_o.inStream1_source_ctrl.req_start = '1;
-          ctrl_streamer_o.inStream2_source_ctrl.req_start = '1;
+          ctrl_streamer_o.in1_source_ctrl.req_start = '1;
+          ctrl_streamer_o.in2_source_ctrl.req_start = '1;
 
-          ctrl_streamer_o.outStream0_sink_ctrl.req_start = '1;
+          ctrl_streamer_o.out_r_sink_ctrl.req_start = '1;
          end
          else begin
            next_state = FSM_WAIT;
@@ -184,7 +167,7 @@ module multi_dataflow_fsm (
       FSM_COMPUTE: begin
         ctrl_engine_o.clear  = 1'b0;
         if (
-        (flags_engine_i.cnt_outStream0 == ctrl_i.cnt_limit_outStream0) 
+        (flags_engine_i.cnt_out_r == ctrl_i.cnt_limit_out_r) 
 
         ) begin
           next_state = FSM_TERMINATE;
@@ -206,11 +189,10 @@ module multi_dataflow_fsm (
         end
         else if(
 
-          flags_streamer_i.inStream0_source_flags.ready_start &
-          flags_streamer_i.inStream1_source_flags.ready_start &
-          flags_streamer_i.inStream2_source_flags.ready_start &
+          flags_streamer_i.in1_source_flags.ready_start &
+          flags_streamer_i.in2_source_flags.ready_start &
 
-          flags_streamer_i.outStream0_sink_flags.ready_start
+          flags_streamer_i.out_r_sink_flags.ready_start
 
         )  begin
           next_state = FSM_COMPUTE;
@@ -221,11 +203,10 @@ module multi_dataflow_fsm (
 
           // Request data streaming from/to TCDM
 
-          ctrl_streamer_o.inStream0_source_ctrl.req_start = '1;
-          ctrl_streamer_o.inStream1_source_ctrl.req_start = '1;
-          ctrl_streamer_o.inStream2_source_ctrl.req_start = '1;
+          ctrl_streamer_o.in1_source_ctrl.req_start = '1;
+          ctrl_streamer_o.in2_source_ctrl.req_start = '1;
 
-    	  ctrl_streamer_o.outStream0_sink_ctrl.req_start = '1;
+    	  ctrl_streamer_o.out_r_sink_ctrl.req_start = '1;
 
         end
         else begin
@@ -240,11 +221,10 @@ module multi_dataflow_fsm (
         ctrl_ucode_o.enable  = 1'b0;
         if(
 
-          flags_streamer_i.inStream0_source_flags.ready_start &
-          flags_streamer_i.inStream1_source_flags.ready_start &
-          flags_streamer_i.inStream2_source_flags.ready_start &
+          flags_streamer_i.in1_source_flags.ready_start &
+          flags_streamer_i.in2_source_flags.ready_start &
 
-          flags_streamer_i.outStream0_sink_flags.ready_start
+          flags_streamer_i.out_r_sink_flags.ready_start
 
         )  begin
 
@@ -254,11 +234,10 @@ module multi_dataflow_fsm (
 
           // Request data streaming from/to TCDM
 
-          ctrl_streamer_o.inStream0_source_ctrl.req_start = '1;
-          ctrl_streamer_o.inStream1_source_ctrl.req_start = '1;
-          ctrl_streamer_o.inStream2_source_ctrl.req_start = '1;
+          ctrl_streamer_o.in1_source_ctrl.req_start = '1;
+          ctrl_streamer_o.in2_source_ctrl.req_start = '1;
 
-          ctrl_streamer_o.outStream0_sink_ctrl.req_start = '1;
+          ctrl_streamer_o.out_r_sink_ctrl.req_start = '1;
 
         end
       end
@@ -269,11 +248,10 @@ module multi_dataflow_fsm (
         ctrl_engine_o.enable = 1'b0;
         if(
 
-          flags_streamer_i.inStream0_source_flags.ready_start &
-          flags_streamer_i.inStream1_source_flags.ready_start &
-          flags_streamer_i.inStream2_source_flags.ready_start &
+          flags_streamer_i.in1_source_flags.ready_start &
+          flags_streamer_i.in2_source_flags.ready_start &
 
-          flags_streamer_i.outStream0_sink_flags.ready_start
+          flags_streamer_i.out_r_sink_flags.ready_start
 
         )  begin
           next_state = FSM_IDLE;

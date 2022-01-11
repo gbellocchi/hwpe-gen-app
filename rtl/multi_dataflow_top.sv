@@ -25,7 +25,7 @@ import hwpe_ctrl_package::*;
 module multi_dataflow_top
 #(
   parameter int unsigned N_CORES = 2,
-  parameter int unsigned MP  = 4,
+  parameter int unsigned MP  = 3,
   parameter int unsigned ID  = 10
 )
 (
@@ -53,13 +53,11 @@ module multi_dataflow_top
   flags_engine_t   engine_flags;
 
   // Streamer interfaces
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) inStream0 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1 ( .clk (clk_i) );
 
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) inStream1 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2 ( .clk (clk_i) );
 
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) inStream2 ( .clk (clk_i) );
-
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) outStream0 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) out_r ( .clk (clk_i) );
 
   // HWPE engine wrapper
   multi_dataflow_engine i_engine (
@@ -67,11 +65,10 @@ module multi_dataflow_top
     .rst_ni           ( rst_ni         ),
     .test_mode_i      ( test_mode_i    ),
 
-    .inStream0_i              ( inStream0.sink       ),
-    .inStream1_i              ( inStream1.sink       ),
-    .inStream2_i              ( inStream2.sink       ),
+    .in1_i              ( in1.sink       ),
+    .in2_i              ( in2.sink       ),
 
-    .outStream0_o              ( outStream0.source       ),
+    .out_r_o              ( out_r.source       ),
 
     .ctrl_i           ( engine_ctrl    ),
     .flags_o          ( engine_flags   )
@@ -87,11 +84,10 @@ module multi_dataflow_top
     .enable_i         ( enable         ),
     .clear_i          ( clear          ),
 
-    .inStream0              ( inStream0.source       ),
-    .inStream1              ( inStream1.source       ),
-    .inStream2              ( inStream2.source       ),
+    .in1              ( in1.source       ),
+    .in2              ( in2.source       ),
 
-    .outStream0              ( outStream0.sink       ),
+    .out_r              ( out_r.sink       ),
 
     .tcdm             ( tcdm           ),
     .ctrl_i           ( streamer_ctrl  ),
@@ -103,7 +99,7 @@ module multi_dataflow_top
     .N_CORES   ( N_CORES  ),
     .N_CONTEXT ( 1  ),
 
-    .N_IO_REGS ( 47 ),
+    .N_IO_REGS ( 34 ),
 
     .ID ( ID )
   ) i_ctrl (
