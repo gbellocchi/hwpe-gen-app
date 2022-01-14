@@ -50,9 +50,9 @@
  * ================================================================================
  *  # reg |  offset  |  bits   |   bitmask    ||  content
  * -------+----------+---------+--------------++-----------------------------------
- *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  IN1_ADDR
- *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  IN2_ADDR
- *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  OUT_R_ADDR
+ *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  IN_PEL_ADDR
+ *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  IN_SIZE_ADDR
+ *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  OUT_PEL_ADDR
 
  *     3  |  0x004c  |  31: 0  |  0xffffffff  ||  NB_ITER
  *     4  |  0x0050  |  31: 0  |  0xffffffff  ||  LEN_ITER
@@ -108,11 +108,11 @@
 /* TCDM registers archi */
 
 // Input master ports
-   #define REG_IN1_ADDR           0x40
-   #define REG_IN2_ADDR           0x44
+   #define REG_IN_PEL_ADDR           0x40
+   #define REG_IN_SIZE_ADDR           0x44
 
 // Output master ports
-   #define REG_OUT_R_ADDR           0x48
+   #define REG_OUT_PEL_ADDR           0x48
 
 /* Standard registers archi */
 
@@ -122,43 +122,44 @@
 
 #define REG_TILESTRIDE                0x54
 
-#define REG_CNT_LIMIT_OUT_R           0x58
+#define REG_CNT_LIMIT_OUT_PEL           0x58
 
 /* Custom registers archi */
+#define REG_ID_CONFIGURATION		0x5c
 
 /* Address generator archi */
 
-// Input stream - in1 (programmable)
-#define REG_IN1_TRANS_SIZE                  0x5c
-#define REG_IN1_LINE_STRIDE                 0x60
-#define REG_IN1_LINE_LENGTH                 0x64
-#define REG_IN1_FEAT_STRIDE                 0x68
-#define REG_IN1_FEAT_LENGTH                 0x6c
-#define REG_IN1_FEAT_ROLL                   0x70
-#define REG_IN1_LOOP_OUTER                  0x74
-#define REG_IN1_REALIGN_TYPE                0x78
-#define REG_IN1_STEP                        0x7c
+// Input stream - in_pel (programmable)
+#define REG_IN_PEL_TRANS_SIZE                  0x60
+#define REG_IN_PEL_LINE_STRIDE                 0x64
+#define REG_IN_PEL_LINE_LENGTH                 0x68
+#define REG_IN_PEL_FEAT_STRIDE                 0x6c
+#define REG_IN_PEL_FEAT_LENGTH                 0x70
+#define REG_IN_PEL_FEAT_ROLL                   0x74
+#define REG_IN_PEL_LOOP_OUTER                  0x78
+#define REG_IN_PEL_REALIGN_TYPE                0x7c
+#define REG_IN_PEL_STEP                        0x80
 
-// Input stream - in2 (programmable)
-#define REG_IN2_TRANS_SIZE                  0x80
-#define REG_IN2_LINE_STRIDE                 0x84
-#define REG_IN2_LINE_LENGTH                 0x88
-#define REG_IN2_FEAT_STRIDE                 0x8c
-#define REG_IN2_FEAT_LENGTH                 0x90
-#define REG_IN2_FEAT_ROLL                   0x94
-#define REG_IN2_LOOP_OUTER                  0x98
-#define REG_IN2_REALIGN_TYPE                0x9c
-#define REG_IN2_STEP                        0xa0
+// Input stream - in_size (programmable)
+#define REG_IN_SIZE_TRANS_SIZE                  0x84
+#define REG_IN_SIZE_LINE_STRIDE                 0x88
+#define REG_IN_SIZE_LINE_LENGTH                 0x8c
+#define REG_IN_SIZE_FEAT_STRIDE                 0x90
+#define REG_IN_SIZE_FEAT_LENGTH                 0x94
+#define REG_IN_SIZE_FEAT_ROLL                   0x98
+#define REG_IN_SIZE_LOOP_OUTER                  0x9c
+#define REG_IN_SIZE_REALIGN_TYPE                0xa0
+#define REG_IN_SIZE_STEP                        0xa4
 
-// Input stream - out_r (programmable)
-#define REG_OUT_R_TRANS_SIZE                  0xa4
-#define REG_OUT_R_LINE_STRIDE                 0xa8
-#define REG_OUT_R_LINE_LENGTH                 0xac
-#define REG_OUT_R_FEAT_STRIDE                 0xb0
-#define REG_OUT_R_FEAT_LENGTH                 0xb4
-#define REG_OUT_R_FEAT_ROLL                   0xb8
-#define REG_OUT_R_LOOP_OUTER                  0xbc
-#define REG_OUT_R_REALIGN_TYPE                0xc0
-#define REG_OUT_R_STEP                        0xc4
+// Input stream - out_pel (programmable)
+#define REG_OUT_PEL_TRANS_SIZE                  0xa8
+#define REG_OUT_PEL_LINE_STRIDE                 0xac
+#define REG_OUT_PEL_LINE_LENGTH                 0xb0
+#define REG_OUT_PEL_FEAT_STRIDE                 0xb4
+#define REG_OUT_PEL_FEAT_LENGTH                 0xb8
+#define REG_OUT_PEL_FEAT_ROLL                   0xbc
+#define REG_OUT_PEL_LOOP_OUTER                  0xc0
+#define REG_OUT_PEL_REALIGN_TYPE                0xc4
+#define REG_OUT_PEL_STEP                        0xc8
 
 #endif

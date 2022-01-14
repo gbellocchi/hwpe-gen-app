@@ -23,11 +23,11 @@
 #include "inc/eu_lib/hal_eu_v3.h"
 
 // Synthetic stimuli
-#include "inc/stim/in1.h""
-#include "inc/stim/in2.h""
+#include "inc/stim/in_pel.h""
+#include "inc/stim/in_size.h""
 
 // Golden results
-#include "inc/stim/out_r.h"
+#include "inc/stim/out_pel.h"
 
 /* - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / */
 
@@ -57,7 +57,7 @@ int main() {
   // This is equivalent to the number of 'done' signals that are
   // produced by the engine itself.
 
-const unsigned engine_runs_out_r = ;
+const unsigned engine_runs_out_pel = ;
 
   // 3. Custom registers
 
@@ -71,59 +71,59 @@ const unsigned engine_runs_out_r = ;
 
   /* Stream-specific parameters. */
 
-const unsigned in1_width              = width;
-const unsigned in1_height             = height;
-const unsigned in1_stripe_height      = stripe_height;
+const unsigned in_pel_width              = width;
+const unsigned in_pel_height             = height;
+const unsigned in_pel_stripe_height      = stripe_height;
 
-const unsigned in2_width              = width;
-const unsigned in2_height             = height;
-const unsigned in2_stripe_height      = stripe_height;
+const unsigned in_size_width              = width;
+const unsigned in_size_height             = height;
+const unsigned in_size_stripe_height      = stripe_height;
 
-const unsigned out_r_width              = width;
-const unsigned out_r_height             = height;
-const unsigned out_r_stripe_height      = stripe_height;
+const unsigned out_pel_width              = width;
+const unsigned out_pel_height             = height;
+const unsigned out_pel_stripe_height      = stripe_height;
 
   /* Dataset parameters. */
-const unsigned in1_stim_dim               = in1_width * in1_height;
-const unsigned in1_stripe_in_len          = in1_width * in1_stripe_height;
+const unsigned in_pel_stim_dim               = in_pel_width * in_pel_height;
+const unsigned in_pel_stripe_in_len          = in_pel_width * in_pel_stripe_height;
 
-const unsigned in2_stim_dim               = in2_width * in2_height;
-const unsigned in2_stripe_in_len          = in2_width * in2_stripe_height;
+const unsigned in_size_stim_dim               = in_size_width * in_size_height;
+const unsigned in_size_stripe_in_len          = in_size_width * in_size_stripe_height;
 
-const unsigned out_r_stim_dim               = out_r_width * out_r_height;
-const unsigned out_r_stripe_out_len          = out_r_width * out_r_stripe_height;
+const unsigned out_pel_stim_dim               = out_pel_width * out_pel_height;
+const unsigned out_pel_stripe_out_len          = out_pel_width * out_pel_stripe_height;
 
   /* Address generator (input) - Parameters */
-const unsigned in1_trans_size             = in1_width * in1_stripe_height;
-const unsigned in1_line_stride            = 0;
-const unsigned in1_line_length            = in1_width * in1_stripe_height;
-const unsigned in1_feat_stride            = 0;
-const unsigned in1_feat_length            = 1;
-const unsigned in1_feat_roll              = 0;
-const unsigned in1_loop_outer             = 0;
-const unsigned in1_realign_type           = 0;
-const unsigned in1_step                   = 4;
+const unsigned in_pel_trans_size             = in_pel_width * in_pel_stripe_height;
+const unsigned in_pel_line_stride            = 0;
+const unsigned in_pel_line_length            = in_pel_width * in_pel_stripe_height;
+const unsigned in_pel_feat_stride            = 0;
+const unsigned in_pel_feat_length            = 1;
+const unsigned in_pel_feat_roll              = 0;
+const unsigned in_pel_loop_outer             = 0;
+const unsigned in_pel_realign_type           = 0;
+const unsigned in_pel_step                   = 4;
 
-const unsigned in2_trans_size             = in2_width * in2_stripe_height;
-const unsigned in2_line_stride            = 0;
-const unsigned in2_line_length            = in2_width * in2_stripe_height;
-const unsigned in2_feat_stride            = 0;
-const unsigned in2_feat_length            = 1;
-const unsigned in2_feat_roll              = 0;
-const unsigned in2_loop_outer             = 0;
-const unsigned in2_realign_type           = 0;
-const unsigned in2_step                   = 4;
+const unsigned in_size_trans_size             = in_size_width * in_size_stripe_height;
+const unsigned in_size_line_stride            = 0;
+const unsigned in_size_line_length            = in_size_width * in_size_stripe_height;
+const unsigned in_size_feat_stride            = 0;
+const unsigned in_size_feat_length            = 1;
+const unsigned in_size_feat_roll              = 0;
+const unsigned in_size_loop_outer             = 0;
+const unsigned in_size_realign_type           = 0;
+const unsigned in_size_step                   = 4;
 
   /* Address generator (output) - Parameters */
-const unsigned out_r_trans_size             = out_r_stripe_height * out_r_stripe_height + 1;
-const unsigned out_r_line_stride            = sizeof(uint32_t);
-const unsigned out_r_line_length            = 1;
-const unsigned out_r_feat_stride            = out_r_width * sizeof(uint32_t);
-const unsigned out_r_feat_length            = out_r_stripe_height;
-const unsigned out_r_feat_roll              = out_r_stripe_height;
-const unsigned out_r_loop_outer             = 0;
-const unsigned out_r_realign_type           = 0;
-const unsigned out_r_step                   = 4;
+const unsigned out_pel_trans_size             = out_pel_stripe_height * out_pel_stripe_height + 1;
+const unsigned out_pel_line_stride            = sizeof(uint32_t);
+const unsigned out_pel_line_length            = 1;
+const unsigned out_pel_feat_stride            = out_pel_width * sizeof(uint32_t);
+const unsigned out_pel_feat_length            = out_pel_stripe_height;
+const unsigned out_pel_feat_roll              = out_pel_stripe_height;
+const unsigned out_pel_loop_outer             = 0;
+const unsigned out_pel_realign_type           = 0;
+const unsigned out_pel_step                   = 4;
 
   printf("Allocation and initialization of L1 stimuli\n");
 
@@ -131,37 +131,37 @@ const unsigned out_r_step                   = 4;
 
   // Stimuli
 
-  int32_t * in1_l1 = hero_l1malloc(sizeof(int32_t)*in1_stripe_in_len);
-  int32_t * in2_l1 = hero_l1malloc(sizeof(int32_t)*in2_stripe_in_len);
+  int32_t * in_pel_l1 = hero_l1malloc(sizeof(int32_t)*in_pel_stripe_in_len);
+  int32_t * in_size_l1 = hero_l1malloc(sizeof(int32_t)*in_size_stripe_in_len);
 
   // Results
   
-  int32_t * out_r_l1 = hero_l1malloc(sizeof(int32_t)*out_r_stripe_out_len);
+  int32_t * out_pel_l1 = hero_l1malloc(sizeof(int32_t)*out_pel_stripe_out_len);
 
   // Golden results
 
-  int32_t * out_r_golden_l1 = hero_l1malloc(sizeof(int32_t)*out_r_stripe_out_len);
+  int32_t * out_pel_golden_l1 = hero_l1malloc(sizeof(int32_t)*out_pel_stripe_out_len);
 
   /* Initialization of I/O arrays. */
 
   // Stimuli
 
-  for (i = 0; i < in1_stripe_height; i++){
-    for (j = 0; j < in1_width; j++){
-      in1_l1[i*in1_width+j] = in1[i*in1_width+j];
+  for (i = 0; i < in_pel_stripe_height; i++){
+    for (j = 0; j < in_pel_width; j++){
+      in_pel_l1[i*in_pel_width+j] = in_pel[i*in_pel_width+j];
     }
   }
-  for (i = 0; i < in2_stripe_height; i++){
-    for (j = 0; j < in2_width; j++){
-      in2_l1[i*in2_width+j] = in2[i*in2_width+j];
+  for (i = 0; i < in_size_stripe_height; i++){
+    for (j = 0; j < in_size_width; j++){
+      in_size_l1[i*in_size_width+j] = in_size[i*in_size_width+j];
     }
   }
 
   // Golden results
 
-  for (i = 0; i < out_r_stripe_height; i++){
-    for (j = 0; j < out_r_width; j++){
-      out_r_golden_l1[i*out_r_width+j] = out_r[i*out_r_width+j];
+  for (i = 0; i < out_pel_stripe_height; i++){
+    for (j = 0; j < out_pel_width; j++){
+      out_pel_golden_l1[i*out_pel_width+j] = out_pel[i*out_pel_width+j];
     }
   }
 
@@ -172,57 +172,57 @@ const unsigned out_r_step                   = 4;
 
   /* FSM programming */
 
-  hwpe_len_iter_set_out_r(engine_runs_out_r-1);
+  hwpe_len_iter_set_out_pel(engine_runs_out_pel-1);
 
   /* Address generator programming */
 
-  // Input in1
-  hwpe_addr_gen_in1(
-    in1_trans_size,
-    in1_line_stride,
-    in1_line_length,
-    in1_feat_stride,
-    in1_feat_length,
-    in1_feat_roll,
-    in1_loop_outer,
-    in1_realign_type,
-    in1_step
+  // Input in_pel
+  hwpe_addr_gen_in_pel(
+    in_pel_trans_size,
+    in_pel_line_stride,
+    in_pel_line_length,
+    in_pel_feat_stride,
+    in_pel_feat_length,
+    in_pel_feat_roll,
+    in_pel_loop_outer,
+    in_pel_realign_type,
+    in_pel_step
   );
-  // Input in2
-  hwpe_addr_gen_in2(
-    in2_trans_size,
-    in2_line_stride,
-    in2_line_length,
-    in2_feat_stride,
-    in2_feat_length,
-    in2_feat_roll,
-    in2_loop_outer,
-    in2_realign_type,
-    in2_step
+  // Input in_size
+  hwpe_addr_gen_in_size(
+    in_size_trans_size,
+    in_size_line_stride,
+    in_size_line_length,
+    in_size_feat_stride,
+    in_size_feat_length,
+    in_size_feat_roll,
+    in_size_loop_outer,
+    in_size_realign_type,
+    in_size_step
   );
 
-  // Output out_r
-  hwpe_addr_gen_out_r(
-    out_r_trans_size,
-    out_r_line_stride,
-    out_r_line_length,
-    out_r_feat_stride,
-    out_r_feat_length,
-    out_r_feat_roll,
-    out_r_loop_outer,
-    out_r_realign_type,
-    out_r_step
+  // Output out_pel
+  hwpe_addr_gen_out_pel(
+    out_pel_trans_size,
+    out_pel_line_stride,
+    out_pel_line_length,
+    out_pel_feat_stride,
+    out_pel_feat_length,
+    out_pel_feat_roll,
+    out_pel_loop_outer,
+    out_pel_realign_type,
+    out_pel_step
   );
 
   /* Set TCDM address reg values */			
 
-  // input in1
-  hwpe_in1_addr_set( in1_l1 );
-  // input in2
-  hwpe_in2_addr_set( in2_l1 );
+  // input in_pel
+  hwpe_in_pel_addr_set( in_pel_l1 );
+  // input in_size
+  hwpe_in_size_addr_set( in_size_l1 );
 
-  // output out_r
-  hwpe_out_r_addr_set( out_r_l1 );
+  // output out_pel
+  hwpe_out_pel_addr_set( out_pel_l1 );
 
 
   /* Set user custom registers */

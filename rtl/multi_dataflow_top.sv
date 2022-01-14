@@ -53,11 +53,11 @@ module multi_dataflow_top
   flags_engine_t   engine_flags;
 
   // Streamer interfaces
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in1 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in_pel ( .clk (clk_i) );
 
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in2 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) in_size ( .clk (clk_i) );
 
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) out_r ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) out_pel ( .clk (clk_i) );
 
   // HWPE engine wrapper
   multi_dataflow_engine i_engine (
@@ -65,10 +65,10 @@ module multi_dataflow_top
     .rst_ni           ( rst_ni         ),
     .test_mode_i      ( test_mode_i    ),
 
-    .in1_i              ( in1.sink       ),
-    .in2_i              ( in2.sink       ),
+    .in_pel_i              ( in_pel.sink       ),
+    .in_size_i              ( in_size.sink       ),
 
-    .out_r_o              ( out_r.source       ),
+    .out_pel_o              ( out_pel.source       ),
 
     .ctrl_i           ( engine_ctrl    ),
     .flags_o          ( engine_flags   )
@@ -84,10 +84,10 @@ module multi_dataflow_top
     .enable_i         ( enable         ),
     .clear_i          ( clear          ),
 
-    .in1              ( in1.source       ),
-    .in2              ( in2.source       ),
+    .in_pel              ( in_pel.source       ),
+    .in_size              ( in_size.source       ),
 
-    .out_r              ( out_r.sink       ),
+    .out_pel              ( out_pel.sink       ),
 
     .tcdm             ( tcdm           ),
     .ctrl_i           ( streamer_ctrl  ),
@@ -99,7 +99,7 @@ module multi_dataflow_top
     .N_CORES   ( N_CORES  ),
     .N_CONTEXT ( 1  ),
 
-    .N_IO_REGS ( 34 ),
+    .N_IO_REGS ( 35 ),
 
     .ID ( ID )
   ) i_ctrl (

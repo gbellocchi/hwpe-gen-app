@@ -30,11 +30,11 @@ package multi_dataflow_package;
   // TCDM
 
   // Input ports
-  parameter int unsigned REG_IN1_ADDR              = 0;
-  parameter int unsigned REG_IN2_ADDR              = 1;
+  parameter int unsigned REG_IN_PEL_ADDR              = 0;
+  parameter int unsigned REG_IN_SIZE_ADDR              = 1;
 
   // Output ports
-  parameter int unsigned REG_OUT_R_ADDR             = 2;
+  parameter int unsigned REG_OUT_PEL_ADDR             = 2;
 
   // Standard registers
 
@@ -44,50 +44,52 @@ package multi_dataflow_package;
 
   parameter int unsigned REG_SHIFT_TILESTRIDE     = 5;
 
-  parameter int unsigned REG_CNT_LIMIT_OUT_R             = 6;
+  parameter int unsigned REG_CNT_LIMIT_OUT_PEL             = 6;
 
   // Custom register files
 
-  // Input stream - in1 (programmable)
-  parameter int unsigned REG_IN1_TRANS_SIZE       = 7;
-  parameter int unsigned REG_IN1_LINE_STRIDE      = 8;
-  parameter int unsigned REG_IN1_LINE_LENGTH      = 9;
-  parameter int unsigned REG_IN1_FEAT_STRIDE      = 10;
-  parameter int unsigned REG_IN1_FEAT_LENGTH      = 11;
-  parameter int unsigned REG_IN1_FEAT_ROLL        = 12;
-  parameter int unsigned REG_IN1_LOOP_OUTER       = 13;
-  parameter int unsigned REG_IN1_REALIGN_TYPE     = 14;
-  parameter int unsigned REG_IN1_STEP             = 15;
-  // Input stream - in2 (programmable)
-  parameter int unsigned REG_IN2_TRANS_SIZE       = 16;
-  parameter int unsigned REG_IN2_LINE_STRIDE      = 17;
-  parameter int unsigned REG_IN2_LINE_LENGTH      = 18;
-  parameter int unsigned REG_IN2_FEAT_STRIDE      = 19;
-  parameter int unsigned REG_IN2_FEAT_LENGTH      = 20;
-  parameter int unsigned REG_IN2_FEAT_ROLL        = 21;
-  parameter int unsigned REG_IN2_LOOP_OUTER       = 22;
-  parameter int unsigned REG_IN2_REALIGN_TYPE     = 23;
-  parameter int unsigned REG_IN2_STEP             = 24;
+  parameter int unsigned CONFIG             = 7;
 
-  // Output stream - out_r (programmable)
-  parameter int unsigned REG_OUT_R_TRANS_SIZE       = 25;
-  parameter int unsigned REG_OUT_R_LINE_STRIDE      = 26;
-  parameter int unsigned REG_OUT_R_LINE_LENGTH      = 27;
-  parameter int unsigned REG_OUT_R_FEAT_STRIDE      = 28;
-  parameter int unsigned REG_OUT_R_FEAT_LENGTH      = 29;
-  parameter int unsigned REG_OUT_R_FEAT_ROLL        = 30;
-  parameter int unsigned REG_OUT_R_LOOP_OUTER       = 31;
-  parameter int unsigned REG_OUT_R_REALIGN_TYPE     = 32;
-  parameter int unsigned REG_OUT_R_STEP             = 33;
+  // Input stream - in_pel (programmable)
+  parameter int unsigned REG_IN_PEL_TRANS_SIZE       = 8;
+  parameter int unsigned REG_IN_PEL_LINE_STRIDE      = 9;
+  parameter int unsigned REG_IN_PEL_LINE_LENGTH      = 10;
+  parameter int unsigned REG_IN_PEL_FEAT_STRIDE      = 11;
+  parameter int unsigned REG_IN_PEL_FEAT_LENGTH      = 12;
+  parameter int unsigned REG_IN_PEL_FEAT_ROLL        = 13;
+  parameter int unsigned REG_IN_PEL_LOOP_OUTER       = 14;
+  parameter int unsigned REG_IN_PEL_REALIGN_TYPE     = 15;
+  parameter int unsigned REG_IN_PEL_STEP             = 16;
+  // Input stream - in_size (programmable)
+  parameter int unsigned REG_IN_SIZE_TRANS_SIZE       = 17;
+  parameter int unsigned REG_IN_SIZE_LINE_STRIDE      = 18;
+  parameter int unsigned REG_IN_SIZE_LINE_LENGTH      = 19;
+  parameter int unsigned REG_IN_SIZE_FEAT_STRIDE      = 20;
+  parameter int unsigned REG_IN_SIZE_FEAT_LENGTH      = 21;
+  parameter int unsigned REG_IN_SIZE_FEAT_ROLL        = 22;
+  parameter int unsigned REG_IN_SIZE_LOOP_OUTER       = 23;
+  parameter int unsigned REG_IN_SIZE_REALIGN_TYPE     = 24;
+  parameter int unsigned REG_IN_SIZE_STEP             = 25;
+
+  // Output stream - out_pel (programmable)
+  parameter int unsigned REG_OUT_PEL_TRANS_SIZE       = 26;
+  parameter int unsigned REG_OUT_PEL_LINE_STRIDE      = 27;
+  parameter int unsigned REG_OUT_PEL_LINE_LENGTH      = 28;
+  parameter int unsigned REG_OUT_PEL_FEAT_STRIDE      = 29;
+  parameter int unsigned REG_OUT_PEL_FEAT_LENGTH      = 30;
+  parameter int unsigned REG_OUT_PEL_FEAT_ROLL        = 31;
+  parameter int unsigned REG_OUT_PEL_LOOP_OUTER       = 32;
+  parameter int unsigned REG_OUT_PEL_REALIGN_TYPE     = 33;
+  parameter int unsigned REG_OUT_PEL_STEP             = 34;
 
   /* Microcode processor */
 
   // offset indeces -- this should be aligned to the microcode compiler of course!
-  parameter int unsigned UCODE_IN1_OFFS              = 0;
+  parameter int unsigned UCODE_IN_PEL_OFFS              = 0;
 
-  parameter int unsigned UCODE_IN2_OFFS              = 1;
+  parameter int unsigned UCODE_IN_SIZE_OFFS              = 1;
 
-  parameter int unsigned UCODE_OUT_R_OFFS              = 2;
+  parameter int unsigned UCODE_OUT_PEL_OFFS              = 2;
 
   // mnemonics -- this should be aligned to the microcode compiler of course!
 
@@ -106,14 +108,15 @@ package multi_dataflow_package;
     logic enable;
     logic start;
 
-    logic unsigned [$clog2(CNT_LEN):0] cnt_limit_out_r;
+    logic unsigned [$clog2(CNT_LEN):0] cnt_limit_out_pel;
 
     // Custom register
+  logic unsigned [(32-1):0] configuration;
   } ctrl_engine_t;
 
   typedef struct packed {
 
-    logic unsigned [$clog2(CNT_LEN):0] cnt_out_r;
+    logic unsigned [$clog2(CNT_LEN):0] cnt_out_pel;
 
     logic done;
     logic ready;
@@ -131,59 +134,60 @@ package multi_dataflow_package;
 
   typedef struct packed {
   	
-  hwpe_stream_package::ctrl_sourcesink_t in1_source_ctrl;
-  hwpe_stream_package::ctrl_sourcesink_t in2_source_ctrl;
+  hwpe_stream_package::ctrl_sourcesink_t in_pel_source_ctrl;
+  hwpe_stream_package::ctrl_sourcesink_t in_size_source_ctrl;
 
-  hwpe_stream_package::ctrl_sourcesink_t out_r_sink_ctrl;
+  hwpe_stream_package::ctrl_sourcesink_t out_pel_sink_ctrl;
   
   } ctrl_streamer_t;
 
   typedef struct packed {
 
-  hwpe_stream_package::flags_sourcesink_t in1_source_flags;
-  hwpe_stream_package::flags_sourcesink_t in2_source_flags;
+  hwpe_stream_package::flags_sourcesink_t in_pel_source_flags;
+  hwpe_stream_package::flags_sourcesink_t in_size_source_flags;
 
-  hwpe_stream_package::flags_sourcesink_t out_r_sink_flags;
+  hwpe_stream_package::flags_sourcesink_t out_pel_sink_flags;
   } flags_streamer_t;
 
   typedef struct packed {
 
-    // Input stream - in1 (programmable)
-    logic unsigned [31:0] in1_trans_size;
-    logic unsigned [15:0] in1_line_stride;
-    logic unsigned [15:0] in1_line_length;
-    logic unsigned [15:0] in1_feat_stride;
-    logic unsigned [15:0] in1_feat_length;
-    logic unsigned [15:0] in1_feat_roll;
-    logic unsigned [15:0] in1_step;
-    logic unsigned in1_loop_outer;
-    logic unsigned in1_realign_type;
-    // Input stream - in2 (programmable)
-    logic unsigned [31:0] in2_trans_size;
-    logic unsigned [15:0] in2_line_stride;
-    logic unsigned [15:0] in2_line_length;
-    logic unsigned [15:0] in2_feat_stride;
-    logic unsigned [15:0] in2_feat_length;
-    logic unsigned [15:0] in2_feat_roll;
-    logic unsigned [15:0] in2_step;
-    logic unsigned in2_loop_outer;
-    logic unsigned in2_realign_type;
+    // Input stream - in_pel (programmable)
+    logic unsigned [31:0] in_pel_trans_size;
+    logic unsigned [15:0] in_pel_line_stride;
+    logic unsigned [15:0] in_pel_line_length;
+    logic unsigned [15:0] in_pel_feat_stride;
+    logic unsigned [15:0] in_pel_feat_length;
+    logic unsigned [15:0] in_pel_feat_roll;
+    logic unsigned [15:0] in_pel_step;
+    logic unsigned in_pel_loop_outer;
+    logic unsigned in_pel_realign_type;
+    // Input stream - in_size (programmable)
+    logic unsigned [31:0] in_size_trans_size;
+    logic unsigned [15:0] in_size_line_stride;
+    logic unsigned [15:0] in_size_line_length;
+    logic unsigned [15:0] in_size_feat_stride;
+    logic unsigned [15:0] in_size_feat_length;
+    logic unsigned [15:0] in_size_feat_roll;
+    logic unsigned [15:0] in_size_step;
+    logic unsigned in_size_loop_outer;
+    logic unsigned in_size_realign_type;
 
-    // Output stream - out_r (programmable)
-    logic unsigned [31:0] out_r_trans_size;
-    logic unsigned [15:0] out_r_line_stride;
-    logic unsigned [15:0] out_r_line_length;
-    logic unsigned [15:0] out_r_feat_stride;
-    logic unsigned [15:0] out_r_feat_length;
-    logic unsigned [15:0] out_r_feat_roll;
-    logic unsigned [15:0] out_r_step;
-    logic unsigned out_r_loop_outer;
-    logic unsigned out_r_realign_type;
+    // Output stream - out_pel (programmable)
+    logic unsigned [31:0] out_pel_trans_size;
+    logic unsigned [15:0] out_pel_line_stride;
+    logic unsigned [15:0] out_pel_line_length;
+    logic unsigned [15:0] out_pel_feat_stride;
+    logic unsigned [15:0] out_pel_feat_length;
+    logic unsigned [15:0] out_pel_feat_roll;
+    logic unsigned [15:0] out_pel_step;
+    logic unsigned out_pel_loop_outer;
+    logic unsigned out_pel_realign_type;
 
     // Computation
-    logic unsigned [$clog2(CNT_LEN):0] cnt_limit_out_r;
+    logic unsigned [$clog2(CNT_LEN):0] cnt_limit_out_pel;
 
     // Custom register
+    logic unsigned [(32-1):0] configuration;
 
   } ctrl_fsm_t;
 
