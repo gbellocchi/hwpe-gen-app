@@ -4,11 +4,11 @@ sources:
   - include_dirs:
       - rtl/hwpe-engine
     files:
-      - rtl/acc_kernel/abs_sum_act.vhd
-      - rtl/acc_kernel/caph.vhd
       - rtl/acc_kernel/data_types.vhd
-      - rtl/acc_kernel/delay_act.vhd
+      - rtl/acc_kernel/caph.vhd
       - rtl/acc_kernel/edgeDetectionOk_globals.vhd
+      - rtl/acc_kernel/abs_sum_act.vhd
+      - rtl/acc_kernel/delay_act.vhd
       - rtl/acc_kernel/fifo_big.vhd
       - rtl/acc_kernel/fifo_small.vhd
       - rtl/acc_kernel/line_buffer_act.vhd
