@@ -4,10 +4,8 @@
 -- For more information, see : http://caph.univ-bpclermont.fr
 -- -------------------------------------------------------------------------------
 
-library ieee,caph;
+library ieee;
 use ieee.std_logic_1164.all;
-use caph.core.all;
-use caph.data_types.all;
 use ieee.numeric_std.all;
 
 package edgeDetectionOk_globals is

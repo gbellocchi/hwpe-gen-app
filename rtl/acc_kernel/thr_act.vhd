@@ -4,10 +4,8 @@
 -- For more information, see : http://caph.univ-bpclermont.fr
 -- -------------------------------------------------------------------------------
 
-library ieee,caph,work;
+library ieee,work;
 use ieee.std_logic_1164.all;
-use caph.core.all;
-use caph.data_types.all;
 use ieee.numeric_std.all;
 use work.all;
 use work.edgeDetectionOk_globals.all;
