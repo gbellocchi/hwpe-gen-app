@@ -6,6 +6,8 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
+use work.core.all;
+use work.data_types.all;
 use ieee.numeric_std.all;
 
 package edgeDetectionOk_globals is

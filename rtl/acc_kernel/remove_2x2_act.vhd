@@ -6,6 +6,8 @@
 
 library ieee,work;
 use ieee.std_logic_1164.all;
+use work.core.all;
+use work.data_types.all;
 use ieee.numeric_std.all;
 use work.all;
 use work.edgeDetectionOk_globals.all;
