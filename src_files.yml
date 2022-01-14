@@ -11,7 +11,6 @@ genovApps:
     rtl/acc_kernel/edgeDetectionOk_globals.vhd,
     rtl/acc_kernel/fifo_big.vhd,
     rtl/acc_kernel/fifo_small.vhd,
-    rtl/acc_kernel/lib,
     rtl/acc_kernel/line_buffer_act.vhd,
     rtl/acc_kernel/remove_2x2_act.vhd,
     rtl/acc_kernel/remove_3x3_act.vhd,
