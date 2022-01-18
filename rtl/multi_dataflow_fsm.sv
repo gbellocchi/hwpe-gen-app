@@ -118,7 +118,6 @@ module multi_dataflow_fsm (
     ctrl_slave_o.evt  = '0;
 
     // Custom Registers
-    ctrl_engine_o.configuration    = ctrl_i.configuration;		
 
     // Real finite-state machine
     next_state   = curr_state;

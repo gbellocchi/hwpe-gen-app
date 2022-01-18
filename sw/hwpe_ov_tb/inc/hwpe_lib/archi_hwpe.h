@@ -125,41 +125,40 @@
 #define REG_CNT_LIMIT_OUT_PEL           0x58
 
 /* Custom registers archi */
-#define REG_ID_CONFIGURATION		0x5c
 
 /* Address generator archi */
 
 // Input stream - in_pel (programmable)
-#define REG_IN_PEL_TRANS_SIZE                  0x60
-#define REG_IN_PEL_LINE_STRIDE                 0x64
-#define REG_IN_PEL_LINE_LENGTH                 0x68
-#define REG_IN_PEL_FEAT_STRIDE                 0x6c
-#define REG_IN_PEL_FEAT_LENGTH                 0x70
-#define REG_IN_PEL_FEAT_ROLL                   0x74
-#define REG_IN_PEL_LOOP_OUTER                  0x78
-#define REG_IN_PEL_REALIGN_TYPE                0x7c
-#define REG_IN_PEL_STEP                        0x80
+#define REG_IN_PEL_TRANS_SIZE                  0x5c
+#define REG_IN_PEL_LINE_STRIDE                 0x60
+#define REG_IN_PEL_LINE_LENGTH                 0x64
+#define REG_IN_PEL_FEAT_STRIDE                 0x68
+#define REG_IN_PEL_FEAT_LENGTH                 0x6c
+#define REG_IN_PEL_FEAT_ROLL                   0x70
+#define REG_IN_PEL_LOOP_OUTER                  0x74
+#define REG_IN_PEL_REALIGN_TYPE                0x78
+#define REG_IN_PEL_STEP                        0x7c
 
 // Input stream - in_size (programmable)
-#define REG_IN_SIZE_TRANS_SIZE                  0x84
-#define REG_IN_SIZE_LINE_STRIDE                 0x88
-#define REG_IN_SIZE_LINE_LENGTH                 0x8c
-#define REG_IN_SIZE_FEAT_STRIDE                 0x90
-#define REG_IN_SIZE_FEAT_LENGTH                 0x94
-#define REG_IN_SIZE_FEAT_ROLL                   0x98
-#define REG_IN_SIZE_LOOP_OUTER                  0x9c
-#define REG_IN_SIZE_REALIGN_TYPE                0xa0
-#define REG_IN_SIZE_STEP                        0xa4
+#define REG_IN_SIZE_TRANS_SIZE                  0x80
+#define REG_IN_SIZE_LINE_STRIDE                 0x84
+#define REG_IN_SIZE_LINE_LENGTH                 0x88
+#define REG_IN_SIZE_FEAT_STRIDE                 0x8c
+#define REG_IN_SIZE_FEAT_LENGTH                 0x90
+#define REG_IN_SIZE_FEAT_ROLL                   0x94
+#define REG_IN_SIZE_LOOP_OUTER                  0x98
+#define REG_IN_SIZE_REALIGN_TYPE                0x9c
+#define REG_IN_SIZE_STEP                        0xa0
 
 // Input stream - out_pel (programmable)
-#define REG_OUT_PEL_TRANS_SIZE                  0xa8
-#define REG_OUT_PEL_LINE_STRIDE                 0xac
-#define REG_OUT_PEL_LINE_LENGTH                 0xb0
-#define REG_OUT_PEL_FEAT_STRIDE                 0xb4
-#define REG_OUT_PEL_FEAT_LENGTH                 0xb8
-#define REG_OUT_PEL_FEAT_ROLL                   0xbc
-#define REG_OUT_PEL_LOOP_OUTER                  0xc0
-#define REG_OUT_PEL_REALIGN_TYPE                0xc4
-#define REG_OUT_PEL_STEP                        0xc8
+#define REG_OUT_PEL_TRANS_SIZE                  0xa4
+#define REG_OUT_PEL_LINE_STRIDE                 0xa8
+#define REG_OUT_PEL_LINE_LENGTH                 0xac
+#define REG_OUT_PEL_FEAT_STRIDE                 0xb0
+#define REG_OUT_PEL_FEAT_LENGTH                 0xb4
+#define REG_OUT_PEL_FEAT_ROLL                   0xb8
+#define REG_OUT_PEL_LOOP_OUTER                  0xbc
+#define REG_OUT_PEL_REALIGN_TYPE                0xc0
+#define REG_OUT_PEL_STEP                        0xc4
 
 #endif

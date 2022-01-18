@@ -48,39 +48,37 @@ package multi_dataflow_package;
 
   // Custom register files
 
-  parameter int unsigned CONFIG             = 7;
-
   // Input stream - in_pel (programmable)
-  parameter int unsigned REG_IN_PEL_TRANS_SIZE       = 8;
-  parameter int unsigned REG_IN_PEL_LINE_STRIDE      = 9;
-  parameter int unsigned REG_IN_PEL_LINE_LENGTH      = 10;
-  parameter int unsigned REG_IN_PEL_FEAT_STRIDE      = 11;
-  parameter int unsigned REG_IN_PEL_FEAT_LENGTH      = 12;
-  parameter int unsigned REG_IN_PEL_FEAT_ROLL        = 13;
-  parameter int unsigned REG_IN_PEL_LOOP_OUTER       = 14;
-  parameter int unsigned REG_IN_PEL_REALIGN_TYPE     = 15;
-  parameter int unsigned REG_IN_PEL_STEP             = 16;
+  parameter int unsigned REG_IN_PEL_TRANS_SIZE       = 7;
+  parameter int unsigned REG_IN_PEL_LINE_STRIDE      = 8;
+  parameter int unsigned REG_IN_PEL_LINE_LENGTH      = 9;
+  parameter int unsigned REG_IN_PEL_FEAT_STRIDE      = 10;
+  parameter int unsigned REG_IN_PEL_FEAT_LENGTH      = 11;
+  parameter int unsigned REG_IN_PEL_FEAT_ROLL        = 12;
+  parameter int unsigned REG_IN_PEL_LOOP_OUTER       = 13;
+  parameter int unsigned REG_IN_PEL_REALIGN_TYPE     = 14;
+  parameter int unsigned REG_IN_PEL_STEP             = 15;
   // Input stream - in_size (programmable)
-  parameter int unsigned REG_IN_SIZE_TRANS_SIZE       = 17;
-  parameter int unsigned REG_IN_SIZE_LINE_STRIDE      = 18;
-  parameter int unsigned REG_IN_SIZE_LINE_LENGTH      = 19;
-  parameter int unsigned REG_IN_SIZE_FEAT_STRIDE      = 20;
-  parameter int unsigned REG_IN_SIZE_FEAT_LENGTH      = 21;
-  parameter int unsigned REG_IN_SIZE_FEAT_ROLL        = 22;
-  parameter int unsigned REG_IN_SIZE_LOOP_OUTER       = 23;
-  parameter int unsigned REG_IN_SIZE_REALIGN_TYPE     = 24;
-  parameter int unsigned REG_IN_SIZE_STEP             = 25;
+  parameter int unsigned REG_IN_SIZE_TRANS_SIZE       = 16;
+  parameter int unsigned REG_IN_SIZE_LINE_STRIDE      = 17;
+  parameter int unsigned REG_IN_SIZE_LINE_LENGTH      = 18;
+  parameter int unsigned REG_IN_SIZE_FEAT_STRIDE      = 19;
+  parameter int unsigned REG_IN_SIZE_FEAT_LENGTH      = 20;
+  parameter int unsigned REG_IN_SIZE_FEAT_ROLL        = 21;
+  parameter int unsigned REG_IN_SIZE_LOOP_OUTER       = 22;
+  parameter int unsigned REG_IN_SIZE_REALIGN_TYPE     = 23;
+  parameter int unsigned REG_IN_SIZE_STEP             = 24;
 
   // Output stream - out_pel (programmable)
-  parameter int unsigned REG_OUT_PEL_TRANS_SIZE       = 26;
-  parameter int unsigned REG_OUT_PEL_LINE_STRIDE      = 27;
-  parameter int unsigned REG_OUT_PEL_LINE_LENGTH      = 28;
-  parameter int unsigned REG_OUT_PEL_FEAT_STRIDE      = 29;
-  parameter int unsigned REG_OUT_PEL_FEAT_LENGTH      = 30;
-  parameter int unsigned REG_OUT_PEL_FEAT_ROLL        = 31;
-  parameter int unsigned REG_OUT_PEL_LOOP_OUTER       = 32;
-  parameter int unsigned REG_OUT_PEL_REALIGN_TYPE     = 33;
-  parameter int unsigned REG_OUT_PEL_STEP             = 34;
+  parameter int unsigned REG_OUT_PEL_TRANS_SIZE       = 25;
+  parameter int unsigned REG_OUT_PEL_LINE_STRIDE      = 26;
+  parameter int unsigned REG_OUT_PEL_LINE_LENGTH      = 27;
+  parameter int unsigned REG_OUT_PEL_FEAT_STRIDE      = 28;
+  parameter int unsigned REG_OUT_PEL_FEAT_LENGTH      = 29;
+  parameter int unsigned REG_OUT_PEL_FEAT_ROLL        = 30;
+  parameter int unsigned REG_OUT_PEL_LOOP_OUTER       = 31;
+  parameter int unsigned REG_OUT_PEL_REALIGN_TYPE     = 32;
+  parameter int unsigned REG_OUT_PEL_STEP             = 33;
 
   /* Microcode processor */
 
@@ -111,7 +109,6 @@ package multi_dataflow_package;
     logic unsigned [$clog2(CNT_LEN):0] cnt_limit_out_pel;
 
     // Custom register
-  logic unsigned [(32-1):0] configuration;
   } ctrl_engine_t;
 
   typedef struct packed {
@@ -187,7 +184,6 @@ package multi_dataflow_package;
     logic unsigned [$clog2(CNT_LEN):0] cnt_limit_out_pel;
 
     // Custom register
-    logic unsigned [(32-1):0] configuration;
 
   } ctrl_fsm_t;
 

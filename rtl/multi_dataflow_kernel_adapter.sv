@@ -27,9 +27,7 @@ module multi_dataflow_kernel_adapter (
   hwpe_stream_intf_stream.source    out_pel_o,
 
   // Kernel parameters
-  // Multi-Dataflow Kernel ID
-    input logic [31:0] 		ID,
-
+  
   // Control signals
   input  ctrl_kernel_adapter_t           ctrl_i,
 
@@ -201,9 +199,7 @@ module multi_dataflow_kernel_adapter (
     // Output data (from-hwpe)
     .out_pel	( out_pel_o	),
     // Algorithm parameters
-    // Multi-Dataflow Kernel ID
-      .ID(ID),
-      // Global signals.
+          // Global signals.
       .clk_i             ( clk_i            ),
       .rst_ni           ( rst_ni           )
     );

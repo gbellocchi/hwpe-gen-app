@@ -99,7 +99,7 @@ module multi_dataflow_top
     .N_CORES   ( N_CORES  ),
     .N_CONTEXT ( 1  ),
 
-    .N_IO_REGS ( 35 ),
+    .N_IO_REGS ( 34 ),
 
     .ID ( ID )
   ) i_ctrl (

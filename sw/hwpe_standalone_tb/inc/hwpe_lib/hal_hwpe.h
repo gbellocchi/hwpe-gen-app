@@ -108,9 +108,6 @@ static inline void hwpe_len_iter_set_out_pel(unsigned int value) {
 }
 
 /* custom hal */
-static inline void hwpe_ID_configuration_set(uint8_t value) {
-  HWPE_WRITE(value, REG_ID_CONFIGURATION );
-}
 
 /* address generator hal - in_pel */
 static inline void hwpe_addr_gen_in_pel(
@@ -213,16 +210,16 @@ static inline void hwpe_bytecode_set(unsigned int offs, unsigned int value) {
 /* tcdm master port hal */
 
 // input in_pel
-static inline void hwpe_in_pel_addr_set(uint8_t value) {
+static inline void hwpe_in_pel_addr_set(uint32_t value) {
   HWPE_WRITE(value, REG_IN_PEL_ADDR);
 }
 // input in_size
-static inline void hwpe_in_size_addr_set(uint6_t value) {
+static inline void hwpe_in_size_addr_set(uint32_t value) {
   HWPE_WRITE(value, REG_IN_SIZE_ADDR);
 }
 
 // output out_pel
-static inline void hwpe_out_pel_addr_set(uint8_t value) {
+static inline void hwpe_out_pel_addr_set(uint32_t value) {
   HWPE_WRITE(value, REG_OUT_PEL_ADDR);
 }
 
