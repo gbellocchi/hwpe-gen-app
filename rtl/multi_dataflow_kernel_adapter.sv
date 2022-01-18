@@ -202,7 +202,7 @@ module multi_dataflow_kernel_adapter (
     .out_pel	( out_pel_o	),
     // Algorithm parameters
     // Multi-Dataflow Kernel ID
-      .ID(ID_datapath_top),
+      .ID(ID),
       // Global signals.
       .clk_i             ( clk_i            ),
       .rst_ni           ( rst_ni           )
