@@ -42,6 +42,15 @@ module multi_dataflow_fsm (
 );
 
   // State signals
+  typedef enum {
+  	FSM_IDLE,
+  	FSM_START,
+  	FSM_COMPUTE,
+  	FSM_WAIT,
+  	FSM_UPDATEIDX,
+  	FSM_TERMINATE
+  } state_fsm_t;
+  
   state_fsm_t curr_state, next_state;
 
   // State computation

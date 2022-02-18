@@ -187,13 +187,4 @@ package multi_dataflow_package;
 
   } ctrl_fsm_t;
 
-  typedef enum {
-    FSM_IDLE,
-    FSM_START,
-    FSM_COMPUTE,
-    FSM_WAIT,
-    FSM_UPDATEIDX,
-    FSM_TERMINATE
-  } state_fsm_t;
-
 endpackage

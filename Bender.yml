@@ -1,32 +1,37 @@
 package:
   name: hwpe-multidataflow-wrapper
+
+dependencies:
+  hwpe-ctrl: { git: "git@github.com:gbellocchi/hwpe-ctrl.git", rev: master }
+  hwpe-stream: { git: "git@github.com:gbellocchi/hwpe-stream.git", rev: master }
+
+workspace:
+  checkout_dir: "./deps"
+
 sources:
-  - include_dirs:
-      - rtl/hwpe-engine
-    files:
-      - rtl/acc_kernel/data_types.vhd
-      - rtl/acc_kernel/caph.vhd
-      - rtl/acc_kernel/edgeDetectionOk_globals.vhd
-      - rtl/acc_kernel/abs_sum_act.vhd
-      - rtl/acc_kernel/delay_act.vhd
-      - rtl/acc_kernel/fifo_big.vhd
-      - rtl/acc_kernel/fifo_small.vhd
-      - rtl/acc_kernel/line_buffer_act.vhd
-      - rtl/acc_kernel/remove_2x2_act.vhd
-      - rtl/acc_kernel/remove_3x3_act.vhd
-      - rtl/acc_kernel/roberts_x_act.vhd
-      - rtl/acc_kernel/roberts_y_act.vhd
-      - rtl/acc_kernel/sobel_x_act.vhd
-      - rtl/acc_kernel/sobel_y_act.vhd
-      - rtl/acc_kernel/thr_act.vhd
-      - rtl/acc_kernel/multi_dataflow.v
-      - rtl/acc_kernel/interface_wrapper.sv
-      - rtl/multi_dataflow_package.sv
-      - rtl/multi_dataflow_fsm.sv
-      - rtl/multi_dataflow_ctrl.sv
-      - rtl/multi_dataflow_streamer.sv
-      - rtl/multi_dataflow_reconf_datapath_top.sv
-      - rtl/multi_dataflow_kernel_adapter.sv
-      - rtl/multi_dataflow_engine.sv
-      - rtl/multi_dataflow_top.sv
-      - wrap/multi_dataflow_top_wrapper.sv
+  - rtl/acc_kernel/data_types.vhd
+  - rtl/acc_kernel/caph.vhd
+  - rtl/acc_kernel/edgeDetectionOk_globals.vhd
+  - rtl/acc_kernel/abs_sum_act.vhd
+  - rtl/acc_kernel/delay_act.vhd
+  - rtl/acc_kernel/fifo_big.vhd
+  - rtl/acc_kernel/fifo_small.vhd
+  - rtl/acc_kernel/line_buffer_act.vhd
+  - rtl/acc_kernel/remove_2x2_act.vhd
+  - rtl/acc_kernel/remove_3x3_act.vhd
+  - rtl/acc_kernel/roberts_x_act.vhd
+  - rtl/acc_kernel/roberts_y_act.vhd
+  - rtl/acc_kernel/sobel_x_act.vhd
+  - rtl/acc_kernel/sobel_y_act.vhd
+  - rtl/acc_kernel/thr_act.vhd
+  - rtl/acc_kernel/multi_dataflow.v
+  - rtl/acc_kernel/interface_wrapper.sv
+  - rtl/multi_dataflow_package.sv
+  - rtl/multi_dataflow_fsm.sv
+  - rtl/multi_dataflow_ctrl.sv
+  - rtl/multi_dataflow_streamer.sv
+  - rtl/multi_dataflow_reconf_datapath_top.sv
+  - rtl/multi_dataflow_kernel_adapter.sv
+  - rtl/multi_dataflow_engine.sv
+  - rtl/multi_dataflow_top.sv
+  - wrap/multi_dataflow_top_wrapper.sv
