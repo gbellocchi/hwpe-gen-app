@@ -1,0 +1,18 @@
+package:
+  name: hwpe-traffic_gen-wrapper
+
+sources:
+  - include_dirs:
+      - rtl/hwpe-engine
+    files:
+      - rtl/acc_kernel/PWM_ctrl.sv
+      - rtl/acc_kernel/PWM_timer.sv
+      - rtl/acc_kernel/traffic_gen.sv
+      - rtl/traffic_gen_package.sv
+      - rtl/traffic_gen_fsm.sv
+      - rtl/traffic_gen_ctrl.sv
+      - rtl/traffic_gen_streamer.sv
+      - rtl/traffic_gen_kernel_adapter.sv
+      - rtl/traffic_gen_engine.sv
+      - rtl/traffic_gen_top.sv
+      - wrap/traffic_gen_top_wrapper.sv
