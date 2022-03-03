@@ -1,0 +1,18 @@
+package:
+  name: hwpe-fir_128_mdc-wrapper
+
+sources:
+  - include_dirs:
+      - rtl/hwpe-engine
+    files:
+      - rtl/acc_kernel/exec.v
+      - rtl/acc_kernel/fir_128_mdc_mul_5ns_32s_32_2_0.v
+      - rtl/acc_kernel/fir_128_mdc.v
+      - rtl/fir_128_mdc_package.sv
+      - rtl/fir_128_mdc_fsm.sv
+      - rtl/fir_128_mdc_ctrl.sv
+      - rtl/fir_128_mdc_streamer.sv
+      - rtl/fir_128_mdc_kernel_adapter.sv
+      - rtl/fir_128_mdc_engine.sv
+      - rtl/fir_128_mdc_top.sv
+      - wrap/fir_128_mdc_top_wrapper.sv
