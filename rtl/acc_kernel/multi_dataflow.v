@@ -2,7 +2,7 @@
 //
 // Multi-Dataflow Composer tool - Platform Composer
 // Multi-Dataflow Network module 
-// Date: 2022/03/25 13:35:14
+// Date: 2022/03/25 13:53:44
 //
 // ----------------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ module multi_dataflow (
 // internal signals
 // ----------------------------------------------------------------------------
 // Sboxes Config Wire(s)
-wire [3 : 0] sel;
+wire [6 : 0] sel;
 		
 
 
@@ -141,6 +141,56 @@ wire sbox_3_in2_full;
 wire [31 : 0] sbox_3_out1_data;
 wire sbox_3_out1_wr;
 wire sbox_3_out1_full;
+	
+// actor mmult_opt_mdc_0
+wire [31 : 0] fifo_small_mmult_opt_mdc_0_in1_data;
+wire fifo_small_mmult_opt_mdc_0_in1_wr;
+wire fifo_small_mmult_opt_mdc_0_in1_full;
+wire [31 : 0] mmult_opt_mdc_0_in1_data;
+wire mmult_opt_mdc_0_in1_rd;
+wire mmult_opt_mdc_0_in1_valid;
+wire [31 : 0] fifo_small_mmult_opt_mdc_0_in2_data;
+wire fifo_small_mmult_opt_mdc_0_in2_wr;
+wire fifo_small_mmult_opt_mdc_0_in2_full;
+wire [31 : 0] mmult_opt_mdc_0_in2_data;
+wire mmult_opt_mdc_0_in2_rd;
+wire mmult_opt_mdc_0_in2_valid;
+wire [31 : 0] mmult_opt_mdc_0_out_r_data;
+wire mmult_opt_mdc_0_out_r_wr;
+wire mmult_opt_mdc_0_out_r_full;
+	
+// actor sbox_4
+wire [31 : 0] sbox_4_in1_data;
+wire sbox_4_in1_wr;
+wire sbox_4_in1_full;
+wire [31 : 0] sbox_4_out1_data;
+wire sbox_4_out1_wr;
+wire sbox_4_out1_full;
+wire [31 : 0] sbox_4_out2_data;
+wire sbox_4_out2_wr;
+wire sbox_4_out2_full;
+	
+// actor sbox_5
+wire [31 : 0] sbox_5_in1_data;
+wire sbox_5_in1_wr;
+wire sbox_5_in1_full;
+wire [31 : 0] sbox_5_out1_data;
+wire sbox_5_out1_wr;
+wire sbox_5_out1_full;
+wire [31 : 0] sbox_5_out2_data;
+wire sbox_5_out2_wr;
+wire sbox_5_out2_full;
+	
+// actor sbox_6
+wire [31 : 0] sbox_6_in1_data;
+wire sbox_6_in1_wr;
+wire sbox_6_in1_full;
+wire [31 : 0] sbox_6_in2_data;
+wire sbox_6_in2_wr;
+wire sbox_6_in2_full;
+wire [31 : 0] sbox_6_out1_data;
+wire sbox_6_out1_wr;
+wire sbox_6_out1_full;
 // ----------------------------------------------------------------------------
 
 // body
@@ -407,6 +457,131 @@ sbox_3 (
 	.sel(sel[3])	
 );
 
+// fifo_small_mmult_opt_mdc_0_in1
+fifo_small #(
+	.depth(64),
+	.size(32)
+) fifo_small_mmult_opt_mdc_0_in1(
+	.datain(fifo_small_mmult_opt_mdc_0_in1_data),
+	.dataout(mmult_opt_mdc_0_in1_data),
+	.enr(mmult_opt_mdc_0_in1_rd),
+	.enw(fifo_small_mmult_opt_mdc_0_in1_wr),
+	.valid(mmult_opt_mdc_0_in1_valid),
+	.full(fifo_small_mmult_opt_mdc_0_in1_full),
+	
+	// System Signal(s)
+	.clk(clock),
+	.rst(reset)
+);
+// fifo_small_mmult_opt_mdc_0_in2
+fifo_small #(
+	.depth(64),
+	.size(32)
+) fifo_small_mmult_opt_mdc_0_in2(
+	.datain(fifo_small_mmult_opt_mdc_0_in2_data),
+	.dataout(mmult_opt_mdc_0_in2_data),
+	.enr(mmult_opt_mdc_0_in2_rd),
+	.enw(fifo_small_mmult_opt_mdc_0_in2_wr),
+	.valid(mmult_opt_mdc_0_in2_valid),
+	.full(fifo_small_mmult_opt_mdc_0_in2_full),
+	
+	// System Signal(s)
+	.clk(clock),
+	.rst(reset)
+);
+
+// actor mmult_opt_mdc_0
+mmult_opt_mdc actor_mmult_opt_mdc_0 (
+	// Input Signal(s)
+	.in1_TDATA(mmult_opt_mdc_0_in1_data),
+	.in1_TREADY(mmult_opt_mdc_0_in1_rd),
+	.in1_TVALID(mmult_opt_mdc_0_in1_valid),
+	.in2_TDATA(mmult_opt_mdc_0_in2_data),
+	.in2_TREADY(mmult_opt_mdc_0_in2_rd),
+	.in2_TVALID(mmult_opt_mdc_0_in2_valid)
+	,
+	
+	// Output Signal(s)
+	.out_r_TDATA(mmult_opt_mdc_0_out_r_data),
+	.out_r_TVALID(mmult_opt_mdc_0_out_r_wr),
+	.out_r_TREADY(mmult_opt_mdc_0_out_r_full)
+		,
+	
+	// System Signal(s)
+	.ap_clk(clock),
+	.ap_rst_n(reset)
+);
+
+
+
+// actor sbox_4
+sbox1x2 #(
+	.SIZE(32)
+)
+sbox_4 (
+	// Input Signal(s)
+	.in1_data(sbox_4_in1_data),
+	.in1_wr(sbox_4_in1_wr),
+	.in1_full(sbox_4_in1_full),
+	
+	// Output Signal(s)
+	.out1_data(sbox_4_out1_data),
+	.out1_wr(sbox_4_out1_wr),
+	.out1_full(sbox_4_out1_full),
+	.out2_data(sbox_4_out2_data),
+	.out2_wr(sbox_4_out2_wr),
+	.out2_full(sbox_4_out2_full),
+	
+	// Selector
+	.sel(sel[4])	
+);
+
+
+// actor sbox_5
+sbox1x2 #(
+	.SIZE(32)
+)
+sbox_5 (
+	// Input Signal(s)
+	.in1_data(sbox_5_in1_data),
+	.in1_wr(sbox_5_in1_wr),
+	.in1_full(sbox_5_in1_full),
+	
+	// Output Signal(s)
+	.out1_data(sbox_5_out1_data),
+	.out1_wr(sbox_5_out1_wr),
+	.out1_full(sbox_5_out1_full),
+	.out2_data(sbox_5_out2_data),
+	.out2_wr(sbox_5_out2_wr),
+	.out2_full(sbox_5_out2_full),
+	
+	// Selector
+	.sel(sel[5])	
+);
+
+
+// actor sbox_6
+sbox2x1 #(
+	.SIZE(32)
+)
+sbox_6 (
+	// Input Signal(s)
+	.in1_data(sbox_6_in1_data),
+	.in1_wr(sbox_6_in1_wr),
+	.in1_full(sbox_6_in1_full),
+	.in2_data(sbox_6_in2_data),
+	.in2_wr(sbox_6_in2_wr),
+	.in2_full(sbox_6_in2_full),
+	
+	// Output Signal(s)
+	.out1_data(sbox_6_out1_data),
+	.out1_wr(sbox_6_out1_wr),
+	.out1_full(sbox_6_out1_full),
+	
+	// Selector
+	.sel(sel[6])	
+);
+
 // Module(s) Assignments
 assign fifo_small_mac_mdc_0_a_data = sbox_0_out1_data;
 assign fifo_small_mac_mdc_0_a_wr = sbox_0_out1_wr;
@@ -424,17 +599,17 @@ assign sbox_3_in1_data = mac_mdc_0_d_data;
 assign sbox_3_in1_wr = mac_mdc_0_d_wr;
 assign mac_mdc_0_d_full = sbox_3_in1_full;
 
-assign sbox_0_in1_data = inStream0_data;
-assign sbox_0_in1_wr = inStream0_wr;
-assign inStream0_full = sbox_0_in1_full;
+assign sbox_0_in1_data = sbox_4_out1_data;
+assign sbox_0_in1_wr = sbox_4_out1_wr;
+assign sbox_4_out1_full = sbox_0_in1_full;
 
 assign fifo_small_mul_mdc_0_a_data = sbox_0_out2_data;
 assign fifo_small_mul_mdc_0_a_wr = sbox_0_out2_wr;
 assign sbox_0_out2_full = fifo_small_mul_mdc_0_a_full;
 
-assign sbox_1_in1_data = inStream1_data;
-assign sbox_1_in1_wr = inStream1_wr;
-assign inStream1_full = sbox_1_in1_full;
+assign sbox_1_in1_data = sbox_5_out1_data;
+assign sbox_1_in1_wr = sbox_5_out1_wr;
+assign sbox_5_out1_full = sbox_1_in1_full;
 
 assign fifo_small_mul_mdc_0_b_data = sbox_1_out2_data;
 assign fifo_small_mul_mdc_0_b_wr = sbox_1_out2_wr;
@@ -448,12 +623,36 @@ assign fifo_small_mul_mdc_0_c_data = sbox_2_out2_data;
 assign fifo_small_mul_mdc_0_c_wr = sbox_2_out2_wr;
 assign sbox_2_out2_full = fifo_small_mul_mdc_0_c_full;
 
-assign outStream0_data = sbox_3_out1_data;
-assign outStream0_wr = sbox_3_out1_wr;
-assign sbox_3_out1_full = outStream0_full;
+assign sbox_6_in1_data = sbox_3_out1_data;
+assign sbox_6_in1_wr = sbox_3_out1_wr;
+assign sbox_3_out1_full = sbox_6_in1_full;
 
 assign sbox_3_in2_data = mul_mdc_0_d_data;
 assign sbox_3_in2_wr = mul_mdc_0_d_wr;
 assign mul_mdc_0_d_full = sbox_3_in2_full;
+
+assign sbox_4_in1_data = inStream0_data;
+assign sbox_4_in1_wr = inStream0_wr;
+assign inStream0_full = sbox_4_in1_full;
+
+assign fifo_small_mmult_opt_mdc_0_in1_data = sbox_4_out2_data;
+assign fifo_small_mmult_opt_mdc_0_in1_wr = sbox_4_out2_wr;
+assign sbox_4_out2_full = fifo_small_mmult_opt_mdc_0_in1_full;
+
+assign sbox_5_in1_data = inStream1_data;
+assign sbox_5_in1_wr = inStream1_wr;
+assign inStream1_full = sbox_5_in1_full;
+
+assign fifo_small_mmult_opt_mdc_0_in2_data = sbox_5_out2_data;
+assign fifo_small_mmult_opt_mdc_0_in2_wr = sbox_5_out2_wr;
+assign sbox_5_out2_full = fifo_small_mmult_opt_mdc_0_in2_full;
+
+assign outStream0_data = sbox_6_out1_data;
+assign outStream0_wr = sbox_6_out1_wr;
+assign sbox_6_out1_full = outStream0_full;
+
+assign sbox_6_in2_data = mmult_opt_mdc_0_out_r_data;
+assign sbox_6_in2_wr = mmult_opt_mdc_0_out_r_wr;
+assign mmult_opt_mdc_0_out_r_full = sbox_6_in2_full;
 
 endmodule

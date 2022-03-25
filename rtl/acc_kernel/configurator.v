@@ -2,7 +2,7 @@
 //
 // Multi-Dataflow Composer tool - Platform Composer
 // Configurator module 
-// Date: 2022/03/25 13:35:14
+// Date: 2022/03/25 13:53:44
 //
 // ----------------------------------------------------------------------------
 
@@ -24,14 +24,14 @@ module configurator(
 input [7:0] ID;
 
 // Ouptut(s)
-output [3:0] sel;
+output [6:0] sel;
 
 
 // ----------------------------------------------------------------------------
 // Body
 // ----------------------------------------------------------------------------
 
-reg [3:0] sel;
+reg [6:0] sel;
 
 // case ID
 always@(ID)
@@ -41,14 +41,29 @@ sel[0]=1'b0;
 sel[1]=1'b0;
 sel[2]=1'b0;
 sel[3]=1'b0;
+sel[4]=1'b0;
+sel[5]=1'b0;
+sel[6]=1'b0;
 			end
 8'd2:	begin	// MULnetwork
 sel[0]=1'b1;
 sel[1]=1'b1;
 sel[2]=1'b1;
 sel[3]=1'b1;
+sel[4]=1'b0;
+sel[5]=1'b0;
+sel[6]=1'b0;
 			end
-	default:	sel=4'bx;
+8'd3:	begin	// mmul_parallel
+sel[0]=1'b0;
+sel[1]=1'b0;
+sel[2]=1'b0;
+sel[3]=1'b0;
+sel[4]=1'b1;
+sel[5]=1'b1;
+sel[6]=1'b1;
+			end
+	default:	sel=7'bx;
 endcase
 
 
