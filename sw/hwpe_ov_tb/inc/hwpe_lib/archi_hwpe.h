@@ -50,16 +50,23 @@
  * ================================================================================
  *  # reg |  offset  |  bits   |   bitmask    ||  content
  * -------+----------+---------+--------------++-----------------------------------
- *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  IN_PEL_ADDR
- *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  IN_SIZE_ADDR
- *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  OUT_PEL_ADDR
+ *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  INSTREAM0_ADDR
+ *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  INSTREAM1_ADDR
+ *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  INSTREAM2_ADDR
+ *     3  |  0x004c  |  31: 0  |  0xffffffff  ||  OUTSTREAM0_ADDR
 
- *     3  |  0x004c  |  31: 0  |  0xffffffff  ||  NB_ITER
- *     4  |  0x0050  |  31: 0  |  0xffffffff  ||  LEN_ITER
- *     5  |  0x0054  |  31:16  |  0xffff0000  ||  SHIFT
+ *     4  |  0x0050  |  31: 0  |  0xffffffff  ||  NB_ITER
+ *     5  |  0x0054  |  31: 0  |  0xffffffff  ||  LEN_ITER
+ *     6  |  0x0058  |  31:16  |  0xffff0000  ||  SHIFT
  *        |          |   0: 0  |  0x00000001  ||  SIMPLEMUL
- *     6  |  0x0058  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
- *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
+ *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
+ *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
+
+ *     9  |  0x0064  |  31: 0  |  0xffffffff  ||  REG_SIMPLE_MUL
+
+ *     10  |  0x0068  |  31: 0  |  0xffffffff  ||  REG_SHIFT
+
+ *     11  |  0x006c  |  31: 0  |  0xffffffff  ||  REG_LEN
  *
  * ================================================================================
  *
@@ -108,57 +115,73 @@
 /* TCDM registers archi */
 
 // Input master ports
-   #define REG_IN_PEL_ADDR           0x40
-   #define REG_IN_SIZE_ADDR           0x44
+   #define REG_INSTREAM0_ADDR           0x40
+   #define REG_INSTREAM1_ADDR           0x44
+   #define REG_INSTREAM2_ADDR           0x48
 
 // Output master ports
-   #define REG_OUT_PEL_ADDR           0x48
+   #define REG_OUTSTREAM0_ADDR           0x4c
 
 /* Standard registers archi */
 
-#define REG_NB_ITER                         0x4c
+#define REG_NB_ITER                         0x50
 
-#define REG_LINESTRIDE                0x50
+#define REG_LINESTRIDE                0x54
 
-#define REG_TILESTRIDE                0x54
+#define REG_TILESTRIDE                0x58
 
-#define REG_CNT_LIMIT_OUT_PEL           0x58
+#define REG_CNT_LIMIT_OUTSTREAM0           0x5c
 
 /* Custom registers archi */
+#define REG_REG_SIMPLE_MUL           0x60
+#define REG_REG_SHIFT           0x64
+#define REG_REG_LEN           0x68
+#define REG_ID_CONFIGURATION		0x6c
 
 /* Address generator archi */
 
-// Input stream - in_pel (programmable)
-#define REG_IN_PEL_TRANS_SIZE                  0x5c
-#define REG_IN_PEL_LINE_STRIDE                 0x60
-#define REG_IN_PEL_LINE_LENGTH                 0x64
-#define REG_IN_PEL_FEAT_STRIDE                 0x68
-#define REG_IN_PEL_FEAT_LENGTH                 0x6c
-#define REG_IN_PEL_FEAT_ROLL                   0x70
-#define REG_IN_PEL_LOOP_OUTER                  0x74
-#define REG_IN_PEL_REALIGN_TYPE                0x78
-#define REG_IN_PEL_STEP                        0x7c
+// Input stream - inStream0 (programmable)
+#define REG_INSTREAM0_TRANS_SIZE                  0x70
+#define REG_INSTREAM0_LINE_STRIDE                 0x74
+#define REG_INSTREAM0_LINE_LENGTH                 0x78
+#define REG_INSTREAM0_FEAT_STRIDE                 0x7c
+#define REG_INSTREAM0_FEAT_LENGTH                 0x80
+#define REG_INSTREAM0_FEAT_ROLL                   0x84
+#define REG_INSTREAM0_LOOP_OUTER                  0x88
+#define REG_INSTREAM0_REALIGN_TYPE                0x8c
+#define REG_INSTREAM0_STEP                        0x90
 
-// Input stream - in_size (programmable)
-#define REG_IN_SIZE_TRANS_SIZE                  0x80
-#define REG_IN_SIZE_LINE_STRIDE                 0x84
-#define REG_IN_SIZE_LINE_LENGTH                 0x88
-#define REG_IN_SIZE_FEAT_STRIDE                 0x8c
-#define REG_IN_SIZE_FEAT_LENGTH                 0x90
-#define REG_IN_SIZE_FEAT_ROLL                   0x94
-#define REG_IN_SIZE_LOOP_OUTER                  0x98
-#define REG_IN_SIZE_REALIGN_TYPE                0x9c
-#define REG_IN_SIZE_STEP                        0xa0
+// Input stream - inStream1 (programmable)
+#define REG_INSTREAM1_TRANS_SIZE                  0x94
+#define REG_INSTREAM1_LINE_STRIDE                 0x98
+#define REG_INSTREAM1_LINE_LENGTH                 0x9c
+#define REG_INSTREAM1_FEAT_STRIDE                 0xa0
+#define REG_INSTREAM1_FEAT_LENGTH                 0xa4
+#define REG_INSTREAM1_FEAT_ROLL                   0xa8
+#define REG_INSTREAM1_LOOP_OUTER                  0xac
+#define REG_INSTREAM1_REALIGN_TYPE                0xb0
+#define REG_INSTREAM1_STEP                        0xb4
 
-// Input stream - out_pel (programmable)
-#define REG_OUT_PEL_TRANS_SIZE                  0xa4
-#define REG_OUT_PEL_LINE_STRIDE                 0xa8
-#define REG_OUT_PEL_LINE_LENGTH                 0xac
-#define REG_OUT_PEL_FEAT_STRIDE                 0xb0
-#define REG_OUT_PEL_FEAT_LENGTH                 0xb4
-#define REG_OUT_PEL_FEAT_ROLL                   0xb8
-#define REG_OUT_PEL_LOOP_OUTER                  0xbc
-#define REG_OUT_PEL_REALIGN_TYPE                0xc0
-#define REG_OUT_PEL_STEP                        0xc4
+// Input stream - inStream2 (programmable)
+#define REG_INSTREAM2_TRANS_SIZE                  0xb8
+#define REG_INSTREAM2_LINE_STRIDE                 0xbc
+#define REG_INSTREAM2_LINE_LENGTH                 0xc0
+#define REG_INSTREAM2_FEAT_STRIDE                 0xc4
+#define REG_INSTREAM2_FEAT_LENGTH                 0xc8
+#define REG_INSTREAM2_FEAT_ROLL                   0xcc
+#define REG_INSTREAM2_LOOP_OUTER                  0xd0
+#define REG_INSTREAM2_REALIGN_TYPE                0xd4
+#define REG_INSTREAM2_STEP                        0xd8
+
+// Input stream - outStream0 (programmable)
+#define REG_OUTSTREAM0_TRANS_SIZE                  0xdc
+#define REG_OUTSTREAM0_LINE_STRIDE                 0xe0
+#define REG_OUTSTREAM0_LINE_LENGTH                 0xe4
+#define REG_OUTSTREAM0_FEAT_STRIDE                 0xe8
+#define REG_OUTSTREAM0_FEAT_LENGTH                 0xec
+#define REG_OUTSTREAM0_FEAT_ROLL                   0xf0
+#define REG_OUTSTREAM0_LOOP_OUTER                  0xf4
+#define REG_OUTSTREAM0_REALIGN_TYPE                0xf8
+#define REG_OUTSTREAM0_STEP                        0xfc
 
 #endif

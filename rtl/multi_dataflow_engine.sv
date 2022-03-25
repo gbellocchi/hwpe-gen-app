@@ -28,11 +28,12 @@ module multi_dataflow_engine (
   input  logic          test_mode_i,
 
   // Sink ports
-  hwpe_stream_intf_stream.sink    in_pel_i,
-  hwpe_stream_intf_stream.sink    in_size_i,
+  hwpe_stream_intf_stream.sink    inStream0_i,
+  hwpe_stream_intf_stream.sink    inStream1_i,
+  hwpe_stream_intf_stream.sink    inStream2_i,
 
   // Source ports
-  hwpe_stream_intf_stream.source  out_pel_o,
+  hwpe_stream_intf_stream.source  outStream0_o,
 
   // Control channel
   input  ctrl_engine_t            ctrl_i,
@@ -65,54 +66,54 @@ module multi_dataflow_engine (
 
   // Declaration of trackers
 
-  logic track_out_pel_q, track_out_pel_d;
+  logic track_outStream0_q, track_outStream0_d;
 
   // Declaration of counters
 
-  logic unsigned [($clog2(CNT_LEN)+1):0] cnt_out_pel;
+  logic unsigned [($clog2(CNT_LEN)+1):0] cnt_outStream0;
 
   // AND-ed trackers implementation (FF)
 
   always_comb
-  begin: out_pel_track_q
+  begin: outStream0_track_q
     if(~rst_ni | ctrl_i.clear) begin
-      track_out_pel_d = '0;
+      track_outStream0_d = '0;
     end
-    else if(out_pel_o.valid & out_pel_o.ready) begin
-      track_out_pel_d = '1;
+    else if(outStream0_o.valid & outStream0_o.ready) begin
+      track_outStream0_d = '1;
     end
     else begin
-      track_out_pel_d = '0;
+      track_outStream0_d = '0;
     end
   end
 
   always_ff @(posedge clk_i or negedge rst_ni)
-  begin: out_pel_track_d
+  begin: outStream0_track_d
     if(~rst_ni) begin
-      track_out_pel_q <= '0;
+      track_outStream0_q <= '0;
     end
     else if(ctrl_i.clear) begin
-      track_out_pel_q <= '0;
+      track_outStream0_q <= '0;
     end
     else begin
-      track_out_pel_q <= track_out_pel_d;
+      track_outStream0_q <= track_outStream0_d;
     end
   end
 
   // Counter implementation (FF)
 
   always_ff @(posedge clk_i or negedge rst_ni)
-  begin: out_pel_cnt
+  begin: outStream0_cnt
     if((~rst_ni) | ctrl_i.clear)
-      cnt_out_pel = 32'b0;
-    else if( track_out_pel_q & flags_o.done )
-      cnt_out_pel = cnt_out_pel + 1;
+      cnt_outStream0 = 32'b0;
+    else if( track_outStream0_q & flags_o.done )
+      cnt_outStream0 = cnt_outStream0 + 1;
     else
-      cnt_out_pel = cnt_out_pel;
+      cnt_outStream0 = cnt_outStream0;
   end
 
   // Assign to fsm flags
-  assign flags_o.cnt_out_pel = cnt_out_pel;
+  assign flags_o.cnt_outStream0 = cnt_outStream0;
 
   /* Kernel adapter */
 
@@ -124,12 +125,18 @@ module multi_dataflow_engine (
     .test_mode_i     ( test_mode_i      ),
 
     // Data streams
-    .in_pel_i              ( in_pel_i	),
-    .in_size_i              ( in_size_i	),
-    .out_pel_o              ( out_pel_o	),
+    .inStream0_i              ( inStream0_i	),
+    .inStream1_i              ( inStream1_i	),
+    .inStream2_i              ( inStream2_i	),
+    .outStream0_o              ( outStream0_o	),
 
     // Kernel parameters
-    
+    .reg_simple_mul        ( ctrl_i.reg_simple_mul      ),
+    .reg_shift        ( ctrl_i.reg_shift      ),
+    .reg_len        ( ctrl_i.reg_len      ),
+    // Multi-Dataflow Kernel ID
+        .ID(ctrl_i.configuration),
+
     // Control signals
     .ctrl_i      ( ctrl_k_ad            ),
 
@@ -143,7 +150,7 @@ module multi_dataflow_engine (
   // to TCDM
   always_comb
   begin
-  out_pel_o.strb = '1;
+  outStream0_o.strb = '1;
   end
 
 endmodule
