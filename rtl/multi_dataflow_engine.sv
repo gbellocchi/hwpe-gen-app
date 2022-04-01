@@ -127,6 +127,8 @@ module multi_dataflow_engine (
     .outStream0_o              ( outStream0_o	),
 
     // Kernel parameters
+    .width        ( ctrl_i.width      ),
+    .height        ( ctrl_i.height      ),
     // Multi-Dataflow Kernel ID
         .ID(ctrl_i.configuration),
 

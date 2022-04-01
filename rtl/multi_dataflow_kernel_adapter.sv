@@ -26,6 +26,8 @@ module multi_dataflow_kernel_adapter (
   hwpe_stream_intf_stream.source    outStream0_o,
 
   // Kernel parameters
+  input logic [31:0] width,
+  input logic [31:0] height,
   // Multi-Dataflow Kernel ID
     input logic [31:0] 		ID,
 
@@ -174,6 +176,8 @@ module multi_dataflow_kernel_adapter (
     // Output data (from-hwpe)
     .outStream0	( outStream0_o	),
     // Algorithm parameters
+    .width	( width ),
+    .height	( height ),
     // Multi-Dataflow Kernel ID
       .ID(ID),
       // Global signals.

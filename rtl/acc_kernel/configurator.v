@@ -2,7 +2,7 @@
 //
 // Multi-Dataflow Composer tool - Platform Composer
 // Configurator module 
-// Date: 2022/04/01 13:53:59
+// Date: 2022/04/01 14:01:00
 //
 // ----------------------------------------------------------------------------
 
@@ -24,14 +24,14 @@ module configurator(
 input [7:0] ID;
 
 // Ouptut(s)
-output [1:0] sel;
+output [3:0] sel;
 
 
 // ----------------------------------------------------------------------------
 // Body
 // ----------------------------------------------------------------------------
 
-reg [1:0] sel;
+reg [3:0] sel;
 
 // case ID
 always@(ID)
@@ -39,12 +39,22 @@ case(ID)
 8'd1:	begin	// FIR128network
 sel[0]=1'b0;
 sel[1]=1'b0;
+sel[2]=1'b0;
+sel[3]=1'b0;
 			end
 8'd2:	begin	// FIR64network
 sel[0]=1'b1;
 sel[1]=1'b1;
+sel[2]=1'b0;
+sel[3]=1'b0;
 			end
-	default:	sel=2'bx;
+8'd3:	begin	// CONVnetwork
+sel[0]=1'b0;
+sel[1]=1'b0;
+sel[2]=1'b1;
+sel[3]=1'b1;
+			end
+	default:	sel=4'bx;
 endcase
 
 

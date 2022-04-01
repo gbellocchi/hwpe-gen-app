@@ -64,6 +64,8 @@ int main() {
   unsigned engine_runs_outStream0 = ;
 
   // 3. Custom registers
+  unsigned width_val = ;
+  unsigned height_val = ;
   
   unsigned id_val = ;
 
@@ -191,6 +193,8 @@ int main() {
   hwpe_outStream0_addr_set( (int32_t)outStream0_l1 );
 
   /* Set user custom registers */
+  hwpe_width_set( width_val );
+  hwpe_height_set( height_val );
   hwpe_ID_configuration_set(id_val);
 
   // Trigger execution

@@ -59,6 +59,10 @@
  *        |          |   0: 0  |  0x00000001  ||  SIMPLEMUL
  *     5  |  0x0054  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
  *     6  |  0x0058  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
+
+ *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  WIDTH
+
+ *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  HEIGHT
  *
  * ================================================================================
  *
@@ -107,6 +111,12 @@ static inline void hwpe_len_iter_set_outStream0(unsigned int value) {
 }
 
 /* custom hal */
+static inline void hwpe_width_set(int32_t value) {
+  HWPE_WRITE(value, REG_WIDTH );
+}
+static inline void hwpe_height_set(int32_t value) {
+  HWPE_WRITE(value, REG_HEIGHT );
+}
 static inline void hwpe_ID_configuration_set(uint8_t value) {
   HWPE_WRITE(value, REG_ID_CONFIGURATION );
 }

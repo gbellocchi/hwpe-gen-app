@@ -115,6 +115,8 @@ module multi_dataflow_fsm (
     ctrl_slave_o.evt  = '0;
 
     // Custom Registers
+    ctrl_engine_o.width    = ctrl_i.width;
+    ctrl_engine_o.height    = ctrl_i.height;
     ctrl_engine_o.configuration    = ctrl_i.configuration;		
 
     // Real finite-state machine
