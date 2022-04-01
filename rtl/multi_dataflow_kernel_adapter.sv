@@ -21,19 +21,12 @@ module multi_dataflow_kernel_adapter (
 
   // Sink ports
   hwpe_stream_intf_stream.sink    inStream0_i,
-  hwpe_stream_intf_stream.sink    inStream1_i,
-  hwpe_stream_intf_stream.sink    inStream2_i,
 
   // Source ports
   hwpe_stream_intf_stream.source    outStream0_o,
 
   // Kernel parameters
-  input logic [31:0] reg_simple_mul,
-  input logic [31:0] reg_shift,
-  input logic [31:0] reg_len,
-  // Multi-Dataflow Kernel ID
-    input logic [31:0] 		ID,
-
+  
   // Control signals
   input  ctrl_kernel_adapter_t           ctrl_i,
 
@@ -55,10 +48,6 @@ module multi_dataflow_kernel_adapter (
 
   //logic kernel_ready_inStream0;  //FIXEME: to be removed
   logic kernel_done_inStream0;
-  //logic kernel_ready_inStream1;  //FIXEME: to be removed
-  logic kernel_done_inStream1;
-  //logic kernel_ready_inStream2;  //FIXEME: to be removed
-  logic kernel_done_inStream2;
 
   logic kernel_done_outStream0;
 
@@ -89,7 +78,7 @@ module multi_dataflow_kernel_adapter (
      The latter triggers the START of accelerator. (see FSM_COMPUTE). */
   /* Driven using input counters. */
 
-  assign flags_o.ready =  (kernel_done_inStream0)  &  (kernel_done_inStream1)  &  (kernel_done_inStream2) ;
+  assign flags_o.ready =  (kernel_done_inStream0) ;
 
   /* Idle. */
   /* This is used in the hwpe-engine to set flags_o.ready.
@@ -148,52 +137,6 @@ module multi_dataflow_kernel_adapter (
   // are usually > 1.
   // SOL: Add to ctrl_i also the information about max_input.
   assign kernel_done_inStream0 = (kernel_cnt_inStream0==1) ? 1 : 0;
-  logic unsigned [($clog2(CNT_LEN)+1):0] kernel_cnt_inStream1;
-  always_ff @(posedge clk_i or negedge rst_ni)
-    begin: engine_cnt_inStream1
-    if((~rst_ni) | kernel_start) begin
-      kernel_cnt_inStream1 = 32'b0;
-    end
-    else if(kernel_start) begin
-      kernel_cnt_inStream1 = 32'b0;
-    end
-    else if ((inStream1_i.valid) & (inStream1_i.ready)) begin
-  	kernel_cnt_inStream1 = kernel_cnt_inStream1 + 1;
-    end
-    else begin
-      kernel_cnt_inStream1 = kernel_cnt_inStream1;
-    end
-  end
-
-  // FIXME: Now kernel_done_in goes High every time an input enters the acc.
-  // This should be generalized. Even though the wrapper looper is designed to
-  // on counting the ouputs, the number of inputs needed to generate an ouput
-  // are usually > 1.
-  // SOL: Add to ctrl_i also the information about max_input.
-  assign kernel_done_inStream1 = (kernel_cnt_inStream1==1) ? 1 : 0;
-  logic unsigned [($clog2(CNT_LEN)+1):0] kernel_cnt_inStream2;
-  always_ff @(posedge clk_i or negedge rst_ni)
-    begin: engine_cnt_inStream2
-    if((~rst_ni) | kernel_start) begin
-      kernel_cnt_inStream2 = 32'b0;
-    end
-    else if(kernel_start) begin
-      kernel_cnt_inStream2 = 32'b0;
-    end
-    else if ((inStream2_i.valid) & (inStream2_i.ready)) begin
-  	kernel_cnt_inStream2 = kernel_cnt_inStream2 + 1;
-    end
-    else begin
-      kernel_cnt_inStream2 = kernel_cnt_inStream2;
-    end
-  end
-
-  // FIXME: Now kernel_done_in goes High every time an input enters the acc.
-  // This should be generalized. Even though the wrapper looper is designed to
-  // on counting the ouputs, the number of inputs needed to generate an ouput
-  // are usually > 1.
-  // SOL: Add to ctrl_i also the information about max_input.
-  assign kernel_done_inStream2 = (kernel_cnt_inStream2==1) ? 1 : 0;
 
   /* multi_dataflow output counters. */
 
@@ -226,17 +169,10 @@ module multi_dataflow_kernel_adapter (
   multi_dataflow_reconf_datapath_top i_multi_dataflow_reconf_datapath_top (
     // Input data (to-hwpe)
     .inStream0	( inStream0_i	),
-    .inStream1	( inStream1_i	),
-    .inStream2	( inStream2_i	),
     // Output data (from-hwpe)
     .outStream0	( outStream0_o	),
     // Algorithm parameters
-    .reg_simple_mul	( reg_simple_mul ),
-    .reg_shift	( reg_shift ),
-    .reg_len	( reg_len ),
-    // Multi-Dataflow Kernel ID
-      .ID(ID),
-      // Global signals.
+          // Global signals.
       .clk_i             ( clk_i            ),
       .rst_ni           ( rst_ni           )
     );

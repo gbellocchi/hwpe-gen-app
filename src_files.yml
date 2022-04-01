@@ -4,17 +4,12 @@ genovApps:
   ]
   files: [
 
+    rtl/acc_kernel/exec.v,
     rtl/acc_kernel/fifo_small.v,
-    rtl/acc_kernel/mac_mdc.sv,
-    rtl/acc_kernel/mmult_opt_mdc.v,
-    rtl/acc_kernel/mmult_opt_mdc_local_in1_0.v,
-    rtl/acc_kernel/mmult_opt_mdc_local_out.v,
-    rtl/acc_kernel/mul_mdc.sv,
+    rtl/acc_kernel/fir_64_mdc.v,
+    rtl/acc_kernel/fir_64_mdc_mul_5ns_32s_32_2_0.v,
     rtl/acc_kernel/multi_dataflow.v,
     rtl/acc_kernel/interface_wrapper.sv,
-    rtl/acc_kernel/configurator.v,
-    rtl/acc_kernel/sbox1x2.v,
-    rtl/acc_kernel/sbox2x1.v,
     rtl/multi_dataflow_package.sv,
     rtl/multi_dataflow_fsm.sv,
     rtl/multi_dataflow_ctrl.sv,
