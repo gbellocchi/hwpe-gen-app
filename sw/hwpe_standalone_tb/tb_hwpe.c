@@ -65,6 +65,7 @@ int main() {
 
   // 3. Custom registers
   
+  unsigned id_val = ;
 
   /* General parameters. */
 
@@ -190,6 +191,7 @@ int main() {
   hwpe_outStream0_addr_set( (int32_t)outStream0_l1 );
 
   /* Set user custom registers */
+  hwpe_ID_configuration_set(id_val);
 
   // Trigger execution
   hwpe_trigger_job();

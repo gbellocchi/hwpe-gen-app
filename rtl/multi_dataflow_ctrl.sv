@@ -95,6 +95,7 @@ module multi_dataflow_ctrl
   logic unsigned [31:0] static_reg_cnt_limit_outStream0;
 
   /* Custom registers */
+logic unsigned [(32-1):0] static_reg_config;
 
   /* FSM input signals */
   ctrl_fsm_t fsm_ctrl;
@@ -153,6 +154,7 @@ module multi_dataflow_ctrl
   assign static_reg_outStream0_realign_type       = reg_file.hwpe_params[REG_OUTSTREAM0_REALIGN_TYPE];
 
   // Custom registers
+  assign static_reg_config = reg_file.hwpe_params[CONFIG];
 
   /* Microcode processor */
   generate
@@ -245,5 +247,6 @@ module multi_dataflow_ctrl
     fsm_ctrl.cnt_limit_outStream0             = static_reg_cnt_limit_outStream0;
 
     // Custom registers
+    fsm_ctrl.configuration    = static_reg_config;
   end
 endmodule

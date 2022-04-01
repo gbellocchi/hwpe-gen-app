@@ -127,7 +127,9 @@ module multi_dataflow_engine (
     .outStream0_o              ( outStream0_o	),
 
     // Kernel parameters
-    
+    // Multi-Dataflow Kernel ID
+        .ID(ctrl_i.configuration),
+
     // Control signals
     .ctrl_i      ( ctrl_k_ad            ),
 

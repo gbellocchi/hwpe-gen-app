@@ -59,6 +59,7 @@ int main() {
 const unsigned engine_runs_outStream0 = ;
 
   // 3. Custom registers
+  const unsigned id_val = ;
 
   /* General parameters. */
 
@@ -188,6 +189,7 @@ const unsigned outStream0_step                   = 4;
 
 
   /* Set user custom registers */
+  hwpe_ID_configuration_set(id_val);
 
   /* HWPE execution */
 

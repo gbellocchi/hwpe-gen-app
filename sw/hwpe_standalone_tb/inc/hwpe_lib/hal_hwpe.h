@@ -107,6 +107,9 @@ static inline void hwpe_len_iter_set_outStream0(unsigned int value) {
 }
 
 /* custom hal */
+static inline void hwpe_ID_configuration_set(uint8_t value) {
+  HWPE_WRITE(value, REG_ID_CONFIGURATION );
+}
 
 /* address generator hal - inStream0 */
 static inline void hwpe_addr_gen_inStream0(
