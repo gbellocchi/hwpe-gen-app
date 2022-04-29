@@ -4,9 +4,9 @@ genovApps:
   ]
   files: [
 
-    rtl/acc_kernel/add_round_key.sv,
-    rtl/acc_kernel/caph.vhd,
     rtl/acc_kernel/data_types.vhd,
+    rtl/acc_kernel/caph.vhd,
+    rtl/acc_kernel/add_round_key.sv,
     rtl/acc_kernel/expand_key0_128.sv,
     rtl/acc_kernel/expand_key1_128.sv,
     rtl/acc_kernel/expand_key2_128.sv,
