@@ -30,57 +30,77 @@ package multi_dataflow_package;
   // TCDM
 
   // Input ports
-  parameter int unsigned REG_INSTREAM0_ADDR              = 0;
+  parameter int unsigned REG_TEXT_ADDR              = 0;
+  parameter int unsigned REG_KEY_ADDR              = 1;
+  parameter int unsigned REG_RC_ADDR              = 2;
 
   // Output ports
-  parameter int unsigned REG_OUTSTREAM0_ADDR             = 1;
+  parameter int unsigned REG_CHIPED_TEXT_ADDR             = 3;
 
   // Standard registers
 
-  parameter int unsigned REG_NB_ITER              = 2;
+  parameter int unsigned REG_NB_ITER              = 4;
 
-  parameter int unsigned REG_SHIFT_LINESTRIDE     = 3;
+  parameter int unsigned REG_SHIFT_LINESTRIDE     = 5;
 
-  parameter int unsigned REG_SHIFT_TILESTRIDE     = 4;
+  parameter int unsigned REG_SHIFT_TILESTRIDE     = 6;
 
-  parameter int unsigned REG_CNT_LIMIT_OUTSTREAM0             = 5;
+  parameter int unsigned REG_CNT_LIMIT_CHIPED_TEXT             = 7;
 
   // Custom register files
 
-  parameter int unsigned REG_WIDTH             = 6;
+  // Input stream - text (programmable)
+  parameter int unsigned REG_TEXT_TRANS_SIZE       = 8;
+  parameter int unsigned REG_TEXT_LINE_STRIDE      = 9;
+  parameter int unsigned REG_TEXT_LINE_LENGTH      = 10;
+  parameter int unsigned REG_TEXT_FEAT_STRIDE      = 11;
+  parameter int unsigned REG_TEXT_FEAT_LENGTH      = 12;
+  parameter int unsigned REG_TEXT_FEAT_ROLL        = 13;
+  parameter int unsigned REG_TEXT_LOOP_OUTER       = 14;
+  parameter int unsigned REG_TEXT_REALIGN_TYPE     = 15;
+  parameter int unsigned REG_TEXT_STEP             = 16;
+  // Input stream - key (programmable)
+  parameter int unsigned REG_KEY_TRANS_SIZE       = 17;
+  parameter int unsigned REG_KEY_LINE_STRIDE      = 18;
+  parameter int unsigned REG_KEY_LINE_LENGTH      = 19;
+  parameter int unsigned REG_KEY_FEAT_STRIDE      = 20;
+  parameter int unsigned REG_KEY_FEAT_LENGTH      = 21;
+  parameter int unsigned REG_KEY_FEAT_ROLL        = 22;
+  parameter int unsigned REG_KEY_LOOP_OUTER       = 23;
+  parameter int unsigned REG_KEY_REALIGN_TYPE     = 24;
+  parameter int unsigned REG_KEY_STEP             = 25;
+  // Input stream - rc (programmable)
+  parameter int unsigned REG_RC_TRANS_SIZE       = 26;
+  parameter int unsigned REG_RC_LINE_STRIDE      = 27;
+  parameter int unsigned REG_RC_LINE_LENGTH      = 28;
+  parameter int unsigned REG_RC_FEAT_STRIDE      = 29;
+  parameter int unsigned REG_RC_FEAT_LENGTH      = 30;
+  parameter int unsigned REG_RC_FEAT_ROLL        = 31;
+  parameter int unsigned REG_RC_LOOP_OUTER       = 32;
+  parameter int unsigned REG_RC_REALIGN_TYPE     = 33;
+  parameter int unsigned REG_RC_STEP             = 34;
 
-  parameter int unsigned REG_HEIGHT             = 7;
-
-  parameter int unsigned CONFIG             = 8;
-
-  // Input stream - inStream0 (programmable)
-  parameter int unsigned REG_INSTREAM0_TRANS_SIZE       = 9;
-  parameter int unsigned REG_INSTREAM0_LINE_STRIDE      = 10;
-  parameter int unsigned REG_INSTREAM0_LINE_LENGTH      = 11;
-  parameter int unsigned REG_INSTREAM0_FEAT_STRIDE      = 12;
-  parameter int unsigned REG_INSTREAM0_FEAT_LENGTH      = 13;
-  parameter int unsigned REG_INSTREAM0_FEAT_ROLL        = 14;
-  parameter int unsigned REG_INSTREAM0_LOOP_OUTER       = 15;
-  parameter int unsigned REG_INSTREAM0_REALIGN_TYPE     = 16;
-  parameter int unsigned REG_INSTREAM0_STEP             = 17;
-
-  // Output stream - outStream0 (programmable)
-  parameter int unsigned REG_OUTSTREAM0_TRANS_SIZE       = 18;
-  parameter int unsigned REG_OUTSTREAM0_LINE_STRIDE      = 19;
-  parameter int unsigned REG_OUTSTREAM0_LINE_LENGTH      = 20;
-  parameter int unsigned REG_OUTSTREAM0_FEAT_STRIDE      = 21;
-  parameter int unsigned REG_OUTSTREAM0_FEAT_LENGTH      = 22;
-  parameter int unsigned REG_OUTSTREAM0_FEAT_ROLL        = 23;
-  parameter int unsigned REG_OUTSTREAM0_LOOP_OUTER       = 24;
-  parameter int unsigned REG_OUTSTREAM0_REALIGN_TYPE     = 25;
-  parameter int unsigned REG_OUTSTREAM0_STEP             = 26;
+  // Output stream - chiped_text (programmable)
+  parameter int unsigned REG_CHIPED_TEXT_TRANS_SIZE       = 35;
+  parameter int unsigned REG_CHIPED_TEXT_LINE_STRIDE      = 36;
+  parameter int unsigned REG_CHIPED_TEXT_LINE_LENGTH      = 37;
+  parameter int unsigned REG_CHIPED_TEXT_FEAT_STRIDE      = 38;
+  parameter int unsigned REG_CHIPED_TEXT_FEAT_LENGTH      = 39;
+  parameter int unsigned REG_CHIPED_TEXT_FEAT_ROLL        = 40;
+  parameter int unsigned REG_CHIPED_TEXT_LOOP_OUTER       = 41;
+  parameter int unsigned REG_CHIPED_TEXT_REALIGN_TYPE     = 42;
+  parameter int unsigned REG_CHIPED_TEXT_STEP             = 43;
 
   /* Microcode processor */
 
   // offset indeces -- this should be aligned to the microcode compiler of course!
-  parameter int unsigned UCODE_INSTREAM0_OFFS              = 0;
+  parameter int unsigned UCODE_TEXT_OFFS              = 0;
 
-  parameter int unsigned UCODE_OUTSTREAM0_OFFS              = 1;
+  parameter int unsigned UCODE_KEY_OFFS              = 1;
+
+  parameter int unsigned UCODE_RC_OFFS              = 2;
+
+  parameter int unsigned UCODE_CHIPED_TEXT_OFFS              = 3;
 
   // mnemonics -- this should be aligned to the microcode compiler of course!
 
@@ -99,17 +119,14 @@ package multi_dataflow_package;
     logic enable;
     logic start;
 
-    logic unsigned [$clog2(CNT_LEN):0] cnt_limit_outStream0;
+    logic unsigned [$clog2(CNT_LEN):0] cnt_limit_chiped_text;
 
     // Custom register
-  logic unsigned [(32-1):0] width;
-  logic unsigned [(32-1):0] height;
-  logic unsigned [(32-1):0] configuration;
   } ctrl_engine_t;
 
   typedef struct packed {
 
-    logic unsigned [$clog2(CNT_LEN):0] cnt_outStream0;
+    logic unsigned [$clog2(CNT_LEN):0] cnt_chiped_text;
 
     logic done;
     logic ready;
@@ -127,50 +144,71 @@ package multi_dataflow_package;
 
   typedef struct packed {
   	
-  hwpe_stream_package::ctrl_sourcesink_t inStream0_source_ctrl;
+  hwpe_stream_package::ctrl_sourcesink_t text_source_ctrl;
+  hwpe_stream_package::ctrl_sourcesink_t key_source_ctrl;
+  hwpe_stream_package::ctrl_sourcesink_t rc_source_ctrl;
 
-  hwpe_stream_package::ctrl_sourcesink_t outStream0_sink_ctrl;
+  hwpe_stream_package::ctrl_sourcesink_t chiped_text_sink_ctrl;
   
   } ctrl_streamer_t;
 
   typedef struct packed {
 
-  hwpe_stream_package::flags_sourcesink_t inStream0_source_flags;
+  hwpe_stream_package::flags_sourcesink_t text_source_flags;
+  hwpe_stream_package::flags_sourcesink_t key_source_flags;
+  hwpe_stream_package::flags_sourcesink_t rc_source_flags;
 
-  hwpe_stream_package::flags_sourcesink_t outStream0_sink_flags;
+  hwpe_stream_package::flags_sourcesink_t chiped_text_sink_flags;
   } flags_streamer_t;
 
   typedef struct packed {
 
-    // Input stream - inStream0 (programmable)
-    logic unsigned [31:0] inStream0_trans_size;
-    logic unsigned [15:0] inStream0_line_stride;
-    logic unsigned [15:0] inStream0_line_length;
-    logic unsigned [15:0] inStream0_feat_stride;
-    logic unsigned [15:0] inStream0_feat_length;
-    logic unsigned [15:0] inStream0_feat_roll;
-    logic unsigned [15:0] inStream0_step;
-    logic unsigned inStream0_loop_outer;
-    logic unsigned inStream0_realign_type;
+    // Input stream - text (programmable)
+    logic unsigned [31:0] text_trans_size;
+    logic unsigned [15:0] text_line_stride;
+    logic unsigned [15:0] text_line_length;
+    logic unsigned [15:0] text_feat_stride;
+    logic unsigned [15:0] text_feat_length;
+    logic unsigned [15:0] text_feat_roll;
+    logic unsigned [15:0] text_step;
+    logic unsigned text_loop_outer;
+    logic unsigned text_realign_type;
+    // Input stream - key (programmable)
+    logic unsigned [31:0] key_trans_size;
+    logic unsigned [15:0] key_line_stride;
+    logic unsigned [15:0] key_line_length;
+    logic unsigned [15:0] key_feat_stride;
+    logic unsigned [15:0] key_feat_length;
+    logic unsigned [15:0] key_feat_roll;
+    logic unsigned [15:0] key_step;
+    logic unsigned key_loop_outer;
+    logic unsigned key_realign_type;
+    // Input stream - rc (programmable)
+    logic unsigned [31:0] rc_trans_size;
+    logic unsigned [15:0] rc_line_stride;
+    logic unsigned [15:0] rc_line_length;
+    logic unsigned [15:0] rc_feat_stride;
+    logic unsigned [15:0] rc_feat_length;
+    logic unsigned [15:0] rc_feat_roll;
+    logic unsigned [15:0] rc_step;
+    logic unsigned rc_loop_outer;
+    logic unsigned rc_realign_type;
 
-    // Output stream - outStream0 (programmable)
-    logic unsigned [31:0] outStream0_trans_size;
-    logic unsigned [15:0] outStream0_line_stride;
-    logic unsigned [15:0] outStream0_line_length;
-    logic unsigned [15:0] outStream0_feat_stride;
-    logic unsigned [15:0] outStream0_feat_length;
-    logic unsigned [15:0] outStream0_feat_roll;
-    logic unsigned [15:0] outStream0_step;
-    logic unsigned outStream0_loop_outer;
-    logic unsigned outStream0_realign_type;
+    // Output stream - chiped_text (programmable)
+    logic unsigned [31:0] chiped_text_trans_size;
+    logic unsigned [15:0] chiped_text_line_stride;
+    logic unsigned [15:0] chiped_text_line_length;
+    logic unsigned [15:0] chiped_text_feat_stride;
+    logic unsigned [15:0] chiped_text_feat_length;
+    logic unsigned [15:0] chiped_text_feat_roll;
+    logic unsigned [15:0] chiped_text_step;
+    logic unsigned chiped_text_loop_outer;
+    logic unsigned chiped_text_realign_type;
 
     // Computation
-    logic unsigned [$clog2(CNT_LEN):0] cnt_limit_outStream0;
+    logic unsigned [$clog2(CNT_LEN):0] cnt_limit_chiped_text;
 
     // Custom register
-    logic unsigned [(32-1):0] width;
-    logic unsigned [(32-1):0] height;
-    logic unsigned [(32-1):0] configuration;
 
   } ctrl_fsm_t;
 

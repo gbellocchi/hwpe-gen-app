@@ -25,7 +25,7 @@ import hwpe_ctrl_package::*;
 module multi_dataflow_top
 #(
   parameter int unsigned N_CORES = 2,
-  parameter int unsigned MP  = 2,
+  parameter int unsigned MP  = 4,
   parameter int unsigned ID  = 10
 )
 (
@@ -53,9 +53,13 @@ module multi_dataflow_top
   flags_engine_t   engine_flags;
 
   // Streamer interfaces
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) inStream0 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) text ( .clk (clk_i) );
 
-  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) outStream0 ( .clk (clk_i) );
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) key ( .clk (clk_i) );
+
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) rc ( .clk (clk_i) );
+
+  hwpe_stream_intf_stream #( .DATA_WIDTH(32) ) chiped_text ( .clk (clk_i) );
 
   // HWPE engine wrapper
   multi_dataflow_engine i_engine (
@@ -63,9 +67,11 @@ module multi_dataflow_top
     .rst_ni           ( rst_ni         ),
     .test_mode_i      ( test_mode_i    ),
 
-    .inStream0_i              ( inStream0.sink       ),
+    .text_i              ( text.sink       ),
+    .key_i              ( key.sink       ),
+    .rc_i              ( rc.sink       ),
 
-    .outStream0_o              ( outStream0.source       ),
+    .chiped_text_o              ( chiped_text.source       ),
 
     .ctrl_i           ( engine_ctrl    ),
     .flags_o          ( engine_flags   )
@@ -81,9 +87,11 @@ module multi_dataflow_top
     .enable_i         ( enable         ),
     .clear_i          ( clear          ),
 
-    .inStream0              ( inStream0.source       ),
+    .text              ( text.source       ),
+    .key              ( key.source       ),
+    .rc              ( rc.source       ),
 
-    .outStream0              ( outStream0.sink       ),
+    .chiped_text              ( chiped_text.sink       ),
 
     .tcdm             ( tcdm           ),
     .ctrl_i           ( streamer_ctrl  ),
@@ -95,7 +103,7 @@ module multi_dataflow_top
     .N_CORES   ( N_CORES  ),
     .N_CONTEXT ( 1  ),
 
-    .N_IO_REGS ( 27 ),
+    .N_IO_REGS ( 44 ),
 
     .ID ( ID )
   ) i_ctrl (

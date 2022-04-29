@@ -50,19 +50,17 @@
  * ================================================================================
  *  # reg |  offset  |  bits   |   bitmask    ||  content
  * -------+----------+---------+--------------++-----------------------------------
- *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  INSTREAM0_ADDR
- *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  OUTSTREAM0_ADDR
+ *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  TEXT_ADDR
+ *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  KEY_ADDR
+ *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  RC_ADDR
+ *     3  |  0x004c  |  31: 0  |  0xffffffff  ||  CHIPED_TEXT_ADDR
 
- *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  NB_ITER
- *     3  |  0x004c  |  31: 0  |  0xffffffff  ||  LEN_ITER
- *     4  |  0x0050  |  31:16  |  0xffff0000  ||  SHIFT
+ *     4  |  0x0050  |  31: 0  |  0xffffffff  ||  NB_ITER
+ *     5  |  0x0054  |  31: 0  |  0xffffffff  ||  LEN_ITER
+ *     6  |  0x0058  |  31:16  |  0xffff0000  ||  SHIFT
  *        |          |   0: 0  |  0x00000001  ||  SIMPLEMUL
- *     5  |  0x0054  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
- *     6  |  0x0058  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
-
- *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  WIDTH
-
- *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  HEIGHT
+ *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
+ *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
  *
  * ================================================================================
  *
@@ -106,64 +104,99 @@ static inline void hwpe_tilestride_set(unsigned int value) {
   HWPE_WRITE(value, REG_TILESTRIDE);
 }
 
-static inline void hwpe_len_iter_set_outStream0(unsigned int value) {
-  HWPE_WRITE(value, REG_CNT_LIMIT_OUTSTREAM0);
+static inline void hwpe_len_iter_set_chiped_text(unsigned int value) {
+  HWPE_WRITE(value, REG_CNT_LIMIT_CHIPED_TEXT);
 }
 
 /* custom hal */
-static inline void hwpe_width_set(int32_t value) {
-  HWPE_WRITE(value, REG_WIDTH );
-}
-static inline void hwpe_height_set(int32_t value) {
-  HWPE_WRITE(value, REG_HEIGHT );
-}
-static inline void hwpe_ID_configuration_set(uint8_t value) {
-  HWPE_WRITE(value, REG_ID_CONFIGURATION );
-}
 
-/* address generator hal - inStream0 */
-static inline void hwpe_addr_gen_inStream0(
-  unsigned int inStream0_trans_size,
-  unsigned int inStream0_line_stride,
-  unsigned int inStream0_line_length,
-  unsigned int inStream0_feat_stride,
-  unsigned int inStream0_feat_length,
-  unsigned int inStream0_feat_roll,
-  unsigned int inStream0_loop_outer,
-  unsigned int inStream0_realign_type,
-  unsigned int inStream0_step)
+/* address generator hal - text */
+static inline void hwpe_addr_gen_text(
+  unsigned int text_trans_size,
+  unsigned int text_line_stride,
+  unsigned int text_line_length,
+  unsigned int text_feat_stride,
+  unsigned int text_feat_length,
+  unsigned int text_feat_roll,
+  unsigned int text_loop_outer,
+  unsigned int text_realign_type,
+  unsigned int text_step)
 {
-  HWPE_WRITE(inStream0_trans_size,    REG_INSTREAM0_TRANS_SIZE  );
-  HWPE_WRITE(inStream0_line_stride,   REG_INSTREAM0_LINE_STRIDE );
-  HWPE_WRITE(inStream0_line_length,   REG_INSTREAM0_LINE_LENGTH );
-  HWPE_WRITE(inStream0_feat_stride,   REG_INSTREAM0_FEAT_STRIDE );
-  HWPE_WRITE(inStream0_feat_length,   REG_INSTREAM0_FEAT_LENGTH );
-  HWPE_WRITE(inStream0_feat_roll,     REG_INSTREAM0_FEAT_ROLL   );
-  HWPE_WRITE(inStream0_loop_outer,    REG_INSTREAM0_LOOP_OUTER  );
-  HWPE_WRITE(inStream0_realign_type,  REG_INSTREAM0_REALIGN_TYPE);
-  HWPE_WRITE(inStream0_step,          REG_INSTREAM0_STEP        );
+  HWPE_WRITE(text_trans_size,    REG_TEXT_TRANS_SIZE  );
+  HWPE_WRITE(text_line_stride,   REG_TEXT_LINE_STRIDE );
+  HWPE_WRITE(text_line_length,   REG_TEXT_LINE_LENGTH );
+  HWPE_WRITE(text_feat_stride,   REG_TEXT_FEAT_STRIDE );
+  HWPE_WRITE(text_feat_length,   REG_TEXT_FEAT_LENGTH );
+  HWPE_WRITE(text_feat_roll,     REG_TEXT_FEAT_ROLL   );
+  HWPE_WRITE(text_loop_outer,    REG_TEXT_LOOP_OUTER  );
+  HWPE_WRITE(text_realign_type,  REG_TEXT_REALIGN_TYPE);
+  HWPE_WRITE(text_step,          REG_TEXT_STEP        );
 }
-/* address generator hal - outStream0 */
-static inline void hwpe_addr_gen_outStream0(
-  unsigned int outStream0_trans_size,
-  unsigned int outStream0_line_stride,
-  unsigned int outStream0_line_length,
-  unsigned int outStream0_feat_stride,
-  unsigned int outStream0_feat_length,
-  unsigned int outStream0_feat_roll,
-  unsigned int outStream0_loop_outer,
-  unsigned int outStream0_realign_type,
-  unsigned int outStream0_step)
+/* address generator hal - key */
+static inline void hwpe_addr_gen_key(
+  unsigned int key_trans_size,
+  unsigned int key_line_stride,
+  unsigned int key_line_length,
+  unsigned int key_feat_stride,
+  unsigned int key_feat_length,
+  unsigned int key_feat_roll,
+  unsigned int key_loop_outer,
+  unsigned int key_realign_type,
+  unsigned int key_step)
 {
-  HWPE_WRITE(outStream0_trans_size,    REG_OUTSTREAM0_TRANS_SIZE  );
-  HWPE_WRITE(outStream0_line_stride,   REG_OUTSTREAM0_LINE_STRIDE );
-  HWPE_WRITE(outStream0_line_length,   REG_OUTSTREAM0_LINE_LENGTH );
-  HWPE_WRITE(outStream0_feat_stride,   REG_OUTSTREAM0_FEAT_STRIDE );
-  HWPE_WRITE(outStream0_feat_length,   REG_OUTSTREAM0_FEAT_LENGTH );
-  HWPE_WRITE(outStream0_feat_roll,     REG_OUTSTREAM0_FEAT_ROLL   );
-  HWPE_WRITE(outStream0_loop_outer,    REG_OUTSTREAM0_LOOP_OUTER  );
-  HWPE_WRITE(outStream0_realign_type,  REG_OUTSTREAM0_REALIGN_TYPE);
-  HWPE_WRITE(outStream0_step,          REG_OUTSTREAM0_STEP        );
+  HWPE_WRITE(key_trans_size,    REG_KEY_TRANS_SIZE  );
+  HWPE_WRITE(key_line_stride,   REG_KEY_LINE_STRIDE );
+  HWPE_WRITE(key_line_length,   REG_KEY_LINE_LENGTH );
+  HWPE_WRITE(key_feat_stride,   REG_KEY_FEAT_STRIDE );
+  HWPE_WRITE(key_feat_length,   REG_KEY_FEAT_LENGTH );
+  HWPE_WRITE(key_feat_roll,     REG_KEY_FEAT_ROLL   );
+  HWPE_WRITE(key_loop_outer,    REG_KEY_LOOP_OUTER  );
+  HWPE_WRITE(key_realign_type,  REG_KEY_REALIGN_TYPE);
+  HWPE_WRITE(key_step,          REG_KEY_STEP        );
+}
+/* address generator hal - rc */
+static inline void hwpe_addr_gen_rc(
+  unsigned int rc_trans_size,
+  unsigned int rc_line_stride,
+  unsigned int rc_line_length,
+  unsigned int rc_feat_stride,
+  unsigned int rc_feat_length,
+  unsigned int rc_feat_roll,
+  unsigned int rc_loop_outer,
+  unsigned int rc_realign_type,
+  unsigned int rc_step)
+{
+  HWPE_WRITE(rc_trans_size,    REG_RC_TRANS_SIZE  );
+  HWPE_WRITE(rc_line_stride,   REG_RC_LINE_STRIDE );
+  HWPE_WRITE(rc_line_length,   REG_RC_LINE_LENGTH );
+  HWPE_WRITE(rc_feat_stride,   REG_RC_FEAT_STRIDE );
+  HWPE_WRITE(rc_feat_length,   REG_RC_FEAT_LENGTH );
+  HWPE_WRITE(rc_feat_roll,     REG_RC_FEAT_ROLL   );
+  HWPE_WRITE(rc_loop_outer,    REG_RC_LOOP_OUTER  );
+  HWPE_WRITE(rc_realign_type,  REG_RC_REALIGN_TYPE);
+  HWPE_WRITE(rc_step,          REG_RC_STEP        );
+}
+/* address generator hal - chiped_text */
+static inline void hwpe_addr_gen_chiped_text(
+  unsigned int chiped_text_trans_size,
+  unsigned int chiped_text_line_stride,
+  unsigned int chiped_text_line_length,
+  unsigned int chiped_text_feat_stride,
+  unsigned int chiped_text_feat_length,
+  unsigned int chiped_text_feat_roll,
+  unsigned int chiped_text_loop_outer,
+  unsigned int chiped_text_realign_type,
+  unsigned int chiped_text_step)
+{
+  HWPE_WRITE(chiped_text_trans_size,    REG_CHIPED_TEXT_TRANS_SIZE  );
+  HWPE_WRITE(chiped_text_line_stride,   REG_CHIPED_TEXT_LINE_STRIDE );
+  HWPE_WRITE(chiped_text_line_length,   REG_CHIPED_TEXT_LINE_LENGTH );
+  HWPE_WRITE(chiped_text_feat_stride,   REG_CHIPED_TEXT_FEAT_STRIDE );
+  HWPE_WRITE(chiped_text_feat_length,   REG_CHIPED_TEXT_FEAT_LENGTH );
+  HWPE_WRITE(chiped_text_feat_roll,     REG_CHIPED_TEXT_FEAT_ROLL   );
+  HWPE_WRITE(chiped_text_loop_outer,    REG_CHIPED_TEXT_LOOP_OUTER  );
+  HWPE_WRITE(chiped_text_realign_type,  REG_CHIPED_TEXT_REALIGN_TYPE);
+  HWPE_WRITE(chiped_text_step,          REG_CHIPED_TEXT_STEP        );
 }
 
 /* basic hal */
@@ -199,14 +232,22 @@ static inline void hwpe_bytecode_set(unsigned int offs, unsigned int value) {
 
 /* tcdm master port hal */
 
-// input inStream0
-static inline void hwpe_inStream0_addr_set(uint32_t value) {
-  HWPE_WRITE(value, REG_INSTREAM0_ADDR);
+// input text
+static inline void hwpe_text_addr_set(uint32_t value) {
+  HWPE_WRITE(value, REG_TEXT_ADDR);
+}
+// input key
+static inline void hwpe_key_addr_set(uint32_t value) {
+  HWPE_WRITE(value, REG_KEY_ADDR);
+}
+// input rc
+static inline void hwpe_rc_addr_set(uint32_t value) {
+  HWPE_WRITE(value, REG_RC_ADDR);
 }
 
-// output outStream0
-static inline void hwpe_outStream0_addr_set(uint32_t value) {
-  HWPE_WRITE(value, REG_OUTSTREAM0_ADDR);
+// output chiped_text
+static inline void hwpe_chiped_text_addr_set(uint32_t value) {
+  HWPE_WRITE(value, REG_CHIPED_TEXT_ADDR);
 }
 
 #endif /* __HAL_HWPE_H__ */

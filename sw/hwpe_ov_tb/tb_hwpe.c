@@ -23,10 +23,12 @@
 #include "inc/eu_lib/hal_eu_v3.h"
 
 // Synthetic stimuli
-#include "inc/stim/inStream0.h""
+#include "inc/stim/text.h""
+#include "inc/stim/key.h""
+#include "inc/stim/rc.h""
 
 // Golden results
-#include "inc/stim/outStream0.h"
+#include "inc/stim/chiped_text.h"
 
 /* - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / - / */
 
@@ -56,12 +58,9 @@ int main() {
   // This is equivalent to the number of 'done' signals that are
   // produced by the engine itself.
 
-const unsigned engine_runs_outStream0 = ;
+const unsigned engine_runs_chiped_text = ;
 
   // 3. Custom registers
-  const unsigned width_val = ;
-  const unsigned height_val = ;
-  const unsigned id_val = ;
 
   /* General parameters. */
 
@@ -73,42 +72,76 @@ const unsigned engine_runs_outStream0 = ;
 
   /* Stream-specific parameters. */
 
-const unsigned inStream0_width              = width;
-const unsigned inStream0_height             = height;
-const unsigned inStream0_stripe_height      = stripe_height;
+const unsigned text_width              = width;
+const unsigned text_height             = height;
+const unsigned text_stripe_height      = stripe_height;
 
-const unsigned outStream0_width              = width;
-const unsigned outStream0_height             = height;
-const unsigned outStream0_stripe_height      = stripe_height;
+const unsigned key_width              = width;
+const unsigned key_height             = height;
+const unsigned key_stripe_height      = stripe_height;
+
+const unsigned rc_width              = width;
+const unsigned rc_height             = height;
+const unsigned rc_stripe_height      = stripe_height;
+
+const unsigned chiped_text_width              = width;
+const unsigned chiped_text_height             = height;
+const unsigned chiped_text_stripe_height      = stripe_height;
 
   /* Dataset parameters. */
-const unsigned inStream0_stim_dim               = inStream0_width * inStream0_height;
-const unsigned inStream0_stripe_in_len          = inStream0_width * inStream0_stripe_height;
+const unsigned text_stim_dim               = text_width * text_height;
+const unsigned text_stripe_in_len          = text_width * text_stripe_height;
 
-const unsigned outStream0_stim_dim               = outStream0_width * outStream0_height;
-const unsigned outStream0_stripe_out_len          = outStream0_width * outStream0_stripe_height;
+const unsigned key_stim_dim               = key_width * key_height;
+const unsigned key_stripe_in_len          = key_width * key_stripe_height;
+
+const unsigned rc_stim_dim               = rc_width * rc_height;
+const unsigned rc_stripe_in_len          = rc_width * rc_stripe_height;
+
+const unsigned chiped_text_stim_dim               = chiped_text_width * chiped_text_height;
+const unsigned chiped_text_stripe_out_len          = chiped_text_width * chiped_text_stripe_height;
 
   /* Address generator (input) - Parameters */
-const unsigned inStream0_trans_size             = inStream0_width * inStream0_stripe_height;
-const unsigned inStream0_line_stride            = 0;
-const unsigned inStream0_line_length            = inStream0_width * inStream0_stripe_height;
-const unsigned inStream0_feat_stride            = 0;
-const unsigned inStream0_feat_length            = 1;
-const unsigned inStream0_feat_roll              = 0;
-const unsigned inStream0_loop_outer             = 0;
-const unsigned inStream0_realign_type           = 0;
-const unsigned inStream0_step                   = 4;
+const unsigned text_trans_size             = text_width * text_stripe_height;
+const unsigned text_line_stride            = 0;
+const unsigned text_line_length            = text_width * text_stripe_height;
+const unsigned text_feat_stride            = 0;
+const unsigned text_feat_length            = 1;
+const unsigned text_feat_roll              = 0;
+const unsigned text_loop_outer             = 0;
+const unsigned text_realign_type           = 0;
+const unsigned text_step                   = 4;
+
+const unsigned key_trans_size             = key_width * key_stripe_height;
+const unsigned key_line_stride            = 0;
+const unsigned key_line_length            = key_width * key_stripe_height;
+const unsigned key_feat_stride            = 0;
+const unsigned key_feat_length            = 1;
+const unsigned key_feat_roll              = 0;
+const unsigned key_loop_outer             = 0;
+const unsigned key_realign_type           = 0;
+const unsigned key_step                   = 4;
+
+const unsigned rc_trans_size             = rc_width * rc_stripe_height;
+const unsigned rc_line_stride            = 0;
+const unsigned rc_line_length            = rc_width * rc_stripe_height;
+const unsigned rc_feat_stride            = 0;
+const unsigned rc_feat_length            = 1;
+const unsigned rc_feat_roll              = 0;
+const unsigned rc_loop_outer             = 0;
+const unsigned rc_realign_type           = 0;
+const unsigned rc_step                   = 4;
 
   /* Address generator (output) - Parameters */
-const unsigned outStream0_trans_size             = outStream0_stripe_height * outStream0_stripe_height + 1;
-const unsigned outStream0_line_stride            = sizeof(uint32_t);
-const unsigned outStream0_line_length            = 1;
-const unsigned outStream0_feat_stride            = outStream0_width * sizeof(uint32_t);
-const unsigned outStream0_feat_length            = outStream0_stripe_height;
-const unsigned outStream0_feat_roll              = outStream0_stripe_height;
-const unsigned outStream0_loop_outer             = 0;
-const unsigned outStream0_realign_type           = 0;
-const unsigned outStream0_step                   = 4;
+const unsigned chiped_text_trans_size             = chiped_text_stripe_height * chiped_text_stripe_height + 1;
+const unsigned chiped_text_line_stride            = sizeof(uint32_t);
+const unsigned chiped_text_line_length            = 1;
+const unsigned chiped_text_feat_stride            = chiped_text_width * sizeof(uint32_t);
+const unsigned chiped_text_feat_length            = chiped_text_stripe_height;
+const unsigned chiped_text_feat_roll              = chiped_text_stripe_height;
+const unsigned chiped_text_loop_outer             = 0;
+const unsigned chiped_text_realign_type           = 0;
+const unsigned chiped_text_step                   = 4;
 
   printf("Allocation and initialization of L1 stimuli\n");
 
@@ -116,31 +149,43 @@ const unsigned outStream0_step                   = 4;
 
   // Stimuli
 
-  int32_t * inStream0_l1 = hero_l1malloc(sizeof(int32_t)*inStream0_stripe_in_len);
+  int32_t * text_l1 = hero_l1malloc(sizeof(int32_t)*text_stripe_in_len);
+  int32_t * key_l1 = hero_l1malloc(sizeof(int32_t)*key_stripe_in_len);
+  int32_t * rc_l1 = hero_l1malloc(sizeof(int32_t)*rc_stripe_in_len);
 
   // Results
   
-  int32_t * outStream0_l1 = hero_l1malloc(sizeof(int32_t)*outStream0_stripe_out_len);
+  int32_t * chiped_text_l1 = hero_l1malloc(sizeof(int32_t)*chiped_text_stripe_out_len);
 
   // Golden results
 
-  int32_t * outStream0_golden_l1 = hero_l1malloc(sizeof(int32_t)*outStream0_stripe_out_len);
+  int32_t * chiped_text_golden_l1 = hero_l1malloc(sizeof(int32_t)*chiped_text_stripe_out_len);
 
   /* Initialization of I/O arrays. */
 
   // Stimuli
 
-  for (i = 0; i < inStream0_stripe_height; i++){
-    for (j = 0; j < inStream0_width; j++){
-      inStream0_l1[i*inStream0_width+j] = inStream0[i*inStream0_width+j];
+  for (i = 0; i < text_stripe_height; i++){
+    for (j = 0; j < text_width; j++){
+      text_l1[i*text_width+j] = text[i*text_width+j];
+    }
+  }
+  for (i = 0; i < key_stripe_height; i++){
+    for (j = 0; j < key_width; j++){
+      key_l1[i*key_width+j] = key[i*key_width+j];
+    }
+  }
+  for (i = 0; i < rc_stripe_height; i++){
+    for (j = 0; j < rc_width; j++){
+      rc_l1[i*rc_width+j] = rc[i*rc_width+j];
     }
   }
 
   // Golden results
 
-  for (i = 0; i < outStream0_stripe_height; i++){
-    for (j = 0; j < outStream0_width; j++){
-      outStream0_golden_l1[i*outStream0_width+j] = outStream0[i*outStream0_width+j];
+  for (i = 0; i < chiped_text_stripe_height; i++){
+    for (j = 0; j < chiped_text_width; j++){
+      chiped_text_golden_l1[i*chiped_text_width+j] = chiped_text[i*chiped_text_width+j];
     }
   }
 
@@ -151,49 +196,74 @@ const unsigned outStream0_step                   = 4;
 
   /* FSM programming */
 
-  hwpe_len_iter_set_outStream0(engine_runs_outStream0-1);
+  hwpe_len_iter_set_chiped_text(engine_runs_chiped_text-1);
 
   /* Address generator programming */
 
-  // Input inStream0
-  hwpe_addr_gen_inStream0(
-    inStream0_trans_size,
-    inStream0_line_stride,
-    inStream0_line_length,
-    inStream0_feat_stride,
-    inStream0_feat_length,
-    inStream0_feat_roll,
-    inStream0_loop_outer,
-    inStream0_realign_type,
-    inStream0_step
+  // Input text
+  hwpe_addr_gen_text(
+    text_trans_size,
+    text_line_stride,
+    text_line_length,
+    text_feat_stride,
+    text_feat_length,
+    text_feat_roll,
+    text_loop_outer,
+    text_realign_type,
+    text_step
+  );
+  // Input key
+  hwpe_addr_gen_key(
+    key_trans_size,
+    key_line_stride,
+    key_line_length,
+    key_feat_stride,
+    key_feat_length,
+    key_feat_roll,
+    key_loop_outer,
+    key_realign_type,
+    key_step
+  );
+  // Input rc
+  hwpe_addr_gen_rc(
+    rc_trans_size,
+    rc_line_stride,
+    rc_line_length,
+    rc_feat_stride,
+    rc_feat_length,
+    rc_feat_roll,
+    rc_loop_outer,
+    rc_realign_type,
+    rc_step
   );
 
-  // Output outStream0
-  hwpe_addr_gen_outStream0(
-    outStream0_trans_size,
-    outStream0_line_stride,
-    outStream0_line_length,
-    outStream0_feat_stride,
-    outStream0_feat_length,
-    outStream0_feat_roll,
-    outStream0_loop_outer,
-    outStream0_realign_type,
-    outStream0_step
+  // Output chiped_text
+  hwpe_addr_gen_chiped_text(
+    chiped_text_trans_size,
+    chiped_text_line_stride,
+    chiped_text_line_length,
+    chiped_text_feat_stride,
+    chiped_text_feat_length,
+    chiped_text_feat_roll,
+    chiped_text_loop_outer,
+    chiped_text_realign_type,
+    chiped_text_step
   );
 
   /* Set TCDM address reg values */			
 
-  // input inStream0
-  hwpe_inStream0_addr_set( inStream0_l1 );
+  // input text
+  hwpe_text_addr_set( text_l1 );
+  // input key
+  hwpe_key_addr_set( key_l1 );
+  // input rc
+  hwpe_rc_addr_set( rc_l1 );
 
-  // output outStream0
-  hwpe_outStream0_addr_set( outStream0_l1 );
+  // output chiped_text
+  hwpe_chiped_text_addr_set( chiped_text_l1 );
 
 
   /* Set user custom registers */
-  hwpe_width_set( width_val );
-  hwpe_height_set( height_val );
-  hwpe_ID_configuration_set(id_val);
 
   /* HWPE execution */
 

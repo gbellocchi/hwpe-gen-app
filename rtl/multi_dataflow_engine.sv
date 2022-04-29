@@ -28,10 +28,12 @@ module multi_dataflow_engine (
   input  logic          test_mode_i,
 
   // Sink ports
-  hwpe_stream_intf_stream.sink    inStream0_i,
+  hwpe_stream_intf_stream.sink    text_i,
+  hwpe_stream_intf_stream.sink    key_i,
+  hwpe_stream_intf_stream.sink    rc_i,
 
   // Source ports
-  hwpe_stream_intf_stream.source  outStream0_o,
+  hwpe_stream_intf_stream.source  chiped_text_o,
 
   // Control channel
   input  ctrl_engine_t            ctrl_i,
@@ -64,54 +66,54 @@ module multi_dataflow_engine (
 
   // Declaration of trackers
 
-  logic track_outStream0_q, track_outStream0_d;
+  logic track_chiped_text_q, track_chiped_text_d;
 
   // Declaration of counters
 
-  logic unsigned [($clog2(CNT_LEN)+1):0] cnt_outStream0;
+  logic unsigned [($clog2(CNT_LEN)+1):0] cnt_chiped_text;
 
   // AND-ed trackers implementation (FF)
 
   always_comb
-  begin: outStream0_track_q
+  begin: chiped_text_track_q
     if(~rst_ni | ctrl_i.clear) begin
-      track_outStream0_d = '0;
+      track_chiped_text_d = '0;
     end
-    else if(outStream0_o.valid & outStream0_o.ready) begin
-      track_outStream0_d = '1;
+    else if(chiped_text_o.valid & chiped_text_o.ready) begin
+      track_chiped_text_d = '1;
     end
     else begin
-      track_outStream0_d = '0;
+      track_chiped_text_d = '0;
     end
   end
 
   always_ff @(posedge clk_i or negedge rst_ni)
-  begin: outStream0_track_d
+  begin: chiped_text_track_d
     if(~rst_ni) begin
-      track_outStream0_q <= '0;
+      track_chiped_text_q <= '0;
     end
     else if(ctrl_i.clear) begin
-      track_outStream0_q <= '0;
+      track_chiped_text_q <= '0;
     end
     else begin
-      track_outStream0_q <= track_outStream0_d;
+      track_chiped_text_q <= track_chiped_text_d;
     end
   end
 
   // Counter implementation (FF)
 
   always_ff @(posedge clk_i or negedge rst_ni)
-  begin: outStream0_cnt
+  begin: chiped_text_cnt
     if((~rst_ni) | ctrl_i.clear)
-      cnt_outStream0 = 32'b0;
-    else if( track_outStream0_q & flags_o.done )
-      cnt_outStream0 = cnt_outStream0 + 1;
+      cnt_chiped_text = 32'b0;
+    else if( track_chiped_text_q & flags_o.done )
+      cnt_chiped_text = cnt_chiped_text + 1;
     else
-      cnt_outStream0 = cnt_outStream0;
+      cnt_chiped_text = cnt_chiped_text;
   end
 
   // Assign to fsm flags
-  assign flags_o.cnt_outStream0 = cnt_outStream0;
+  assign flags_o.cnt_chiped_text = cnt_chiped_text;
 
   /* Kernel adapter */
 
@@ -123,15 +125,13 @@ module multi_dataflow_engine (
     .test_mode_i     ( test_mode_i      ),
 
     // Data streams
-    .inStream0_i              ( inStream0_i	),
-    .outStream0_o              ( outStream0_o	),
+    .text_i              ( text_i	),
+    .key_i              ( key_i	),
+    .rc_i              ( rc_i	),
+    .chiped_text_o              ( chiped_text_o	),
 
     // Kernel parameters
-    .width        ( ctrl_i.width      ),
-    .height        ( ctrl_i.height      ),
-    // Multi-Dataflow Kernel ID
-        .ID(ctrl_i.configuration),
-
+    
     // Control signals
     .ctrl_i      ( ctrl_k_ad            ),
 
@@ -145,7 +145,7 @@ module multi_dataflow_engine (
   // to TCDM
   always_comb
   begin
-  outStream0_o.strb = '1;
+  chiped_text_o.strb = '1;
   end
 
 endmodule

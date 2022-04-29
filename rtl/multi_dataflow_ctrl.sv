@@ -69,35 +69,52 @@ module multi_dataflow_ctrl
   logic unsigned [31:0] static_reg_onestride;
 
   // Address generator
-  // Controls - inStream0
-  logic unsigned [31:0] static_reg_inStream0_trans_size;
-  logic unsigned [15:0] static_reg_inStream0_line_stride;
-  logic unsigned [15:0] static_reg_inStream0_line_length;
-  logic unsigned [15:0] static_reg_inStream0_feat_stride;
-  logic unsigned [15:0] static_reg_inStream0_feat_length;
-  logic unsigned [15:0] static_reg_inStream0_feat_roll;
-  logic unsigned [15:0] static_reg_inStream0_step;
-  logic unsigned static_reg_inStream0_loop_outer;
-  logic unsigned static_reg_inStream0_realign_type;
+  // Controls - text
+  logic unsigned [31:0] static_reg_text_trans_size;
+  logic unsigned [15:0] static_reg_text_line_stride;
+  logic unsigned [15:0] static_reg_text_line_length;
+  logic unsigned [15:0] static_reg_text_feat_stride;
+  logic unsigned [15:0] static_reg_text_feat_length;
+  logic unsigned [15:0] static_reg_text_feat_roll;
+  logic unsigned [15:0] static_reg_text_step;
+  logic unsigned static_reg_text_loop_outer;
+  logic unsigned static_reg_text_realign_type;
+  // Controls - key
+  logic unsigned [31:0] static_reg_key_trans_size;
+  logic unsigned [15:0] static_reg_key_line_stride;
+  logic unsigned [15:0] static_reg_key_line_length;
+  logic unsigned [15:0] static_reg_key_feat_stride;
+  logic unsigned [15:0] static_reg_key_feat_length;
+  logic unsigned [15:0] static_reg_key_feat_roll;
+  logic unsigned [15:0] static_reg_key_step;
+  logic unsigned static_reg_key_loop_outer;
+  logic unsigned static_reg_key_realign_type;
+  // Controls - rc
+  logic unsigned [31:0] static_reg_rc_trans_size;
+  logic unsigned [15:0] static_reg_rc_line_stride;
+  logic unsigned [15:0] static_reg_rc_line_length;
+  logic unsigned [15:0] static_reg_rc_feat_stride;
+  logic unsigned [15:0] static_reg_rc_feat_length;
+  logic unsigned [15:0] static_reg_rc_feat_roll;
+  logic unsigned [15:0] static_reg_rc_step;
+  logic unsigned static_reg_rc_loop_outer;
+  logic unsigned static_reg_rc_realign_type;
 
-  // Controls - outStream0
-  logic unsigned [31:0] static_reg_outStream0_trans_size;
-  logic unsigned [15:0] static_reg_outStream0_line_stride;
-  logic unsigned [15:0] static_reg_outStream0_line_length;
-  logic unsigned [15:0] static_reg_outStream0_feat_stride;
-  logic unsigned [15:0] static_reg_outStream0_feat_length;
-  logic unsigned [15:0] static_reg_outStream0_feat_roll;
-  logic unsigned [15:0] static_reg_outStream0_step;
-  logic unsigned static_reg_outStream0_loop_outer;
-  logic unsigned static_reg_outStream0_realign_type;
+  // Controls - chiped_text
+  logic unsigned [31:0] static_reg_chiped_text_trans_size;
+  logic unsigned [15:0] static_reg_chiped_text_line_stride;
+  logic unsigned [15:0] static_reg_chiped_text_line_length;
+  logic unsigned [15:0] static_reg_chiped_text_feat_stride;
+  logic unsigned [15:0] static_reg_chiped_text_feat_length;
+  logic unsigned [15:0] static_reg_chiped_text_feat_roll;
+  logic unsigned [15:0] static_reg_chiped_text_step;
+  logic unsigned static_reg_chiped_text_loop_outer;
+  logic unsigned static_reg_chiped_text_realign_type;
 
   // FSM
-  logic unsigned [31:0] static_reg_cnt_limit_outStream0;
+  logic unsigned [31:0] static_reg_cnt_limit_chiped_text;
 
   /* Custom registers */
-  logic unsigned [(32-1):0] static_reg_width;
-  logic unsigned [(32-1):0] static_reg_height;
-logic unsigned [(32-1):0] static_reg_config;
 
   /* FSM input signals */
   ctrl_fsm_t fsm_ctrl;
@@ -131,34 +148,51 @@ logic unsigned [(32-1):0] static_reg_config;
   assign static_reg_onestride  = 4;
 
   // FSM signals
-  assign static_reg_cnt_limit_outStream0 = reg_file.hwpe_params[REG_CNT_LIMIT_OUTSTREAM0] + 1;
+  assign static_reg_cnt_limit_chiped_text = reg_file.hwpe_params[REG_CNT_LIMIT_CHIPED_TEXT] + 1;
   // Address generator
-  // Mapping - inStream0
-  assign static_reg_inStream0_trans_size          = reg_file.hwpe_params[REG_INSTREAM0_TRANS_SIZE];
-  assign static_reg_inStream0_line_stride         = reg_file.hwpe_params[REG_INSTREAM0_LINE_STRIDE];
-  assign static_reg_inStream0_line_length         = reg_file.hwpe_params[REG_INSTREAM0_LINE_LENGTH];
-  assign static_reg_inStream0_feat_stride         = reg_file.hwpe_params[REG_INSTREAM0_FEAT_STRIDE];
-  assign static_reg_inStream0_feat_length         = reg_file.hwpe_params[REG_INSTREAM0_FEAT_LENGTH];
-  assign static_reg_inStream0_feat_roll           = reg_file.hwpe_params[REG_INSTREAM0_FEAT_ROLL];
-  assign static_reg_inStream0_step                = reg_file.hwpe_params[REG_INSTREAM0_STEP];
-  assign static_reg_inStream0_loop_outer          = reg_file.hwpe_params[REG_INSTREAM0_LOOP_OUTER];
-  assign static_reg_inStream0_realign_type        = reg_file.hwpe_params[REG_INSTREAM0_REALIGN_TYPE];
+  // Mapping - text
+  assign static_reg_text_trans_size          = reg_file.hwpe_params[REG_TEXT_TRANS_SIZE];
+  assign static_reg_text_line_stride         = reg_file.hwpe_params[REG_TEXT_LINE_STRIDE];
+  assign static_reg_text_line_length         = reg_file.hwpe_params[REG_TEXT_LINE_LENGTH];
+  assign static_reg_text_feat_stride         = reg_file.hwpe_params[REG_TEXT_FEAT_STRIDE];
+  assign static_reg_text_feat_length         = reg_file.hwpe_params[REG_TEXT_FEAT_LENGTH];
+  assign static_reg_text_feat_roll           = reg_file.hwpe_params[REG_TEXT_FEAT_ROLL];
+  assign static_reg_text_step                = reg_file.hwpe_params[REG_TEXT_STEP];
+  assign static_reg_text_loop_outer          = reg_file.hwpe_params[REG_TEXT_LOOP_OUTER];
+  assign static_reg_text_realign_type        = reg_file.hwpe_params[REG_TEXT_REALIGN_TYPE];
+  // Mapping - key
+  assign static_reg_key_trans_size          = reg_file.hwpe_params[REG_KEY_TRANS_SIZE];
+  assign static_reg_key_line_stride         = reg_file.hwpe_params[REG_KEY_LINE_STRIDE];
+  assign static_reg_key_line_length         = reg_file.hwpe_params[REG_KEY_LINE_LENGTH];
+  assign static_reg_key_feat_stride         = reg_file.hwpe_params[REG_KEY_FEAT_STRIDE];
+  assign static_reg_key_feat_length         = reg_file.hwpe_params[REG_KEY_FEAT_LENGTH];
+  assign static_reg_key_feat_roll           = reg_file.hwpe_params[REG_KEY_FEAT_ROLL];
+  assign static_reg_key_step                = reg_file.hwpe_params[REG_KEY_STEP];
+  assign static_reg_key_loop_outer          = reg_file.hwpe_params[REG_KEY_LOOP_OUTER];
+  assign static_reg_key_realign_type        = reg_file.hwpe_params[REG_KEY_REALIGN_TYPE];
+  // Mapping - rc
+  assign static_reg_rc_trans_size          = reg_file.hwpe_params[REG_RC_TRANS_SIZE];
+  assign static_reg_rc_line_stride         = reg_file.hwpe_params[REG_RC_LINE_STRIDE];
+  assign static_reg_rc_line_length         = reg_file.hwpe_params[REG_RC_LINE_LENGTH];
+  assign static_reg_rc_feat_stride         = reg_file.hwpe_params[REG_RC_FEAT_STRIDE];
+  assign static_reg_rc_feat_length         = reg_file.hwpe_params[REG_RC_FEAT_LENGTH];
+  assign static_reg_rc_feat_roll           = reg_file.hwpe_params[REG_RC_FEAT_ROLL];
+  assign static_reg_rc_step                = reg_file.hwpe_params[REG_RC_STEP];
+  assign static_reg_rc_loop_outer          = reg_file.hwpe_params[REG_RC_LOOP_OUTER];
+  assign static_reg_rc_realign_type        = reg_file.hwpe_params[REG_RC_REALIGN_TYPE];
 
-  // Mapping - outStream0
-  assign static_reg_outStream0_trans_size         = reg_file.hwpe_params[REG_OUTSTREAM0_TRANS_SIZE];
-  assign static_reg_outStream0_line_stride        = reg_file.hwpe_params[REG_OUTSTREAM0_LINE_STRIDE];
-  assign static_reg_outStream0_line_length        = reg_file.hwpe_params[REG_OUTSTREAM0_LINE_LENGTH];
-  assign static_reg_outStream0_feat_stride        = reg_file.hwpe_params[REG_OUTSTREAM0_FEAT_STRIDE];
-  assign static_reg_outStream0_feat_length        = reg_file.hwpe_params[REG_OUTSTREAM0_FEAT_LENGTH];
-  assign static_reg_outStream0_feat_roll          = reg_file.hwpe_params[REG_OUTSTREAM0_FEAT_ROLL];
-  assign static_reg_outStream0_step               = reg_file.hwpe_params[REG_OUTSTREAM0_STEP];
-  assign static_reg_outStream0_loop_outer         = reg_file.hwpe_params[REG_OUTSTREAM0_LOOP_OUTER];
-  assign static_reg_outStream0_realign_type       = reg_file.hwpe_params[REG_OUTSTREAM0_REALIGN_TYPE];
+  // Mapping - chiped_text
+  assign static_reg_chiped_text_trans_size         = reg_file.hwpe_params[REG_CHIPED_TEXT_TRANS_SIZE];
+  assign static_reg_chiped_text_line_stride        = reg_file.hwpe_params[REG_CHIPED_TEXT_LINE_STRIDE];
+  assign static_reg_chiped_text_line_length        = reg_file.hwpe_params[REG_CHIPED_TEXT_LINE_LENGTH];
+  assign static_reg_chiped_text_feat_stride        = reg_file.hwpe_params[REG_CHIPED_TEXT_FEAT_STRIDE];
+  assign static_reg_chiped_text_feat_length        = reg_file.hwpe_params[REG_CHIPED_TEXT_FEAT_LENGTH];
+  assign static_reg_chiped_text_feat_roll          = reg_file.hwpe_params[REG_CHIPED_TEXT_FEAT_ROLL];
+  assign static_reg_chiped_text_step               = reg_file.hwpe_params[REG_CHIPED_TEXT_STEP];
+  assign static_reg_chiped_text_loop_outer         = reg_file.hwpe_params[REG_CHIPED_TEXT_LOOP_OUTER];
+  assign static_reg_chiped_text_realign_type       = reg_file.hwpe_params[REG_CHIPED_TEXT_REALIGN_TYPE];
 
   // Custom registers
-  assign static_reg_width = reg_file.hwpe_params[REG_WIDTH];
-  assign static_reg_height = reg_file.hwpe_params[REG_HEIGHT];
-  assign static_reg_config = reg_file.hwpe_params[CONFIG];
 
   /* Microcode processor */
   generate
@@ -225,34 +259,51 @@ logic unsigned [(32-1):0] static_reg_config;
   begin
 
     // Address generator
-    // Mapping - inStream0
-    fsm_ctrl.inStream0_trans_size     = static_reg_inStream0_trans_size;
-    fsm_ctrl.inStream0_line_stride    = static_reg_inStream0_line_stride;
-    fsm_ctrl.inStream0_line_length    = static_reg_inStream0_line_length;
-    fsm_ctrl.inStream0_feat_stride    = static_reg_inStream0_feat_stride;
-    fsm_ctrl.inStream0_feat_length    = static_reg_inStream0_feat_length;
-    fsm_ctrl.inStream0_feat_roll      = static_reg_inStream0_feat_roll;
-    fsm_ctrl.inStream0_step           = static_reg_inStream0_step;
-    fsm_ctrl.inStream0_loop_outer     = static_reg_inStream0_loop_outer;
-    fsm_ctrl.inStream0_realign_type   = static_reg_inStream0_realign_type;
+    // Mapping - text
+    fsm_ctrl.text_trans_size     = static_reg_text_trans_size;
+    fsm_ctrl.text_line_stride    = static_reg_text_line_stride;
+    fsm_ctrl.text_line_length    = static_reg_text_line_length;
+    fsm_ctrl.text_feat_stride    = static_reg_text_feat_stride;
+    fsm_ctrl.text_feat_length    = static_reg_text_feat_length;
+    fsm_ctrl.text_feat_roll      = static_reg_text_feat_roll;
+    fsm_ctrl.text_step           = static_reg_text_step;
+    fsm_ctrl.text_loop_outer     = static_reg_text_loop_outer;
+    fsm_ctrl.text_realign_type   = static_reg_text_realign_type;
+    // Mapping - key
+    fsm_ctrl.key_trans_size     = static_reg_key_trans_size;
+    fsm_ctrl.key_line_stride    = static_reg_key_line_stride;
+    fsm_ctrl.key_line_length    = static_reg_key_line_length;
+    fsm_ctrl.key_feat_stride    = static_reg_key_feat_stride;
+    fsm_ctrl.key_feat_length    = static_reg_key_feat_length;
+    fsm_ctrl.key_feat_roll      = static_reg_key_feat_roll;
+    fsm_ctrl.key_step           = static_reg_key_step;
+    fsm_ctrl.key_loop_outer     = static_reg_key_loop_outer;
+    fsm_ctrl.key_realign_type   = static_reg_key_realign_type;
+    // Mapping - rc
+    fsm_ctrl.rc_trans_size     = static_reg_rc_trans_size;
+    fsm_ctrl.rc_line_stride    = static_reg_rc_line_stride;
+    fsm_ctrl.rc_line_length    = static_reg_rc_line_length;
+    fsm_ctrl.rc_feat_stride    = static_reg_rc_feat_stride;
+    fsm_ctrl.rc_feat_length    = static_reg_rc_feat_length;
+    fsm_ctrl.rc_feat_roll      = static_reg_rc_feat_roll;
+    fsm_ctrl.rc_step           = static_reg_rc_step;
+    fsm_ctrl.rc_loop_outer     = static_reg_rc_loop_outer;
+    fsm_ctrl.rc_realign_type   = static_reg_rc_realign_type;
 
-    // Mapping - outStream0
-    fsm_ctrl.outStream0_trans_size     = static_reg_outStream0_trans_size;
-    fsm_ctrl.outStream0_line_stride    = static_reg_outStream0_line_stride;
-    fsm_ctrl.outStream0_line_length    = static_reg_outStream0_line_length;
-    fsm_ctrl.outStream0_feat_stride    = static_reg_outStream0_feat_stride;
-    fsm_ctrl.outStream0_feat_length    = static_reg_outStream0_feat_length;
-    fsm_ctrl.outStream0_feat_roll      = static_reg_outStream0_feat_roll;
-    fsm_ctrl.outStream0_step           = static_reg_outStream0_step;
-    fsm_ctrl.outStream0_loop_outer     = static_reg_outStream0_loop_outer;
-    fsm_ctrl.outStream0_realign_type   = static_reg_outStream0_realign_type;
+    // Mapping - chiped_text
+    fsm_ctrl.chiped_text_trans_size     = static_reg_chiped_text_trans_size;
+    fsm_ctrl.chiped_text_line_stride    = static_reg_chiped_text_line_stride;
+    fsm_ctrl.chiped_text_line_length    = static_reg_chiped_text_line_length;
+    fsm_ctrl.chiped_text_feat_stride    = static_reg_chiped_text_feat_stride;
+    fsm_ctrl.chiped_text_feat_length    = static_reg_chiped_text_feat_length;
+    fsm_ctrl.chiped_text_feat_roll      = static_reg_chiped_text_feat_roll;
+    fsm_ctrl.chiped_text_step           = static_reg_chiped_text_step;
+    fsm_ctrl.chiped_text_loop_outer     = static_reg_chiped_text_loop_outer;
+    fsm_ctrl.chiped_text_realign_type   = static_reg_chiped_text_realign_type;
 
     /* Custom register file mappings to FSM */
-    fsm_ctrl.cnt_limit_outStream0             = static_reg_cnt_limit_outStream0;
+    fsm_ctrl.cnt_limit_chiped_text             = static_reg_cnt_limit_chiped_text;
 
     // Custom registers
-    fsm_ctrl.width	= static_reg_width;
-    fsm_ctrl.height	= static_reg_height;
-    fsm_ctrl.configuration    = static_reg_config;
   end
 endmodule

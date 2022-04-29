@@ -50,19 +50,17 @@
  * ================================================================================
  *  # reg |  offset  |  bits   |   bitmask    ||  content
  * -------+----------+---------+--------------++-----------------------------------
- *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  INSTREAM0_ADDR
- *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  OUTSTREAM0_ADDR
+ *     0  |  0x0040  |  31: 0  |  0xffffffff  ||  TEXT_ADDR
+ *     1  |  0x0044  |  31: 0  |  0xffffffff  ||  KEY_ADDR
+ *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  RC_ADDR
+ *     3  |  0x004c  |  31: 0  |  0xffffffff  ||  CHIPED_TEXT_ADDR
 
- *     2  |  0x0048  |  31: 0  |  0xffffffff  ||  NB_ITER
- *     3  |  0x004c  |  31: 0  |  0xffffffff  ||  LEN_ITER
- *     4  |  0x0050  |  31:16  |  0xffff0000  ||  SHIFT
+ *     4  |  0x0050  |  31: 0  |  0xffffffff  ||  NB_ITER
+ *     5  |  0x0054  |  31: 0  |  0xffffffff  ||  LEN_ITER
+ *     6  |  0x0058  |  31:16  |  0xffff0000  ||  SHIFT
  *        |          |   0: 0  |  0x00000001  ||  SIMPLEMUL
- *     5  |  0x0054  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
- *     6  |  0x0058  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
-
- *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  WIDTH
-
- *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  HEIGHT
+ *     7  |  0x005c  |  31: 0  |  0xffffffff  ||  VECTSTRIDE
+ *     8  |  0x0060  |  31: 0  |  0xffffffff  ||  VECTSTRIDE2
  *
  * ================================================================================
  *
@@ -111,48 +109,69 @@
 /* TCDM registers archi */
 
 // Input master ports
-   #define REG_INSTREAM0_ADDR           0x40
+   #define REG_TEXT_ADDR           0x40
+   #define REG_KEY_ADDR           0x44
+   #define REG_RC_ADDR           0x48
 
 // Output master ports
-   #define REG_OUTSTREAM0_ADDR           0x44
+   #define REG_CHIPED_TEXT_ADDR           0x4c
 
 /* Standard registers archi */
 
-#define REG_NB_ITER                         0x48
+#define REG_NB_ITER                         0x50
 
-#define REG_LINESTRIDE                0x4c
+#define REG_LINESTRIDE                0x54
 
-#define REG_TILESTRIDE                0x50
+#define REG_TILESTRIDE                0x58
 
-#define REG_CNT_LIMIT_OUTSTREAM0           0x54
+#define REG_CNT_LIMIT_CHIPED_TEXT           0x5c
 
 /* Custom registers archi */
-#define REG_WIDTH           0x58
-#define REG_HEIGHT           0x5c
-#define REG_ID_CONFIGURATION		0x60
 
 /* Address generator archi */
 
-// Input stream - inStream0 (programmable)
-#define REG_INSTREAM0_TRANS_SIZE                  0x64
-#define REG_INSTREAM0_LINE_STRIDE                 0x68
-#define REG_INSTREAM0_LINE_LENGTH                 0x6c
-#define REG_INSTREAM0_FEAT_STRIDE                 0x70
-#define REG_INSTREAM0_FEAT_LENGTH                 0x74
-#define REG_INSTREAM0_FEAT_ROLL                   0x78
-#define REG_INSTREAM0_LOOP_OUTER                  0x7c
-#define REG_INSTREAM0_REALIGN_TYPE                0x80
-#define REG_INSTREAM0_STEP                        0x84
+// Input stream - text (programmable)
+#define REG_TEXT_TRANS_SIZE                  0x60
+#define REG_TEXT_LINE_STRIDE                 0x64
+#define REG_TEXT_LINE_LENGTH                 0x68
+#define REG_TEXT_FEAT_STRIDE                 0x6c
+#define REG_TEXT_FEAT_LENGTH                 0x70
+#define REG_TEXT_FEAT_ROLL                   0x74
+#define REG_TEXT_LOOP_OUTER                  0x78
+#define REG_TEXT_REALIGN_TYPE                0x7c
+#define REG_TEXT_STEP                        0x80
 
-// Input stream - outStream0 (programmable)
-#define REG_OUTSTREAM0_TRANS_SIZE                  0x88
-#define REG_OUTSTREAM0_LINE_STRIDE                 0x8c
-#define REG_OUTSTREAM0_LINE_LENGTH                 0x90
-#define REG_OUTSTREAM0_FEAT_STRIDE                 0x94
-#define REG_OUTSTREAM0_FEAT_LENGTH                 0x98
-#define REG_OUTSTREAM0_FEAT_ROLL                   0x9c
-#define REG_OUTSTREAM0_LOOP_OUTER                  0xa0
-#define REG_OUTSTREAM0_REALIGN_TYPE                0xa4
-#define REG_OUTSTREAM0_STEP                        0xa8
+// Input stream - key (programmable)
+#define REG_KEY_TRANS_SIZE                  0x84
+#define REG_KEY_LINE_STRIDE                 0x88
+#define REG_KEY_LINE_LENGTH                 0x8c
+#define REG_KEY_FEAT_STRIDE                 0x90
+#define REG_KEY_FEAT_LENGTH                 0x94
+#define REG_KEY_FEAT_ROLL                   0x98
+#define REG_KEY_LOOP_OUTER                  0x9c
+#define REG_KEY_REALIGN_TYPE                0xa0
+#define REG_KEY_STEP                        0xa4
+
+// Input stream - rc (programmable)
+#define REG_RC_TRANS_SIZE                  0xa8
+#define REG_RC_LINE_STRIDE                 0xac
+#define REG_RC_LINE_LENGTH                 0xb0
+#define REG_RC_FEAT_STRIDE                 0xb4
+#define REG_RC_FEAT_LENGTH                 0xb8
+#define REG_RC_FEAT_ROLL                   0xbc
+#define REG_RC_LOOP_OUTER                  0xc0
+#define REG_RC_REALIGN_TYPE                0xc4
+#define REG_RC_STEP                        0xc8
+
+// Input stream - chiped_text (programmable)
+#define REG_CHIPED_TEXT_TRANS_SIZE                  0xcc
+#define REG_CHIPED_TEXT_LINE_STRIDE                 0xd0
+#define REG_CHIPED_TEXT_LINE_LENGTH                 0xd4
+#define REG_CHIPED_TEXT_FEAT_STRIDE                 0xd8
+#define REG_CHIPED_TEXT_FEAT_LENGTH                 0xdc
+#define REG_CHIPED_TEXT_FEAT_ROLL                   0xe0
+#define REG_CHIPED_TEXT_LOOP_OUTER                  0xe4
+#define REG_CHIPED_TEXT_REALIGN_TYPE                0xe8
+#define REG_CHIPED_TEXT_STEP                        0xec
 
 #endif
