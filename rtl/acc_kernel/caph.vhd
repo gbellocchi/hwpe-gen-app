@@ -90,7 +90,7 @@ component single_clock_ram is
 	);
 END component;
 
-use data_types.all;
+use work.data_types.all;
 
 component stream_in is
   generic (
